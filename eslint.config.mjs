@@ -1,18 +1,16 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+// eslint.config.mjs
+import createEslintConfig from 'eslint-config-next';
+import prettierConfig from 'eslint-config-prettier';
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+/** @type {import('eslint').Linter.FlatConfig[]} */
+const config = [
+  // 1. The default Next.js configuration
+  createEslintConfig(),
 
-export default eslintConfig;
+  // 2. Add the Prettier configuration
+  // This disables ESLint rules that would conflict with Prettier.
+  // Make sure this is the LAST item in the array.
+  prettierConfig,
+];
+
+export default config;
