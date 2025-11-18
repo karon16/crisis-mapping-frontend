@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+button, button:focus, button:hover, button:active, button {
+  border: none ;
+  outline: none;
+  cursor: pointer;
+
+}
+
+.custom-mapbox-popup{
+width: 600px;
+/* background-color: red; */
+}
