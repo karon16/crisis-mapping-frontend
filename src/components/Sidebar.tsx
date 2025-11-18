@@ -25,7 +25,7 @@ const GithubIcon = ({ size = 24, className = "" }) => (
 
 export default function Sidebar() {
   // State to track if sidebar is open or closed
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
