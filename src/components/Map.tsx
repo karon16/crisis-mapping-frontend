@@ -124,7 +124,7 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick }) => {
             if (err) return;
             map.easeTo({
               center: (features[0].geometry as any).coordinates,
-              zoom: zoom,
+              zoom: zoom || 14,
             });
           }
         );
