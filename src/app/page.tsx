@@ -39,7 +39,11 @@ export default function Home() {
   const closeSidebar = () => setSelectedEvent(null);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-zinc-50 font-sans overflow-hidden">
+    // flex: puts Sidebar and Map side-by-side
+    // h-screen: forces the app to be exactly the height of the window
+    // overflow-hidden: prevents any accidental scrollbars
+    // bg-neutral-900: matches your dark theme to prevent white flashes
+    <div className="flex h-screen w-full overflow-hidden bg-neutral-900 font-sans">
       <Sidebar />
       <Map events={events} onMarkerClick={setSelectedEvent} />
 

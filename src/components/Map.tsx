@@ -226,7 +226,8 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick }) => {
   }, [events, mapLoaded, onMarkerClick]);
 
   return (
-    <div className="w-4/5 h-dvh bg-neutral-900">
+    //Changed 'w-4/5' to 'flex-1' (Grow to fill remaining space)
+    <div className="flex-1 h-dvh bg-[#0C0A16]">
       <div ref={mapContainerRef} className="w-full h-full" />
     </div>
   );
