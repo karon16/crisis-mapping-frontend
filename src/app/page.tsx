@@ -10,13 +10,11 @@ import { PlusIcon } from '@heroicons/react/24/solid';
 import { CrisisEvent, CrisisEventCollection } from '@/types';
 
 export default function Home() {
-  // --- State Management ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [events, setEvents] = useState<CrisisEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CrisisEvent | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // --- Data Fetching ---
   useEffect(() => {
     const loadEvents = async () => {
       try {
@@ -33,16 +31,11 @@ export default function Home() {
     loadEvents();
   }, []);
 
-  // --- Handlers ---
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const closeSidebar = () => setSelectedEvent(null);
 
   return (
-    // flex: puts Sidebar and Map side-by-side
-    // h-screen: forces the app to be exactly the height of the window
-    // overflow-hidden: prevents any accidental scrollbars
-    // bg-neutral-900: matches your dark theme to prevent white flashes
     <div className="flex h-screen w-full overflow-hidden bg-neutral-900 font-sans">
       <Sidebar />
       <Map events={events} onMarkerClick={setSelectedEvent} />
@@ -53,7 +46,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* 4. Report Button: Opens the modal */}
       <Button
         icon={<PlusIcon />}
         text="Report a disaster"
@@ -61,8 +53,6 @@ export default function Home() {
         className="absolute top-4 right-10 z-10 shadow-lg"
         onClick={openModal}
       />
-
-      {/* 5. Modal: The form to add a new event */}
       {isModalOpen && <AddModal onClose={closeModal} />}
     </div>
   );

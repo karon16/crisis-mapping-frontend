@@ -5,21 +5,32 @@ import Image from 'next/image'; // logo
 import { Menu, Search, SlidersHorizontal, Plus, Settings, Info} from 'lucide-react';
 
 // A custom GitHub icon component
-const GithubIcon = ({ size = 24, className = "" }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+import React from 'react';
+
+// Define the functional component props
+interface GithubIconProps {
+  size?: number;
+  className?: string;
+}
+
+const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    strokeWidth={20}
     className={className}
   >
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36.5-8 3C6.72 2 5 2 3.5 3 1.5 3 1 4 1 7.5c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
+    <g>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 1A10.89 10.89 0 0 0 1 11.77 10.79 10.79 0 0 0 8.52 22c.55.1.75-.23.75-.52v-1.83c-3.06.65-3.71-1.44-3.71-1.44a2.86 2.86 0 0 0-1.22-1.58c-1-.66.08-.65.08-.65a2.31 2.31 0 0 1 1.68 1.11 2.37 2.37 0 0 0 3.2.89 2.33 2.33 0 0 1 .7-1.44c-2.44-.27-5-1.19-5-5.32a4.15 4.15 0 0 1 1.11-2.91 3.78 3.78 0 0 1 .11-2.84s.93-.29 3 1.1a10.68 10.68 0 0 1 5.5 0c2.1-1.39 3-1.1 3-1.1a3.78 3.78 0 0 1 .11 2.84A4.15 4.15 0 0 1 19 11.2c0 4.14-2.58 5.05-5 5.32a2.5 2.5 0 0 1 .75 2v2.95c0 .35.2.63.75.52A10.8 10.8 0 0 0 23 11.77 10.89 10.89 0 0 0 12 1"
+        fill="currentColor"
+      ></path>
+    </g>
   </svg>
 );
 
@@ -34,7 +45,7 @@ export default function Sidebar() {
   // A small helper component to avoid repeating code for every icon
   const MenuItem = ({ icon: Icon, label }: { icon: any; label: string }) => (
     <div className="flex items-center gap-4 p-3 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors mb-2">
-      <Icon size={24} className="text-white min-w-[24px]" />
+      <Icon size={24} className="text-white min-w-6" />
       <span
         className={`text-gray-300 whitespace-nowrap transition-all duration-300 ${
           isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto'
