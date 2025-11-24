@@ -4,13 +4,23 @@ from datetime import datetime, timedelta
 import uuid
 
 # --- Configuration ---
-NUM_EVENTS = 500
+NUM_EVENTS = 5000
 
 # Define "Hotspots" to ensure clustering happens (Lat, Lon)
 HOTSPOTS = [
     {"name": "California Wildfire", "coords": (39.742043, -121.744122), "type": "wildfire"},
     {"name": "Amazon Flood", "coords": (-3.465305, -62.215881), "type": "flood"},
     {"name": "Turkey Earthquake", "coords": (37.1773, 37.0323), "type": "earthquake"},
+    {"name": "Indian Ocean Tsunami", "coords": [3.30, 95.98], "type": "tsunami"},
+    {"name": "Haiti Earthquake", "coords": [18.51, -72.53], "type": "earthquake"},
+    {"name": "Hurricane Katrina", "coords": [29.95, -90.07], "type": "tropical cyclone"},
+    {"name": "Tōhoku Earthquake & Tsunami (Fukushima)", "coords": [38.32, 142.37], "type": "tsunami"},
+    {"name": "Sichuan Earthquake (Wenchuan)", "coords": [31.02, 103.40], "type": "earthquake"},
+    {"name": "2019-2020 Australian Bushfires", "coords": [-35.5, 147.5], "type": "wildfire"},
+    {"name": "Pakistan Flood", "coords": [29.0, 70.0], "type": "flood"},
+    {"name": "Cyclone Nargis (Myanmar)", "coords": [16.20, 94.75], "type": "tropical cyclone"},
+    {"name": "Libya Storm Daniel Floods", "coords": [32.89, 21.72], "type": "flood"}
+
 ]
 
 # --- Helper Data ---

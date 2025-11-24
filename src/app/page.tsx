@@ -37,11 +37,11 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-neutral-900 font-sans">
-      <Sidebar />
+      <Sidebar onClick={openModal} />
       <Map events={events} onMarkerClick={setSelectedEvent} />
 
       {loading && (
-        <div className="absolute top-1/2 left-3/5 -translate-x-1/2 z-50 text-neutral-950 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md text-sm font-medium">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 z-50 text-neutral-950 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md text-sm font-medium">
           Loading crisis data...
         </div>
       )}

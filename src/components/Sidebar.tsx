@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image'; // logo
-import { Menu, Search, SlidersHorizontal, Plus, Settings, Info} from 'lucide-react';
+import { Menu, Search, SlidersHorizontal, Plus, Settings, Info } from 'lucide-react';
 
 // A custom GitHub icon component
 import React from 'react';
@@ -34,17 +34,30 @@ const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) =>
   </svg>
 );
 
-export default function Sidebar() {
-  // State to track if sidebar is open or closed
-  const [isCollapsed, setIsCollapsed] = useState(false);
+interface SidebarProps {
+  onClick: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onClick }) => {
+  const [isCollapsed, setIsCollapsed] = useState(true); // Sidebar collapsed state
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  // A small helper component to avoid repeating code for every icon
-  const MenuItem = ({ icon: Icon, label }: { icon: any; label: string }) => (
-    <div className="flex items-center gap-4 p-3 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors mb-2">
+  const MenuItem = ({
+    icon: Icon,
+    label,
+    onClick,
+  }: {
+    icon: any;
+    label: string;
+    onClick?: () => void;
+  }) => (
+    <div
+      onClick={onClick}
+      className="flex items-center gap-4 p-3 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors mb-2"
+    >
       <Icon size={24} className="text-white min-w-6" />
       <span
         className={`text-gray-300 whitespace-nowrap transition-all duration-300 ${
@@ -62,9 +75,7 @@ export default function Sidebar() {
         isCollapsed ? 'w-20' : 'w-72'
       }`}
     >
-      {/* Top Section: Logo & Toggle */}
       <div className="p-5 flex items-center justify-between mb-6">
-        {/* LOGO GROUP - ONLY VISIBLE WHEN OPEN */}
         {!isCollapsed && (
           <div className="flex items-center gap-3 animate-in fade-in duration-300">
             <Image
@@ -93,7 +104,7 @@ export default function Sidebar() {
       <div className="flex-1 px-3 overflow-y-auto overflow-x-hidden">
         <MenuItem icon={Search} label="Search" />
         <MenuItem icon={SlidersHorizontal} label="Filter" />
-        <MenuItem icon={Plus} label="Report a disaster" />
+        <MenuItem icon={Plus} label="Report a disaster" onClick={onClick} />
       </div>
 
       {/* Bottom Section */}
@@ -104,4 +115,6 @@ export default function Sidebar() {
       </div>
     </div>
   );
-}
+};
+
+export default Sidebar;
