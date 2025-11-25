@@ -10,6 +10,7 @@ import { PlusIcon } from '@heroicons/react/24/solid';
 import { CrisisEvent, CrisisEventCollection } from '@/types';
 import SearchOverlay from '@/components/SearchOverlay';
 import FilterPanel from '@/components/FilterPanel';
+import SubmitForm from '@/components/SubmitForm';
 
 interface ActiveFilters {
   types: string[];
@@ -121,7 +122,11 @@ export default function Home() {
         className="absolute top-4 right-10 z-10 shadow-lg"
         onClick={openModal}
       />
-      {isModalOpen && <AddModal onClose={closeModal} />}
+      {isModalOpen && (
+        <AddModal onClose={closeModal}>
+          <SubmitForm onClose={closeModal} />
+        </AddModal>
+      )}
     </div>
   );
 }
