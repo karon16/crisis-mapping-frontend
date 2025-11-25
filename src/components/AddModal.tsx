@@ -34,13 +34,11 @@ const AddModal: React.FC<AddModalProps> = ({ onClose, ...rest }) => {
   );
 
   return (
-    // 1. Overlay (The Backdrop): Set onClick={handleBackdropClick}
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={handleBackdropClick}
       {...rest}
     >
-      {/* 2. Modal Content: Attach the ref here */}
       <div
         ref={modalContentRef} // Attach the ref to the inner content container
         className={`relative flex flex-col w-full max-w-2xl h-[90vh] p-6 bg-white dark:bg-neutral-900 rounded-xl shadow-2xl`}
@@ -53,11 +51,8 @@ const AddModal: React.FC<AddModalProps> = ({ onClose, ...rest }) => {
           />
         </div>
 
-        {/* --- The Form --- */}
         <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-4">
-          {/* Form Body - Scrollable Area */}
           <div className="flex-grow space-y-6 pr-2 overflow-y-auto">
-            {/* Field 1: Location String & Date */}
             <div className="flex gap-4">
               <div className="flex-1">
                 <label
@@ -93,8 +88,6 @@ const AddModal: React.FC<AddModalProps> = ({ onClose, ...rest }) => {
                 />
               </div>
             </div>
-
-            {/* Field 2: Map Pin Drop (Placeholder) */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Confirm Location on Map:
@@ -103,8 +96,6 @@ const AddModal: React.FC<AddModalProps> = ({ onClose, ...rest }) => {
                 [Mapbox Component to drop pin goes here]
               </div>
             </div>
-
-            {/* Field 3: Report Text (Tweet Text) */}
             <div>
               <label
                 htmlFor="reportText"
@@ -122,8 +113,6 @@ const AddModal: React.FC<AddModalProps> = ({ onClose, ...rest }) => {
                 className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 resize-none"
               />
             </div>
-
-            {/* Field 4: Image Upload */}
             <div>
               <label
                 htmlFor="imageFiles"
@@ -142,8 +131,6 @@ const AddModal: React.FC<AddModalProps> = ({ onClose, ...rest }) => {
               />
             </div>
           </div>
-
-          {/* Form Footer / Submit Button */}
           <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
             <button
               type="submit"

@@ -1,16 +1,19 @@
-'use client'; // Required for interactivity (onClick)
+'use client';
 
 import { useState } from 'react';
-import Image from 'next/image'; // logo
+import Image from 'next/image';
 import { Menu, Search, SlidersHorizontal, Plus, Settings, Info } from 'lucide-react';
 
-// A custom GitHub icon component
 import React from 'react';
 
-// Define the functional component props
 interface GithubIconProps {
   size?: number;
   className?: string;
+}
+
+interface SidebarProps {
+  onReportClick: () => void;
+  onSearchClick: () => void;
 }
 
 const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) => (
@@ -34,17 +37,14 @@ const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) =>
   </svg>
 );
 
-interface SidebarProps {
-  onClick: () => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onClick }) => {
+// Sidebar Component
+const Sidebar: React.FC<SidebarProps> = ({ onReportClick, onSearchClick }) => {
   const [isCollapsed, setIsCollapsed] = useState(true); // Sidebar collapsed state
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
-
+  // Menu Item Component
   const MenuItem = ({
     icon: Icon,
     label,
@@ -102,9 +102,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onClick }) => {
 
       {/* Navigation Items */}
       <div className="flex-1 px-3 overflow-y-auto overflow-x-hidden">
-        <MenuItem icon={Search} label="Search" />
+        <MenuItem icon={Search} label="Search" onClick={onSearchClick} />
         <MenuItem icon={SlidersHorizontal} label="Filter" />
-        <MenuItem icon={Plus} label="Report a disaster" onClick={onClick} />
+        <MenuItem icon={Plus} label="Report a disaster" onClick={onReportClick} />
       </div>
 
       {/* Bottom Section */}

@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, RefObject } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { CrisisEvent } from '@/types';
 // @ts-ignore: CSS module without type declarations
@@ -8,20 +8,23 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 interface MapProps {
   events: CrisisEvent[];
   onMarkerClick: (event: CrisisEvent) => void;
+  mapRef: RefObject<mapboxgl.Map | null>;
 }
 
-const Map: React.FC<MapProps> = ({ events, onMarkerClick }) => {
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+const Map: React.FC<MapProps> = ({ events, onMarkerClick, mapRef }: MapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
+
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
-    mapRef.current = new mapboxgl.Map({
+
+    const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
       style: 'mapbox://styles/mapbox/standard',
-      center: [-77.03915, 38.90025], // Washington DC
-      zoom: 3,
+      center: [30, 0],
+      zoom: 2,
       config: {
         basemap: {
           theme: 'monochrome',
@@ -30,18 +33,23 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick }) => {
       },
     });
 
-    mapRef.current.on('load', () => {
-      setMapLoaded(true);
+    // Assign the map instance to the external ref
+    mapRef.current = map;
+
+    // Set map load state
+    map.on('load', () => {
+      setIsMapLoaded(true);
     });
 
+    // Clean up on unmount
     return () => {
-      mapRef.current?.remove();
+      map.remove();
     };
   }, []);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !mapLoaded) return;
+    if (!map || !isMapLoaded) return;
 
     const sourceId = 'crisis-events';
 
@@ -223,7 +231,7 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick }) => {
     });
 
     // return () => mapRef.current?.remove();
-  }, [events, mapLoaded, onMarkerClick]);
+  }, [events, isMapLoaded, onMarkerClick]);
 
   return (
     <div className="flex-1 w-full h-dvh bg-[#0C0A16]">
