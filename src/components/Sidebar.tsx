@@ -14,6 +14,8 @@ interface GithubIconProps {
 interface SidebarProps {
   onReportClick: () => void;
   onSearchClick: () => void;
+  isCollapsed: boolean;
+  toggleSidebar: () => void;
 }
 
 const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) => (
@@ -38,12 +40,17 @@ const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) =>
 );
 
 // Sidebar Component
-const Sidebar: React.FC<SidebarProps> = ({ onReportClick, onSearchClick }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true); // Sidebar collapsed state
+const Sidebar: React.FC<SidebarProps> = ({
+  onReportClick,
+  onSearchClick,
+  isCollapsed,
+  toggleSidebar,
+}) => {
+  // const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-  };
+  // const toggleSidebar = () => {
+  //   setIsCollapsed(!isCollapsed);
+  // };
   // Menu Item Component
   const MenuItem = ({
     icon: Icon,

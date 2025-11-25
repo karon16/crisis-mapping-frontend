@@ -16,6 +16,11 @@ export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<CrisisEvent | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   const mapCenterRef = useRef<mapboxgl.Map | null>(null);
 
@@ -55,8 +60,18 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-neutral-900 font-sans">
-      <Sidebar onReportClick={openModal} onSearchClick={openSearch} />
-      <Map events={events} onMarkerClick={setSelectedEvent} mapRef={mapCenterRef} />
+      <Sidebar
+        onReportClick={openModal}
+        onSearchClick={openSearch}
+        isCollapsed={isCollapsed}
+        toggleSidebar={toggleSidebar}
+      />
+      <Map
+        events={events}
+        onMarkerClick={setSelectedEvent}
+        mapRef={mapCenterRef}
+        isSideBarCollapsed={isCollapsed}
+      />
 
       {isSearchOpen && <SearchOverlay onClose={closeSearch} onSelectEvent={flyToCoordinates} />}
 

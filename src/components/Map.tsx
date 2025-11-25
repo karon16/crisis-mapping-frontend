@@ -9,9 +9,15 @@ interface MapProps {
   events: CrisisEvent[];
   onMarkerClick: (event: CrisisEvent) => void;
   mapRef: RefObject<mapboxgl.Map | null>;
+  isSideBarCollapsed: boolean;
 }
 
-const Map: React.FC<MapProps> = ({ events, onMarkerClick, mapRef }: MapProps) => {
+const Map: React.FC<MapProps> = ({
+  events,
+  onMarkerClick,
+  mapRef,
+  isSideBarCollapsed,
+}: MapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const [isMapLoaded, setIsMapLoaded] = useState(false);
@@ -46,6 +52,21 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick, mapRef }: MapProps) =>
       map.remove();
     };
   }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    // Wait for the sidebar's CSS transition (300ms) to finish
+    const handler = setTimeout(() => {
+      map.resize();
+      // After resizing, map.resize() often resets the center. You might need
+      // to call map.getCenter() before resize and map.setCenter() after resize
+      // if the map jumps unexpectedly, but resize() alone is the fix.
+    }, 200);
+
+    return () => clearTimeout(handler);
+  }, [isSideBarCollapsed]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -140,12 +161,10 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick, mapRef }: MapProps) =>
     });
 
     // Click event for unclustered points
-    // 2. Click Unclustered Point -> Open Popup (Figma Style)
     map.on('click', 'unclustered-point', e => {
       const coordinates = (e.features?.[0].geometry as any).coordinates.slice();
       const props = e.features?.[0].properties;
 
-      // Ensure props exist to prevent errors
       if (!props) return;
 
       const popupContent = `
@@ -186,15 +205,15 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick, mapRef }: MapProps) =>
 
       new mapboxgl.Popup({
         offset: 25,
-        closeButton: true, // Use Mapbox's built-in close button
+        closeButton: true,
         closeOnClick: true,
-        className: 'custom-mapbox-popup', // Add this class for global CSS targeting
+        className: 'custom-mapbox-popup',
       })
         .setLngLat(coordinates)
         .setHTML(popupContent)
         .addTo(map);
     });
-    // change mouse cursor to pointer when hovering over an indivuidual point
+
     mapRef.current?.addInteraction('mouseenter-unclustered', {
       type: 'mouseenter',
       target: { layerId: 'unclustered-point' },
@@ -234,7 +253,7 @@ const Map: React.FC<MapProps> = ({ events, onMarkerClick, mapRef }: MapProps) =>
   }, [events, isMapLoaded, onMarkerClick]);
 
   return (
-    <div className="flex-1 w-full h-dvh bg-[#0C0A16]">
+    <div className={`flex-1 w-full h-dvh bg-[#0C0A16] transition-all duration-300 ease-in-out `}>
       <div ref={mapContainerRef} className="w-full h-full" />
     </div>
   );
