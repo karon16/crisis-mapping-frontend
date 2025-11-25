@@ -16,6 +16,7 @@ interface SidebarProps {
   onSearchClick: () => void;
   isCollapsed: boolean;
   toggleSidebar: () => void;
+  onFilterClick: () => void;
 }
 
 const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) => (
@@ -45,6 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   onSearchClick,
   isCollapsed,
   toggleSidebar,
+  onFilterClick,
 }) => {
   // const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -110,7 +112,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Navigation Items */}
       <div className="flex-1 px-3 overflow-y-auto overflow-x-hidden">
         <MenuItem icon={Search} label="Search" onClick={onSearchClick} />
-        <MenuItem icon={SlidersHorizontal} label="Filter" />
+        <MenuItem icon={SlidersHorizontal} label="Filter" onClick={onFilterClick} />
         <MenuItem icon={Plus} label="Report a disaster" onClick={onReportClick} />
       </div>
 

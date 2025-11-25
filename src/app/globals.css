@@ -36,3 +36,45 @@ button, button:focus, button:hover, button:active, button {
 width: 600px;
 /* background-color: red; */
 }
+
+.filter-container{
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
+
+
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="checkbox"].rounded-full {
+  border-radius: 9999px;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  width: 16px;
+  height: 16px;
+
+}
+
+
+input[type="checkbox"]:checked {
+  background-color: var(--fuchsia-600, #c026d3);
+  border-color: var(--fuchsia-600, #c026d3);
+  width: 16px;
+  height: 16px;
+}
+
+input[type="checkbox"]:checked:after {
+  content: '';
+  display: block;
+  width: 7px; 
+  height: 7px;
+  border-radius: 50%;
+  background-color: white;
+  position: relative;
+  left: 8px; 
+  top: 8px;  
+  transform: translate(-50%, -50%);
+}

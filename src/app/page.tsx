@@ -9,6 +9,14 @@ import AddModal from '@/components/AddModal';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { CrisisEvent, CrisisEventCollection } from '@/types';
 import SearchOverlay from '@/components/SearchOverlay';
+import FilterPanel from '@/components/FilterPanel';
+
+interface ActiveFilters {
+  types: string[];
+  severities: string[];
+  humanitarian: string[];
+  dateRange: number[];
+}
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +25,15 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false); // <--- NEW STATE
+  const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
+    // <--- NEW STATE
+    types: [],
+    severities: [],
+    humanitarian: [],
+    dateRange: [2018, new Date().getFullYear()],
+  });
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -36,6 +53,16 @@ export default function Home() {
       });
     }
     closeSearch();
+  };
+
+  const openFilter = () => setIsFilterOpen(!isFilterOpen); // <--- NEW HANDLER
+  const closeFilter = () => setIsFilterOpen(false); // <--- NEW HANDLER
+
+  const applyFilters = (filters: ActiveFilters) => {
+    setActiveFilters(filters);
+    setIsFilterOpen(false); // Close panel after applying
+    console.log('Filters Applied:', filters);
+    // TODO: Logic here to filter the 'events' state based on 'filters'
   };
 
   useEffect(() => {
@@ -65,6 +92,12 @@ export default function Home() {
         onSearchClick={openSearch}
         isCollapsed={isCollapsed}
         toggleSidebar={toggleSidebar}
+        onFilterClick={openFilter}
+      />
+      <FilterPanel
+        isOpen={isFilterOpen} // <--- Controls slide-in/out
+        onClose={closeFilter}
+        onApplyFilters={applyFilters}
       />
       <Map
         events={events}
