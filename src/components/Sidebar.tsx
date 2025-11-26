@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Menu, Search, SlidersHorizontal, Plus, Settings, Info } from 'lucide-react';
+import { Menu, Search, SlidersHorizontal, Plus, /*Settings,*/ Info } from 'lucide-react';
 import Link from 'next/link';
 
 import React from 'react';
