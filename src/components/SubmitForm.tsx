@@ -38,7 +38,7 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
   };
 
   useEffect(() => {
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
     // Check if the map container is ready
     if (!mapContainerRef.current) return;
