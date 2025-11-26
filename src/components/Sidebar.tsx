@@ -119,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Bottom Section */}
       <div className="p-3 border-t border-gray-800">
-        <MenuItem icon={Settings} label="Settings" />
+        {/*<MenuItem icon={Settings} label="Settings" />*/}
         <Link href="/about">
           <MenuItem icon={Info} label="About" />
         </Link>
