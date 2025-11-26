@@ -27,9 +27,8 @@ export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const [isFilterOpen, setIsFilterOpen] = useState(false); // <--- NEW STATE
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-    // <--- NEW STATE
     types: [],
     severities: [],
     humanitarian: [],
@@ -56,8 +55,8 @@ export default function Home() {
     closeSearch();
   };
 
-  const openFilter = () => setIsFilterOpen(!isFilterOpen); // <--- NEW HANDLER
-  const closeFilter = () => setIsFilterOpen(false); // <--- NEW HANDLER
+  const openFilter = () => setIsFilterOpen(!isFilterOpen);
+  const closeFilter = () => setIsFilterOpen(false); 
 
   const applyFilters = (filters: ActiveFilters) => {
     setActiveFilters(filters);

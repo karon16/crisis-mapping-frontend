@@ -21,7 +21,6 @@ const Map: React.FC<MapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const markersRef = useRef<mapboxgl.Marker[]>([]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';

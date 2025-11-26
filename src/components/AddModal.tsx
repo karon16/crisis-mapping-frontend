@@ -19,12 +19,12 @@ const AddModal: React.FC<AddModalProps> = props => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center  bg-black/50 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
       <div
         ref={modalContentRef}
-        className={`relative flex flex-col w-full max-w-2xl h-[90vh] p-6 bg-white dark:bg-neutral-900 rounded-xl shadow-2xl`}
+        className={` overflow-y-auto border border-neutral-800 relative flex flex-col w-full max-w-2xl h-[90vh] p-6 bg-white dark:bg-neutral-900 rounded-xl shadow-2xl`}
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Report a Disaster</h2>
