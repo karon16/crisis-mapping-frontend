@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Menu, Search, SlidersHorizontal, Plus, Settings, Info } from 'lucide-react';
+import { Menu, Search, SlidersHorizontal, Plus, /*Settings,*/ Info } from 'lucide-react';
 import Link from 'next/link';
 
 import React from 'react';
@@ -119,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Bottom Section */}
       <div className="p-3 border-t border-gray-800">
-        <MenuItem icon={Settings} label="Settings" />
+        {/*<MenuItem icon={Settings} label="Settings" />*/}
         <Link href="/about">
           <MenuItem icon={Info} label="About" />
         </Link>

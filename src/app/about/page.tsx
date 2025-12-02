@@ -1,10 +1,7 @@
 // This tells Next.js to run this code in the browser (client-side), not the server.
-// We need this because we might want interactions like hovering or animations.
 'use client';
 
 // Importing tools we need:
-// 'Link' is for moving between pages without reloading.
-// The others are icons (Arrow, CPU, Globe, Shield) from our icon library.
 import Link from 'next/link';
 import { ArrowLeft, Cpu, Globe, ShieldAlert } from 'lucide-react';
 
@@ -12,15 +9,8 @@ import { ArrowLeft, Cpu, Globe, ShieldAlert } from 'lucide-react';
 export default function AboutPage() {
   return (
     // MAIN CONTAINER
-    // min-h-screen: Makes the background cover the whole screen height.
-    // bg-[#0C0A16]: Sets the specific dark background color you like.
-    // text-gray-300: Sets the default text color to a light gray.
-    // selection:...: Changes the highlight color to purple when you select text.
     <div className="min-h-screen bg-[#0C0A16] text-gray-300 font-sans selection:bg-purple-500 selection:text-white">
       {/* NAVIGATION BAR (Fixed at the top) */}
-      {/* fixed: Sticks the bar to the top of the screen. */}
-      {/* backdrop-blur-md: Makes the background blurry (glass effect). */}
-      {/* z-50: Ensures this bar stays on top of everything else. */}
       <nav className="p-6 fixed w-full z-50 bg-[#0C0A16]/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-4xl mx-auto flex items-center gap-4">
           {/* This is the 'Back' button */}
@@ -36,10 +26,8 @@ export default function AboutPage() {
       </nav>
 
       {/* MAIN CONTENT AREA */}
-      {/* pt-32: Adds padding at the top so the fixed navbar doesn't cover the text. */}
       <main className="max-w-4xl mx-auto pt-32 pb-20 px-6">
         {/* HERO SECTION (The Big Title) */}
-        {/* animate-in...: Makes this section fade in smoothly when the page loads. */}
         <header className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
             Visualizing Crisis in <span className="text-purple-500">Real-Time</span>
@@ -51,11 +39,7 @@ export default function AboutPage() {
         </header>
 
         {/* GRID SECTION (The 3 Cards) */}
-        {/* grid-cols-3: Arranges items in 3 columns. */}
-        {/* animate-in... delay-200: Fades in slightly after the title (200ms delay). */}
         <div className="grid md:grid-cols-3 gap-6 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-backwards">
-          {/* We are using the 'Card' helper component defined at the bottom.
-              We just pass the Icon, Title, and Description. */}
           <Card
             icon={<Globe className="text-purple-400" />}
             title="Global Monitoring"
@@ -74,7 +58,6 @@ export default function AboutPage() {
         </div>
 
         {/* DETAILED CONTENT (The Text Paragraphs) */}
-        {/* delay-300: Fades in last (300ms delay). */}
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 fill-mode-backwards">
           {/* Using the 'Section' helper component for "The Problem" */}
           <Section title="The Problem">
@@ -99,8 +82,7 @@ export default function AboutPage() {
           {/* This section lists the technologies used */}
           <Section title="Technology Stack">
             <div className="flex flex-wrap gap-3 mt-4">
-              {/* This is a list (array) of tech names. .map() loops through them
-                  and creates a styled badge (span) for each one automatically. */}
+              {/* This is a list (array) of tech names.*/}
               {[
                 'Next.js',
                 'Tailwind CSS',
@@ -127,10 +109,7 @@ export default function AboutPage() {
 }
 
 // --- HELPER COMPONENTS ---
-// These are mini-templates to keep the main code clean.
-
 // 1. The Card Component (used for the 3 grid items)
-// It takes an icon, a title, and a description as inputs (props).
 const Card = ({ icon, title, desc }: { icon: any; title: string; desc: string }) => (
   <div className="p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
     <div className="mb-4 p-3 bg-white/5 w-fit rounded-lg">{icon}</div>
@@ -139,8 +118,7 @@ const Card = ({ icon, title, desc }: { icon: any; title: string; desc: string })
   </div>
 );
 
-// 2. The Section Component (used for the text blocks)
-// It takes a title and 'children' (the paragraph text you put inside it).
+// 2. The Section Component. It takes a title and 'children' (the paragraph text you put inside it).
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   // border-l-2: Adds the purple line on the left side.
   <section className="border-l-2 border-purple-500/30 pl-6 py-2">
