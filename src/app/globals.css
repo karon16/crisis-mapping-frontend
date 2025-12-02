@@ -61,7 +61,7 @@ input[type="checkbox"].rounded-full {
 
 input[type="checkbox"]:checked {
   background-color: var(--fuchsia-600, #c026d3);
-  border-color: var(--fuchsia-600, #c026d3);
+  /* border-color: var(--fuchsia-600, #c026d3); */
   width: 16px;
   height: 16px;
 }
@@ -77,4 +77,135 @@ input[type="checkbox"]:checked:after {
   left: 8px; 
   top: 8px;  
   transform: translate(-50%, -50%);
+}
+
+
+/* Main geocoder container */
+#geocoder-container .mapboxgl-ctrl-geocoder {
+  width: 100%;
+  max-width: none;
+  box-shadow: none;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  outline: none;
+  border-radius: 0.5rem;
+
+}
+
+/* Input field */
+#geocoder-container .mapboxgl-ctrl-geocoder--input {
+  height: 2.5rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: #111827;
+  outline: none;
+  border-radius: 0.5rem;
+  border: none;
+
+}
+
+/* Search icon */
+#geocoder-container .mapboxgl-ctrl-geocoder--icon-search {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Loading icon */
+#geocoder-container .mapboxgl-ctrl-geocoder--icon-loading {
+  top: 10px;
+  right: 10px;
+}
+
+/* Clear button */
+#geocoder-container .mapboxgl-ctrl-geocoder--button {
+  top: 5px;
+  right: 5px;
+  background: none;
+}
+#geocoder-container .mapboxgl-ctrl-geocoder--input{
+  padding-left: 35px;
+}
+#geocoder-container .mapboxgl-ctrl-geocoder--input::placeholder{
+  position: absolute;
+  left: 35x;
+}
+
+/* Focus state */
+#geocoder-container .mapboxgl-ctrl-geocoder--input:focus {
+  outline: none;
+  border: none;
+
+  border-radius: 0.5rem;
+
+  /* border-color: #c026d3; Fuchsia-600 */
+  /* box-shadow: 0 0 0 3px rgba(192, 38, 211, 0.1); */
+
+}
+
+/* Suggestions dropdown wrapper */
+#geocoder-container .suggestions-wrapper {
+  border-radius: 0.5rem;
+  /* border: 1px solid #d1d5db; */
+  margin-top: 0.25rem;
+  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); */
+  
+}
+
+/* Individual suggestion items */
+#geocoder-container .suggestions li {
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Hover and active states for suggestions */
+#geocoder-container .suggestions li:hover,
+#geocoder-container .suggestions li.active {
+  background-color:red;
+  color: #7e22ce; /* Purple-700 */
+}
+
+/* ============================================
+   Dark Mode Styles
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  /* Main container dark mode */
+  #geocoder-container .mapboxgl-ctrl-geocoder {
+    background-color: #262626; /* Neutral-800 */
+    border-color: #404040; /* Gray-700 */
+  }
+  
+  /* Input field dark mode */
+  #geocoder-container .mapboxgl-ctrl-geocoder--input {
+    background-color: #262626;
+    color: #ffffff;
+  }
+  
+  /* Icons dark mode */
+  #geocoder-container .mapboxgl-ctrl-geocoder--icon {
+    fill: #9ca3af; /* Gray-400 */
+  }
+  
+  /* Dropdown dark mode */
+  #geocoder-container .suggestions-wrapper {
+    background-color: #262626;
+    border-color: #404040;
+  }
+  
+  /* Suggestion items dark mode */
+  #geocoder-container .suggestions li {
+    color: #e5e5e5;
+    /* border-bottom-color: #404040; */
+    border: none;
+  }
+  
+  /* Hover/active dark mode */
+  #geocoder-container .suggestions li:hover,
+  #geocoder-container .suggestions li.active {
+    background-color: #404040;
+    color: #ffffff;
+  }
 }

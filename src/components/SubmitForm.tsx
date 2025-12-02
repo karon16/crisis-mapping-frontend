@@ -63,10 +63,13 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
       // Backend expects a single file named 'file'
       formData.append('file', imageFiles[0]);
 
-      console.log(formData);
+      // display all form data for debugging
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
 
       // Send POST request to your backend
-      const response = await axios.post('http://127.0.0.1:8000/events', formData, {
+      const response = await axios.post('http://203.252.106.25:8000/events', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -196,123 +199,125 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-4">
-        <div className="flex-grow space-y-6 pr-2 overflow-y-auto">
-          {/* Submission Error Alert */}
-          {submissionError && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-sm font-medium">
-              {submissionError}
-            </div>
-          )}
-
-          {/* Location Input Section (UPDATED) */}
-          <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <label
-                htmlFor="location"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-              >
-                Location Name (Search or Manual):
-              </label>
-
-              {/* Geocoder Search Bar Container */}
-              <div id="geocoder-container" className="w-full h-10 mb-2" />
-
-              {/* Display Coordinates/Location Name set by Geocoder or Pin */}
-              <input
-                id="location"
-                type="text"
-                readOnly // Make this read-only as the Geocoder controls the value
-                placeholder={
-                  pinCoordinates
-                    ? `Pin set at: Lat ${pinCoordinates.lat.toFixed(4)}, Lng ${pinCoordinates.lng.toFixed(4)}`
-                    : 'Search above or drop a pin...'
-                }
-                value={locationString}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500"
-              />
-            </div>
-            <div className="w-1/3">
-              {/* Date Input */}
-              <label
-                htmlFor="date"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-              >
-                Date of Event:
-              </label>
-              <input
-                id="date"
-                type="date"
-                value={reportDate}
-                onChange={e => setReportDate(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white"
-              />
-            </div>
+      <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-4 overflow-y-hidden">
+        {/* <div className="flex-grow space-y-6 pr-2 overflow-y-auto"> */}
+        {/* Submission Error Alert */}
+        {submissionError && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-sm font-medium">
+            {submissionError}
           </div>
+        )}
 
-          {/* Map Section */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Confirm Location on Map:
-            </label>
-            <div className="h-70 rounded-lg relative">
-              <div ref={mapContainerRef} className="w-full h-full rounded-lg" />
-              {/* Display live coordinates */}
-              {pinCoordinates && (
-                <div className="absolute top-2 left-2 px-3 py-1 bg-black/70 text-white text-xs rounded-full font-mono">
-                  LAT: {pinCoordinates.lat.toFixed(4)}, LNG: {pinCoordinates.lng.toFixed(4)}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Report Text and Image Upload (Remain the same) */}
-          <div>
+        <div className="">
+          <div id="geocoder-container" className="w-full h-10 mb-2" />
+        </div>
+        {/* Location Input Section (UPDATED) */}
+        <div className="flex gap-4">
+          <div className="flex-1 relative">
             <label
-              htmlFor="reportText"
+              htmlFor="location"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Description / Report Text:
+              Location Name (Search or Manual):
             </label>
-            <textarea
-              id="reportText"
-              rows={4}
-              placeholder="Describe the disaster and needs (e.g., 'Flooding in my street, need help evacuating.')"
-              value={reportText}
-              onChange={e => setReportText(e.target.value)}
+
+            {/* Geocoder Search Bar Container */}
+
+            {/* Display Coordinates/Location Name set by Geocoder or Pin */}
+            <input
+              id="location"
+              type="text"
+              readOnly // Make this read-only as the Geocoder controls the value
+              placeholder={
+                pinCoordinates
+                  ? `Pin set at: Lat ${pinCoordinates.lat.toFixed(4)}, Lng ${pinCoordinates.lng.toFixed(4)}`
+                  : 'Search above or drop a pin...'
+              }
+              value={locationString}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 resize-none"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500"
             />
           </div>
-          <div>
+          <div className="w-1/3">
+            {/* Date Input */}
             <label
-              htmlFor="imageFiles"
+              htmlFor="date"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Image Upload (Visual Evidence - Multiple Allowed):
+              Date of Event:
             </label>
             <input
-              id="imageFiles"
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={e => setImageFiles(e.target.files)}
+              id="date"
+              type="date"
+              value={reportDate}
+              onChange={e => setReportDate(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white"
             />
           </div>
         </div>
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full px-4 py-3 bg-fuchsia-600 text-white rounded-lg font-bold hover:bg-fuchsia-700 transition-colors shadow-md disabled:bg-gray-500"
-          >
-            {isSubmitting ? 'Processing...' : 'Submit Report for AI Classification'}
-          </button>
+
+        {/* Map Section */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Confirm Location on Map:
+          </label>
+          <div className="h-40 rounded-lg relative">
+            <div ref={mapContainerRef} className="w-full h-full rounded-lg" />
+            {/* Display live coordinates */}
+            {pinCoordinates && (
+              <div className="absolute top-2 left-2 px-3 py-1 bg-black/70 text-white text-xs rounded-full font-mono">
+                LAT: {pinCoordinates.lat.toFixed(4)}, LNG: {pinCoordinates.lng.toFixed(4)}
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Report Text and Image Upload (Remain the same) */}
+        <div>
+          <label
+            htmlFor="reportText"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Description / Report Text:
+          </label>
+          <textarea
+            id="reportText"
+            rows={4}
+            placeholder="Describe the disaster and needs (e.g., 'Flooding in my street, need help evacuating.')"
+            value={reportText}
+            onChange={e => setReportText(e.target.value)}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 resize-none"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="imageFiles"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Image Upload (Visual Evidence - Multiple Allowed):
+          </label>
+          <input
+            id="imageFiles"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={e => setImageFiles(e.target.files)}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          />
+        </div>
+        {/* </div> */}
+        {/* <div className="pt-4 border-t border-gray-200 dark:border-gray-700"> */}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full px-4 py-3 bg-fuchsia-600 text-white rounded-lg font-bold hover:bg-fuchsia-700 transition-colors shadow-md disabled:bg-gray-500"
+        >
+          {isSubmitting ? 'Processing...' : 'Submit Report for AI Classification'}
+        </button>
+        {/* </div> */}
       </form>
     </>
   );
