@@ -44,11 +44,12 @@ export default function Home() {
   const openSearch = () => setIsSearchOpen(true);
   const closeSearch = () => setIsSearchOpen(false);
 
+  // Fly to selected event from search
   const flyToCoordinates = (coords: [number, number]) => {
     if (mapCenterRef.current) {
       mapCenterRef.current.easeTo({
         center: coords,
-        zoom: 8,
+        zoom: 12,
         duration: 1500,
       });
     }
@@ -56,7 +57,7 @@ export default function Home() {
   };
 
   const openFilter = () => setIsFilterOpen(!isFilterOpen);
-  const closeFilter = () => setIsFilterOpen(false); 
+  const closeFilter = () => setIsFilterOpen(false);
 
   const applyFilters = (filters: ActiveFilters) => {
     setActiveFilters(filters);
@@ -106,6 +107,7 @@ export default function Home() {
         isSideBarCollapsed={isCollapsed}
       />
 
+      {/* Search Overlay */}
       {isSearchOpen && <SearchOverlay onClose={closeSearch} onSelectEvent={flyToCoordinates} />}
 
       {loading && (
