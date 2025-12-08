@@ -72,6 +72,7 @@ export default function Home() {
         setLoading(true);
         const response = await axios.get<CrisisEventCollection>('/api/events');
         setEvents(response.data.features);
+        console.log('Fetched Events:', response.data.features);
       } catch (err) {
         console.error('Failed to fetch events', err);
       } finally {

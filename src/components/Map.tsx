@@ -186,7 +186,7 @@ const Map: React.FC<MapProps> = ({
           </div>
 
           <p class="text-sm text-neutral-700 mb-4 leading-relaxed">
-            ${props.llava_text || props.tweet_text || 'No description available.'}
+            ${props.tweet_text || 'No description available.'}
           </p>
 
           <div class="grid grid-cols-4 gap-2 mb-3">
