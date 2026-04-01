@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Menu, Search, SlidersHorizontal, Plus, /*Settings,*/ Info } from 'lucide-react';
+import { Menu, Search, SlidersHorizontal, Plus, Settings, Info } from 'lucide-react';
 import Link from 'next/link';
 
 import React from 'react';
@@ -18,6 +18,7 @@ interface SidebarProps {
   isCollapsed: boolean;
   toggleSidebar: () => void;
   onFilterClick: () => void;
+  onSettingsClick: () => void;
 }
 
 const GithubIcon: React.FC<GithubIconProps> = ({ size = 24, className = '' }) => (
@@ -48,6 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   isCollapsed,
   toggleSidebar,
   onFilterClick,
+  onSettingsClick,
 }) => {
   // const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -119,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Bottom Section */}
       <div className="p-3 border-t border-gray-800">
-        {/*<MenuItem icon={Settings} label="Settings" />*/}
+        <MenuItem icon={Settings} label="Settings" onClick={onSettingsClick} />
         <Link href="/about">
           <MenuItem icon={Info} label="About" />
         </Link>

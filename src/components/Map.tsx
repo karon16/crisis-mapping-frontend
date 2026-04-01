@@ -22,13 +22,18 @@ const Map: React.FC<MapProps> = ({
 
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
+
+
+
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
-      style: 'mapbox://styles/mapbox/standard',
+      style: 'mapbox://styles/karon16/cmmlpp59k00ik01sj5jp0cvgv',
+      // style: 'mapbox://styles/mapbox/standard',
       center: [30, 0],
+      
       zoom: 2,
       config: {
         basemap: {
@@ -189,13 +194,13 @@ const Map: React.FC<MapProps> = ({
             ${props.tweet_text || 'No description available.'}
           </p>
 
-          <div class="grid grid-cols-4 gap-2 mb-3">
+          <div class="grid grid-cols-1 w-full   h-full  gap-2 mb-3">
              <!-- Example images - replace src with props.image_url -->
              <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700" />
-             <!-- Placeholders for gallery look -->
+             <!-- Placeholders for gallery look 
              <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" />
              <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" />
-             <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" />
+             <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" /> -->
           </div>
 
           <a href="#" class="text-purple-500 text-xs hover:underline">Search on the web ></a>

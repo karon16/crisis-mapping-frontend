@@ -60,8 +60,10 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
       formData.append('latitude', pinCoordinates.lat.toString());
       formData.append('longitude', pinCoordinates.lng.toString());
 
-      // Backend expects a single file named 'file'
-      formData.append('file', imageFiles[0]);
+      // Append each image file individually under the 'file' key
+      Array.from(imageFiles).forEach((file) => {
+        formData.append('file', file);
+      });
 
       // display all form data for debugging
       for (let pair of formData.entries()) {
@@ -199,7 +201,7 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-4 overflow-y-hidden">
+      <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-3">
         {/* <div className="flex-grow space-y-6 pr-2 overflow-y-auto"> */}
         {/* Submission Error Alert */}
         {submissionError && (
@@ -262,7 +264,7 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Confirm Location on Map:
           </label>
-          <div className="h-40 rounded-lg relative">
+          <div className="h-28 sm:h-40 rounded-lg relative">
             <div ref={mapContainerRef} className="w-full h-full rounded-lg" />
             {/* Display live coordinates */}
             {pinCoordinates && (
@@ -283,7 +285,7 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
           </label>
           <textarea
             id="reportText"
-            rows={4}
+            rows={3}
             placeholder="Describe the disaster and needs (e.g., 'Flooding in my street, need help evacuating.')"
             value={reportText}
             onChange={e => setReportText(e.target.value)}
@@ -308,16 +310,15 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
             className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
           />
         </div>
-        {/* </div> */}
-        {/* <div className="pt-4 border-t border-gray-200 dark:border-gray-700"> */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full px-4 py-3 bg-fuchsia-600 text-white rounded-lg font-bold hover:bg-fuchsia-700 transition-colors shadow-md disabled:bg-gray-500"
-        >
-          {isSubmitting ? 'Processing...' : 'Submit Report for AI Classification'}
-        </button>
-        {/* </div> */}
+        <div className="sticky bottom-0 pt-3 pb-1 bg-white dark:bg-neutral-900">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full px-4 py-3 bg-fuchsia-600 text-white rounded-lg font-bold hover:bg-fuchsia-700 transition-colors shadow-md disabled:bg-gray-500"
+          >
+            {isSubmitting ? 'Processing...' : 'Submit Report for AI Classification'}
+          </button>
+        </div>
       </form>
     </>
   );

@@ -11,6 +11,12 @@ import { CrisisEvent, CrisisEventCollection } from '@/types';
 import SearchOverlay from '@/components/SearchOverlay';
 import FilterPanel from '@/components/FilterPanel';
 import SubmitForm from '@/components/SubmitForm';
+import SettingsPanel from '@/components/SettingsPanel';
+import StatusBar from '@/components/StatusBar';
+import CommandPalette from '@/components/CommandPalette';
+import TrendingEventsBar from '@/components/TrendingEventsBar';
+import { SettingsProvider } from '@/context/SettingsContext';
+import { useCommandPalette } from '@/hooks/useCommandPalette';
 
 interface ActiveFilters {
   types: string[];
@@ -19,13 +25,14 @@ interface ActiveFilters {
   dateRange: number[];
 }
 
-export default function Home() {
+function HomeContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [events, setEvents] = useState<CrisisEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<CrisisEvent | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
@@ -34,6 +41,9 @@ export default function Home() {
     humanitarian: [],
     dateRange: [2018, new Date().getFullYear()],
   });
+
+  // Command Palette
+  const commandPalette = useCommandPalette();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -58,10 +68,12 @@ export default function Home() {
 
   const openFilter = () => setIsFilterOpen(!isFilterOpen);
   const closeFilter = () => setIsFilterOpen(false);
+  const openSettings = () => setIsSettingsOpen(true);
+  const closeSettings = () => setIsSettingsOpen(false);
 
   const applyFilters = (filters: ActiveFilters) => {
     setActiveFilters(filters);
-    setIsFilterOpen(false); // Close panel after applying
+    setIsFilterOpen(false);
     console.log('Filters Applied:', filters);
     // TODO: Logic here to filter the 'events' state based on 'filters'
   };
@@ -88,28 +100,53 @@ export default function Home() {
   const closeSidebar = () => setSelectedEvent(null);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-neutral-900 font-sans">
+    <div className="flex h-screen w-full overflow-hidden bg-neutral-900" style={{ fontFamily: 'var(--app-font-family)', fontSize: 'var(--app-font-size)' }}>
       <Sidebar
         onReportClick={openModal}
         onSearchClick={openSearch}
         isCollapsed={isCollapsed}
         toggleSidebar={toggleSidebar}
         onFilterClick={openFilter}
+        onSettingsClick={openSettings}
       />
       <FilterPanel
-        isOpen={isFilterOpen} // <--- Controls slide-in/out
+        isOpen={isFilterOpen}
         onClose={closeFilter}
         onApplyFilters={applyFilters}
       />
-      <Map
-        events={events}
-        onMarkerClick={setSelectedEvent}
-        mapRef={mapCenterRef}
-        isSideBarCollapsed={isCollapsed}
-      />
+      <SettingsPanel isOpen={isSettingsOpen} onClose={closeSettings} />
+
+      {/* Map Area with Status Bar */}
+      <div className="relative flex-1">
+        <StatusBar eventCount={events.length} isLoading={loading} />
+        <Map
+          events={events}
+          onMarkerClick={setSelectedEvent}
+          mapRef={mapCenterRef}
+          isSideBarCollapsed={isCollapsed}
+        />
+        <TrendingEventsBar
+          events={events}
+          onEventClick={(event) => {
+            setSelectedEvent(event);
+            flyToCoordinates(event.geometry.coordinates);
+          }}
+        />
+      </div>
 
       {/* Search Overlay */}
       {isSearchOpen && <SearchOverlay onClose={closeSearch} onSelectEvent={flyToCoordinates} />}
+
+      {/* Command Palette */}
+      <CommandPalette
+        isOpen={commandPalette.isOpen}
+        onClose={commandPalette.close}
+        events={events}
+        onFlyTo={flyToCoordinates}
+        onOpenFilter={openFilter}
+        onOpenSettings={openSettings}
+        onOpenReport={openModal}
+      />
 
       {loading && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 z-50 text-neutral-950 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md text-sm font-medium">
@@ -121,7 +158,7 @@ export default function Home() {
         icon={<PlusIcon />}
         text="Report a disaster"
         variant="primary"
-        className="absolute top-4 right-10 z-10 shadow-lg"
+        className="absolute top-8 right-10 z-10 shadow-lg"
         onClick={openModal}
       />
       {isModalOpen && (
@@ -132,3 +169,12 @@ export default function Home() {
     </div>
   );
 }
+
+export default function Home() {
+  return (
+    <SettingsProvider>
+      <HomeContent />
+    </SettingsProvider>
+  );
+}
+
