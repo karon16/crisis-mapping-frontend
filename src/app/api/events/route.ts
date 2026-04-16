@@ -10,15 +10,41 @@ interface BackendEvent {
   image_url: string;
   severity: string;
   category: string;
+  type?: string;
   is_informative: boolean;
   created_at: string;
 }
 
-export async function GET() {
+export async function POST(request: Request) {
   try {
+    const formData = await request.formData();
+
+    const res = await fetch('http://203.252.106.25:8000/events', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!res.ok) {
+      throw new Error(`Backend responded with status ${res.status}`);
+    }
+
+    const data = await res.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('API Route POST Error:', error);
+    return NextResponse.json({ error: 'Failed to submit event.' }, { status: 500 });
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const queryString = searchParams.toString();
+    const backendUrl = `http://203.252.106.25:8000/events${queryString ? `?${queryString}` : ''}`;
+
     // 1. Fetch data from your running Python backend
     // Ensure your backend is running on port 8000
-    const res = await fetch('http://203.252.106.25:8000/events', {
+    const res = await fetch(backendUrl, {
       cache: 'no-store',
     });
 
@@ -41,15 +67,21 @@ export async function GET() {
         properties: {
           // Map backend fields to frontend expected properties
           tweet_text: event.text,
-          // Ensure the image URL is absolute.
-          // Note: You might need to adjust 'localhost' if deploying.
-          image_url: `http://203.252.106.25:8000${event.image_url}`,
+          // Handle multiple comma-separated image paths from backend.
+          // Split, prepend base URL to each, and rejoin.
+          image_urls: event.image_url
+            ? event.image_url
+                .split(',')
+                .map((path: string) => `http://203.252.106.25:8000${path.trim()}`)
+                .join(',')
+            : '',
           // llava_text: `AI Classification: `,
           timestamp: event.created_at,
           informativeness: event.is_informative ? 'Informative' : 'Not Informative',
           humanitarian_category: event.category,
           damage_severity: event.severity,
           location_name: event.location_name,
+          type: event.type,
         },
       })),
     };

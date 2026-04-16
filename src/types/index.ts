@@ -10,7 +10,7 @@ export interface CrisisEvent {
   properties: {
     // Core Data
     tweet_text: string;
-    image_url: string;
+    image_urls: string; // Comma-separated list of full image URLs
     llava_text: string;
     timestamp: string;
 

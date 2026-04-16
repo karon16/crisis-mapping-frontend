@@ -31,7 +31,6 @@ interface CommandItem {
 }
 
 // ─── API Stub ─────────────────────────────────────────────────────
-// TODO: Backend team — implement this for AI-powered command suggestions
 export interface CommandSuggestion {
   id: string;
   type: 'event' | 'location' | 'action';
@@ -43,9 +42,6 @@ export interface CommandSuggestion {
 export async function fetchCommandSuggestions(
   _query: string
 ): Promise<CommandSuggestion[]> {
-  // Example future implementation:
-  // const response = await axios.get(`/api/commands/suggest?q=${query}`);
-  // return response.data;
   return [];
 }
 
@@ -69,7 +65,6 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
     if (isOpen) {
       setQuery('');
       setSelectedIndex(0);
-      // Small delay to ensure DOM is ready
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [isOpen]);
@@ -208,16 +203,17 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
+      style={{ backgroundColor: 'var(--t-overlay)' }}
       onClick={onClose}
     >
       <div
-        className="w-full max-w-xl bg-[#0C0A16] border border-gray-700 rounded-xl shadow-2xl shadow-fuchsia-950/20 overflow-hidden"
+        className="w-full max-w-xl bg-[var(--t-bg-primary)] border border-[var(--t-border)] rounded-xl shadow-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
         {/* Search Input */}
-        <div className="flex items-center px-4 border-b border-gray-800">
-          <MagnifyingGlassIcon className="h-5 w-5 text-neutral-500 shrink-0" />
+        <div className="flex items-center px-4 border-b border-[var(--t-border)]">
+          <MagnifyingGlassIcon className="h-5 w-5 text-[var(--t-text-muted)] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -225,9 +221,9 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type a command or search events..."
-            className="flex-1 px-3 py-4 bg-transparent text-white text-sm outline-none placeholder:text-neutral-500"
+            className="flex-1 px-3 py-4 bg-transparent text-[var(--t-text-primary)] text-sm outline-none placeholder:text-[var(--t-text-muted)]"
           />
-          <kbd className="hidden sm:flex items-center gap-1 px-2 py-0.5 text-[10px] text-neutral-500 border border-neutral-700 rounded font-mono">
+          <kbd className="hidden sm:flex items-center gap-1 px-2 py-0.5 text-[10px] text-[var(--t-text-muted)] border border-[var(--t-kbd-border)] rounded font-mono">
             ESC
           </kbd>
         </div>
@@ -235,7 +231,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
         {/* Results */}
         <div ref={listRef} className="max-h-72 overflow-y-auto py-2">
           {allCommands.length === 0 ? (
-            <div className="px-4 py-8 text-center text-neutral-500 text-sm">
+            <div className="px-4 py-8 text-center text-[var(--t-text-muted)] text-sm">
               {query.length > 0
                 ? `No results for "${query}"`
                 : 'Start typing to search...'}
@@ -248,13 +244,13 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                 onMouseEnter={() => setSelectedIndex(index)}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
                   index === selectedIndex
-                    ? 'bg-fuchsia-600/15 text-white'
-                    : 'text-neutral-400 hover:text-neutral-200'
+                    ? 'bg-[var(--t-accent-subtle)] text-[var(--t-text-primary)]'
+                    : 'text-[var(--t-text-secondary)] hover:text-[var(--t-text-primary)]'
                 }`}
               >
                 <span
                   className={`shrink-0 ${
-                    index === selectedIndex ? 'text-fuchsia-400' : 'text-neutral-600'
+                    index === selectedIndex ? 'text-[var(--t-accent-text)]' : 'text-[var(--t-text-muted)]'
                   }`}
                 >
                   {cmd.icon}
@@ -262,14 +258,14 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                 <div className="flex-1 min-w-0">
                   <p className="text-sm truncate">{cmd.title}</p>
                   {cmd.subtitle && (
-                    <p className="text-xs text-neutral-500 truncate">{cmd.subtitle}</p>
+                    <p className="text-xs text-[var(--t-text-muted)] truncate">{cmd.subtitle}</p>
                   )}
                 </div>
                 <span
                   className={`shrink-0 text-[9px] font-mono tracking-wider px-1.5 py-0.5 rounded ${
                     index === selectedIndex
-                      ? 'text-fuchsia-400 bg-fuchsia-900/30'
-                      : 'text-neutral-600'
+                      ? 'text-[var(--t-accent-text)] bg-[var(--t-accent-subtle)]'
+                      : 'text-[var(--t-text-muted)]'
                   }`}
                 >
                   {typeLabel(cmd.type)}
@@ -280,17 +276,17 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
         </div>
 
         {/* Footer Hints */}
-        <div className="flex items-center gap-4 px-4 py-2 border-t border-gray-800 text-[10px] text-neutral-600 font-mono">
+        <div className="flex items-center gap-4 px-4 py-2 border-t border-[var(--t-border)] text-[10px] text-[var(--t-text-muted)] font-mono">
           <span>
-            <kbd className="px-1 py-0.5 border border-neutral-700 rounded mr-1">↑↓</kbd>
+            <kbd className="px-1 py-0.5 border border-[var(--t-kbd-border)] rounded mr-1">↑↓</kbd>
             navigate
           </span>
           <span>
-            <kbd className="px-1 py-0.5 border border-neutral-700 rounded mr-1">↵</kbd>
+            <kbd className="px-1 py-0.5 border border-[var(--t-kbd-border)] rounded mr-1">↵</kbd>
             select
           </span>
           <span>
-            <kbd className="px-1 py-0.5 border border-neutral-700 rounded mr-1">esc</kbd>
+            <kbd className="px-1 py-0.5 border border-[var(--t-kbd-border)] rounded mr-1">esc</kbd>
             close
           </span>
         </div>

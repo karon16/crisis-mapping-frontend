@@ -1,24 +1,24 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import ContinentSelector from '@/components/ContinentSelector';
+import { useSettings } from '@/context/SettingsContext';
+import { SunIcon, MoonIcon, GlobeAltIcon, MapIcon } from '@heroicons/react/24/outline';
 
 interface StatusBarProps {
   eventCount: number;
   isLoading: boolean;
+  onContinentSelect: (center: [number, number], zoom: number) => void;
 }
 
 // ─── API Stub ─────────────────────────────────────────────────────
-// TODO: Backend team — implement this endpoint for system status
 export interface SystemStatus {
   eventCount: number;
   alertLevel: 'normal' | 'elevated' | 'critical';
-  lastSync: string; // ISO timestamp
+  lastSync: string;
 }
 
 export async function fetchSystemStatus(): Promise<SystemStatus | null> {
-  // Example future implementation:
-  // const response = await axios.get('/api/system/status');
-  // return response.data;
   return null;
 }
 
@@ -54,11 +54,18 @@ function useUTCClock() {
 }
 
 // ─── Status Bar Component ─────────────────────────────────────────
-const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinentSelect }) => {
   const utcTime = useUTCClock();
+  const { settings, updateSetting } = useSettings();
+  const isDark = settings.theme === 'dark';
+  const isGlobe = settings.mapProjection === 'globe';
+
+  const toggleTheme = () => {
+    updateSetting('theme', isDark ? 'light' : 'dark');
+  };
 
   return (
-    <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-1.5 bg-[#0C0A16]/80 backdrop-blur-sm border-b border-gray-800/50 text-xs select-none">
+    <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-1.5 bg-[var(--t-bg-primary)]/80 backdrop-blur-sm border-b border-[var(--t-border-subtle)] text-xs select-none theme-transition">
       {/* Left — Event Count */}
       <div className="flex items-center gap-2">
         <span className="relative flex h-2 w-2">
@@ -73,26 +80,74 @@ const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading }) => {
             }`}
           />
         </span>
-        <span className="text-neutral-400 font-mono tracking-wide">
+        <span className="text-[var(--t-text-secondary)] font-mono tracking-wide">
           {isLoading ? (
             'SYNCING...'
           ) : (
             <>
-              <span className="text-white font-semibold">{eventCount}</span>{' '}
+              <span className="text-[var(--t-text-primary)] font-semibold">{eventCount}</span>{' '}
               ACTIVE EVENTS
             </>
           )}
         </span>
       </div>
 
-      {/* Center — UTC Clock */}
-      <div className="text-neutral-400 font-mono tracking-wider">
-        {utcTime}
+      {/* Center — Continent Selector + UTC Clock */}
+      <div className="flex items-center gap-4">
+        <ContinentSelector onSelect={onContinentSelect} />
+        <div className="text-[var(--t-text-secondary)] font-mono tracking-wider">
+          {utcTime}
+        </div>
       </div>
 
-      {/* Right — App Name */}
-      <div className="text-neutral-500 font-mono tracking-widest text-[10px] uppercase">
-        Atreides Crisis Map <span className="text-neutral-700">v0.1.0</span>
+      {/* Right — Project/Theme Toggles + App Name */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5">
+          {/* Projection Segmented Control */}
+          <div className="flex bg-[var(--t-bg-secondary)] border border-[var(--t-border)] rounded-md overflow-hidden">
+            <button
+              onClick={() => updateSetting('mapProjection', 'mercator')}
+              className={`flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-all duration-200 ${
+                !isGlobe
+                  ? 'bg-[var(--t-accent-subtle)] text-[var(--t-accent-text)]'
+                  : 'text-[var(--t-text-secondary)] hover:text-[var(--t-text-primary)] hover:bg-[var(--t-bg-hover)]'
+              }`}
+              title="Switch to Flat (2D) projection"
+            >
+              <MapIcon className="h-3.5 w-3.5" />
+              <span className="font-mono tracking-wide hidden sm:inline">2D</span>
+            </button>
+            <button
+              onClick={() => updateSetting('mapProjection', 'globe')}
+              className={`flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-all duration-200 border-l border-[var(--t-border)] ${
+                isGlobe
+                  ? 'bg-[var(--t-accent-subtle)] text-[var(--t-accent-text)]'
+                  : 'text-[var(--t-text-secondary)] hover:text-[var(--t-text-primary)] hover:bg-[var(--t-bg-hover)]'
+              }`}
+              title="Switch to Globe (3D) projection"
+            >
+              <GlobeAltIcon className="h-3.5 w-3.5" />
+              <span className="font-mono tracking-wide hidden sm:inline">3D</span>
+            </button>
+          </div>
+          <button
+            onClick={toggleTheme}
+            className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 border bg-[var(--t-bg-secondary)] border-[var(--t-border)] text-[var(--t-text-secondary)] hover:text-[var(--t-text-primary)] hover:border-[var(--t-accent)]"
+            title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          >
+            {isDark ? (
+              <SunIcon className="h-3.5 w-3.5" />
+            ) : (
+              <MoonIcon className="h-3.5 w-3.5" />
+            )}
+            <span className="font-mono tracking-wide hidden sm:inline">
+              {isDark ? 'Light' : 'Dark'}
+            </span>
+          </button>
+        </div>
+        <div className="text-[var(--t-text-muted)] font-mono tracking-widest text-[10px] uppercase">
+          Atreides Crisis Map <span className="opacity-50">v0.1.0</span>
+        </div>
       </div>
     </div>
   );

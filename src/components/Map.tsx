@@ -2,6 +2,9 @@
 import { useRef, useEffect, useState, RefObject } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { CrisisEvent } from '@/types';
+import { useSettings } from '@/context/SettingsContext';
+import { createRoot } from 'react-dom/client';
+import { PopupContent } from './PopupContent';
 // @ts-ignore: CSS module without type declarations
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -21,6 +24,9 @@ const Map: React.FC<MapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const { settings } = useSettings();
+
+  // multiple images
 
 
 
@@ -30,11 +36,13 @@ const Map: React.FC<MapProps> = ({
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
+      // make the style dynamic as well
       style: 'mapbox://styles/karon16/cmmlpp59k00ik01sj5jp0cvgv',
       // style: 'mapbox://styles/mapbox/standard',
       center: [30, 0],
       
       zoom: 2,
+      projection: settings.mapProjection as any, // Set initial projection dynamically
       config: {
         basemap: {
           theme: 'monochrome',
@@ -42,6 +50,16 @@ const Map: React.FC<MapProps> = ({
         },
       },
     });
+
+    map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+    map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: true,
+      }),
+      'bottom-right'
+    );
 
     // Assign the map instance to the external ref
     mapRef.current = map;
@@ -56,6 +74,51 @@ const Map: React.FC<MapProps> = ({
       map.remove();
     };
   }, []);
+
+  const prevThemeRef = useRef(settings.theme);
+
+  const DARK_STYLE = 'mapbox://styles/karon16/cmmlpp59k00ik01sj5jp0cvgv';
+  const LIGHT_STYLE = 'mapbox://styles/mapbox/standard';
+
+  // Apply projection changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoaded) return;
+    map.setProjection(settings.mapProjection);
+  }, [settings.mapProjection, isMapLoaded]);
+
+  // Switch map style when theme changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoaded) return;
+
+    // Skip the initial run — map was already initialized with the correct style
+    if (prevThemeRef.current === settings.theme) return;
+    prevThemeRef.current = settings.theme;
+
+    const isDark = settings.theme === 'dark';
+
+    // Must swap the entire style because the custom style doesn't support basemap config
+    setIsMapLoaded(false);
+    map.setStyle(isDark ? DARK_STYLE : LIGHT_STYLE);
+
+    map.once('style.load', () => {
+      // Apply config properties for the Standard style (light mode)
+      if (!isDark) {
+        try {
+          map.setConfigProperty('basemap', 'lightPreset', 'dawn');
+          map.setConfigProperty('basemap', 'theme', 'monochrome');
+        } catch (e) {
+          console.warn('[Map] Could not set config:', e);
+        }
+      }
+      // Re-apply projection
+      map.setProjection(settings.mapProjection);
+      // This triggers the events useEffect to re-add source/layers
+      setIsMapLoaded(true);
+    });
+  }, [settings.theme, isMapLoaded]);
+
 
   useEffect(() => {
     const map = mapRef.current;
@@ -142,6 +205,18 @@ const Map: React.FC<MapProps> = ({
       },
     });
 
+    // Remove previous interactions if they exist (they survive setStyle)
+    const interactionIds = [
+      'click-clusters',
+      'mouseenter-unclustered',
+      'mouseleave-unclustered',
+      'mouseenter-clusters',
+      'mouseleave-clusters',
+    ];
+    for (const id of interactionIds) {
+      try { map.removeInteraction(id); } catch (_) { /* may not exist yet */ }
+    }
+
     // Click event cluster points
     mapRef.current?.addInteraction('click-clusters', {
       type: 'click',
@@ -166,46 +241,22 @@ const Map: React.FC<MapProps> = ({
 
     // Click event for unclustered points
     map.on('click', 'unclustered-point', e => {
-      const coordinates = (e.features?.[0].geometry as any).coordinates.slice();
-      const props = e.features?.[0].properties;
+      if (!e.features || e.features.length === 0) return;
+      const coordinates = (e.features[0].geometry as any).coordinates.slice();
+      const props = e.features[0].properties;
 
       if (!props) return;
 
-      const popupContent = `
-        <div class=" font-sans text-neutral-900 p-1 max-w-xs">
-          <div class="flex justify-between items-start mb-2">
-            <h3 class="text-lg font-bold m-0">${props.title || 'Crisis Event'}</h3>
-            <!-- Close button is handled by Mapbox default UI, but you can custom style it via CSS -->
-          </div>
-          
-          <p class="text-xs text-neutral-700 mb-3">
-            ${props.timestamp ? new Date(props.timestamp).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Date Unknown'}
-            <br>
-            Long: ${coordinates[0].toFixed(3)} Lat: ${coordinates[1].toFixed(3)}
-          </p>
-
-          <div class="flex flex-wrap gap-1 mb-3">
-            <span class="bg-zinc-200 border border-zinc-700 text-neutral-900 text-xs px-2 py-1 rounded">${props.informativeness || 'Informative'}</span>
-            <span class="bg-zinc-200 border border-zinc-700 text-neutral-900 text-xs px-2 py-1 rounded">${props.humanitarian_category || 'Damage'}</span>
-            <span class="bg-zinc-200 border border-zinc-700 text-neutral-900 text-xs px-2 py-1 rounded">${props.damage_severity || 'Severity'}</span>
-          </div>
-
-          <p class="text-sm text-neutral-700 mb-4 leading-relaxed">
-            ${props.tweet_text || 'No description available.'}
-          </p>
-
-          <div class="grid grid-cols-1 w-full   h-full  gap-2 mb-3">
-             <!-- Example images - replace src with props.image_url -->
-             <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700" />
-             <!-- Placeholders for gallery look 
-             <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" />
-             <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" />
-             <img src="${props.image_url}" class="w-full h-12 object-cover rounded border border-zinc-700 opacity-50" /> -->
-          </div>
-
-          <a href="#" class="text-purple-500 text-xs hover:underline">Search on the web ></a>
-        </div>
-      `;
+      const popupNode = document.createElement('div');
+      popupNode.style.width = '200px';
+      
+      const root = createRoot(popupNode);
+      root.render(
+        <PopupContent 
+          props={props} 
+          coordinates={coordinates as [number, number]} 
+        />
+      );
 
       new mapboxgl.Popup({
         offset: 25,
@@ -213,9 +264,15 @@ const Map: React.FC<MapProps> = ({
         closeOnClick: true,
         className: 'custom-mapbox-popup',
       })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
+        .setLngLat(coordinates as [number, number])
+        .setDOMContent(popupNode)
         .addTo(map);
+
+      // Center map on the selected marker to keep the popup visible
+      map.easeTo({
+        center: coordinates as [number, number],
+        offset: [0, 100], // Slight offset to account for popup height visually
+      });
     });
 
     mapRef.current?.addInteraction('mouseenter-unclustered', {
@@ -257,7 +314,7 @@ const Map: React.FC<MapProps> = ({
   }, [events, isMapLoaded, onMarkerClick]);
 
   return (
-    <div className={`flex-1 w-full h-dvh bg-[#0C0A16] transition-all duration-300 ease-in-out `}>
+    <div className={`flex-1 w-full h-dvh bg-[var(--t-bg-primary)] transition-all duration-300 ease-in-out`}>
       <div ref={mapContainerRef} className="w-full h-full" />
     </div>
   );

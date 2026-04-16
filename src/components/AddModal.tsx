@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, Children } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
 interface AddModalProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,17 +19,18 @@ const AddModal: React.FC<AddModalProps> = props => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center  bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+      style={{ backgroundColor: 'var(--t-overlay-light)' }}
       onClick={handleBackdropClick}
     >
       <div
         ref={modalContentRef}
-        className="border border-neutral-800 relative flex flex-col w-full max-w-2xl max-h-[90vh] p-6 bg-white dark:bg-neutral-900 rounded-xl shadow-2xl"
+        className="border border-[var(--t-border)] relative flex flex-col w-full max-w-2xl max-h-[90vh] p-6 bg-[var(--t-bg-primary)] rounded-xl shadow-2xl theme-transition"
       >
         <div className="flex justify-between items-center mb-4 flex-shrink-0">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Report a Disaster</h2>
+          <h2 className="text-2xl font-bold text-[var(--t-text-primary)]">Report a Disaster</h2>
           <XMarkIcon
-            className="w-6 h-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 cursor-pointer"
+            className="w-6 h-6 text-[var(--t-text-muted)] hover:text-[var(--t-text-primary)] cursor-pointer transition-colors"
             onClick={props.onClose}
           />
         </div>

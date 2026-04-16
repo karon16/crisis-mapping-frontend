@@ -51,12 +51,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   onFilterClick,
   onSettingsClick,
 }) => {
-  // const [isCollapsed, setIsCollapsed] = useState(false);
-
-  // const toggleSidebar = () => {
-  //   setIsCollapsed(!isCollapsed);
-  // };
-  // Menu Item Component
   const MenuItem = ({
     icon: Icon,
     label,
@@ -68,11 +62,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   }) => (
     <div
       onClick={onClick}
-      className="flex items-center gap-4 p-3 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors mb-2"
+      className="flex items-center gap-4 p-3 hover:bg-[var(--t-bg-hover)] rounded-lg cursor-pointer transition-colors mb-2"
     >
-      <Icon size={24} className="text-white min-w-6" />
+      <Icon size={24} className="text-[var(--t-text-primary)] min-w-6" />
       <span
-        className={`text-gray-300 whitespace-nowrap transition-all duration-300 ${
+        className={`text-[var(--t-text-secondary)] whitespace-nowrap transition-all duration-300 ${
           isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto'
         }`}
       >
@@ -83,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div
-      className={`h-dvh bg-[#0C0A16] border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out ${
+      className={`h-dvh bg-[var(--t-bg-primary)] border-r border-[var(--t-border)] flex flex-col transition-all duration-300 ease-in-out theme-transition ${
         isCollapsed ? 'w-20' : 'w-72'
       }`}
     >
@@ -98,15 +92,15 @@ const Sidebar: React.FC<SidebarProps> = ({
               className="object-contain"
             />
             <div className="flex flex-col">
-              <span className="font-bold text-white text-sm leading-none">Atreides</span>
-              <span className="text-gray-400 text-xs mt-1">Crisis Map</span>
+              <span className="font-bold text-[var(--t-text-primary)] text-sm leading-none">Atreides</span>
+              <span className="text-[var(--t-text-muted)] text-xs mt-1">Crisis Map</span>
             </div>
           </div>
         )}
 
         <button
           onClick={toggleSidebar}
-          className="text-white p-1 hover:bg-gray-800 rounded transition-colors"
+          className="text-[var(--t-text-primary)] p-1 hover:bg-[var(--t-bg-hover)] rounded transition-colors"
         >
           <Menu size={20} />
         </button>
@@ -120,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Bottom Section */}
-      <div className="p-3 border-t border-gray-800">
+      <div className="p-3 border-t border-[var(--t-border)]">
         <MenuItem icon={Settings} label="Settings" onClick={onSettingsClick} />
         <Link href="/about">
           <MenuItem icon={Info} label="About" />

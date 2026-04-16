@@ -22,7 +22,6 @@ export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayP
   const [loading, setLoading] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // search function
   const performSearch = useCallback(async (query: string) => {
     if (query.length < 3) {
       setSearchResults([]);
@@ -31,23 +30,16 @@ export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayP
 
     setLoading(true);
 
-    //TODO: Replace with actual search API call
     try {
-      const apiResponse = await axios.get('/api/events');
+      const apiResponse = await axios.get(`/api/events?search=${encodeURIComponent(query)}`);
       const allEvents = apiResponse.data.features as CrisisEvent[];
 
-      const filteredResults = allEvents
-        .filter(
-          event =>
-            event.properties.tweet_text.toLowerCase().includes(query.toLowerCase()) ||
-            event.properties.humanitarian_category.toLowerCase().includes(query.toLowerCase())
-        )
-        .map(event => ({
-          id: event.id,
-          text: event.properties.tweet_text,
-          category: event.properties.humanitarian_category,
-          coordinates: event.geometry.coordinates,
-        }));
+      const filteredResults = allEvents.map((event: any) => ({
+        id: event.id,
+        text: event.properties.tweet_text,
+        category: event.properties.humanitarian_category,
+        coordinates: event.geometry.coordinates,
+      }));
 
       setSearchResults(filteredResults.slice(0, 10));
     } catch (error) {
@@ -90,17 +82,17 @@ export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayP
   const SearchInput = useMemo(
     () => (
       <div className="relative w-full max-w-2xl">
-        <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-500" />
+        <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-[var(--t-text-muted)]" />
         <input
           ref={searchInputRef}
           type="text"
           placeholder="Search events by text or category..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          className="w-full pl-12 pr-12 py-4 text-xl border-2 border-neutral-700 rounded-xl shadow-2xl focus:ring-neutral-500 focus:border-neutral-500 dark:bg-neutral-800 outline-none dark:text-white transition-shadow"
+          className="w-full pl-12 pr-12 py-4 text-xl border-2 border-[var(--t-border)] rounded-xl shadow-2xl bg-[var(--t-bg-secondary)] text-[var(--t-text-primary)] outline-none focus:border-[var(--t-accent)] transition-shadow placeholder:text-[var(--t-text-muted)]"
         />
         {loading && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-fuchsia-600">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--t-accent-text)]">
             Loading...
           </div>
         )}
@@ -110,36 +102,39 @@ export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayP
   ); 
 
   return (
-    <div className="fixed inset-0 z-20 flex flex-col items-center pt-24 bg-black/90 backdrop-blur-md">
+    <div
+      className="fixed inset-0 z-20 flex flex-col items-center pt-24 backdrop-blur-md"
+      style={{ backgroundColor: 'var(--t-overlay)' }}
+    >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-white hover:text-fuchsia-400 transition-colors p-2 rounded-full z-30"
+        className="absolute top-6 right-6 text-[var(--t-text-primary)] hover:text-[var(--t-accent-text)] transition-colors p-2 rounded-full z-30 dark:text-white text-white"
       >
         <XMarkIcon className="h-8 w-8" />
       </button>
 
-      {/* Central Search Input (Use the memoized component) */}
+      {/* Central Search Input */}
       {SearchInput}
 
       {/* Search Results List */}
       <div className="mt-8 w-full max-w-2xl space-y-2 max-h-96 overflow-y-auto">
         {isResultsVisible && (
-          <div className="bg-neutral-800 p-4 rounded-xl shadow-lg border border-neutral-700">
+          <div className="bg-[var(--t-bg-secondary)] p-4 rounded-xl shadow-lg border border-[var(--t-border)]">
             {searchResults.length > 0 ? (
-              <ul className="divide-y divide-neutral-700">
+              <ul className="divide-y divide-[var(--t-border)]">
                 {searchResults.map(result => (
                   <li
                     key={result.id}
                     onClick={() => handleResultClick(result)}
-                    className="p-3 hover:bg-neutral-700 cursor-pointer transition-colors rounded-lg text-white"
+                    className="p-3 hover:bg-[var(--t-bg-hover)] cursor-pointer transition-colors rounded-lg text-[var(--t-text-primary)]"
                   >
                     <p className="font-medium text-sm truncate">{result.text}</p>
-                    <p className="text-xs text-fuchsia-400">{result.category}</p>
+                    <p className="text-xs text-[var(--t-accent-text)]">{result.category}</p>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-center text-gray-400">No events found matching "{searchTerm}".</p>
+              <p className="text-center text-[var(--t-text-muted)]">No events found matching "{searchTerm}".</p>
             )}
           </div>
         )}

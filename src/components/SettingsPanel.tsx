@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useSettings, AppSettings } from '@/context/SettingsContext';
+import { useSettings } from '@/context/SettingsContext';
 
 interface SettingsPanelProps {
   isOpen: boolean;
@@ -24,8 +24,8 @@ function OptionButton({
       onClick={onClick}
       className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
         selected
-          ? 'bg-fuchsia-600 text-white shadow-md shadow-fuchsia-900/30'
-          : 'bg-[#191724] text-neutral-400 border border-neutral-700 hover:border-neutral-500 hover:text-neutral-200'
+          ? 'bg-[var(--t-accent)] text-white shadow-md'
+          : 'bg-[var(--t-bg-primary)] text-[var(--t-text-secondary)] border border-[var(--t-border)] hover:border-[var(--t-text-muted)] hover:text-[var(--t-text-primary)]'
       }`}
     >
       {label}
@@ -45,7 +45,7 @@ function ToggleSwitch({
     <button
       onClick={() => onChange(!checked)}
       className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-        checked ? 'bg-fuchsia-600' : 'bg-neutral-700'
+        checked ? 'bg-[var(--t-accent)]' : 'bg-[var(--t-bg-hover)]'
       }`}
     >
       <span
@@ -65,14 +65,14 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-[24rem] bg-[#0C0A16] border-l border-gray-800 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20`}
+      className={`fixed top-0 right-0 h-full w-[24rem] bg-[var(--t-bg-primary)] border-l border-[var(--t-border)] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20 theme-transition`}
     >
       {/* Header */}
       <div className="p-5 pb-3 flex justify-between items-center">
-        <h2 className="text-md font-bold text-neutral-200">Settings</h2>
+        <h2 className="text-md font-bold text-[var(--t-text-primary)]">Settings</h2>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors p-2 rounded-full"
+          className="text-[var(--t-text-muted)] hover:text-[var(--t-text-primary)] transition-colors p-2 rounded-full"
         >
           <XMarkIcon className="h-6 w-6" />
         </button>
@@ -81,9 +81,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
       {/* Settings Sections */}
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
         {/* Font Family */}
-        <div className="p-4 bg-[#191724] rounded-lg border border-neutral-800 space-y-3">
-          <h3 className="text-sm font-semibold text-white tracking-wider">Font Family</h3>
-          <p className="text-xs text-neutral-500">Choose the typeface for the interface</p>
+        <div className="p-4 bg-[var(--t-bg-secondary)] rounded-lg border border-[var(--t-border)] space-y-3">
+          <h3 className="text-sm font-semibold text-[var(--t-text-primary)] tracking-wider">Font Family</h3>
+          <p className="text-xs text-[var(--t-text-muted)]">Choose the typeface for the interface</p>
           <div className="flex gap-2">
             <OptionButton
               label="Sans-serif"
@@ -97,7 +97,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
             />
           </div>
           <p
-            className="text-xs text-neutral-500 mt-2 p-2 bg-[#0C0A16] rounded border border-neutral-800"
+            className="text-xs text-[var(--t-text-muted)] mt-2 p-2 bg-[var(--t-bg-primary)] rounded border border-[var(--t-border)]"
             style={{
               fontFamily:
                 settings.fontFamily === 'mono'
@@ -110,9 +110,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Font Size */}
-        <div className="p-4 bg-[#191724] rounded-lg border border-neutral-800 space-y-3">
-          <h3 className="text-sm font-semibold text-white tracking-wider">Font Size</h3>
-          <p className="text-xs text-neutral-500">Adjust the base text size across the app</p>
+        <div className="p-4 bg-[var(--t-bg-secondary)] rounded-lg border border-[var(--t-border)] space-y-3">
+          <h3 className="text-sm font-semibold text-[var(--t-text-primary)] tracking-wider">Font Size</h3>
+          <p className="text-xs text-[var(--t-text-muted)]">Adjust the base text size across the app</p>
           <div className="flex gap-2">
             <OptionButton
               label="Small"
@@ -133,11 +133,11 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Map Labels */}
-        <div className="p-4 bg-[#191724] rounded-lg border border-neutral-800 space-y-3">
+        <div className="p-4 bg-[var(--t-bg-secondary)] rounded-lg border border-[var(--t-border)] space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider">Map Labels</h3>
-              <p className="text-xs text-neutral-500 mt-1">
+              <h3 className="text-sm font-semibold text-[var(--t-text-primary)] tracking-wider">Map Labels</h3>
+              <p className="text-xs text-[var(--t-text-muted)] mt-1">
                 Show country and city names on the map
               </p>
             </div>
@@ -148,24 +148,49 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Theme (locked to dark for now) */}
-        <div className="p-4 bg-[#191724] rounded-lg border border-neutral-800 space-y-3">
-          <h3 className="text-sm font-semibold text-white tracking-wider">Theme</h3>
-          <p className="text-xs text-neutral-500">More themes coming soon</p>
+        {/* Map Projection */}
+        <div className="p-4 bg-[var(--t-bg-secondary)] rounded-lg border border-[var(--t-border)] space-y-3">
+          <h3 className="text-sm font-semibold text-[var(--t-text-primary)] tracking-wider">Map Projection</h3>
+          <p className="text-xs text-[var(--t-text-muted)]">Switch between globe and flat map views</p>
+          <div className="flex flex-wrap gap-2">
+            <OptionButton
+              label="Globe"
+              selected={settings.mapProjection === 'globe'}
+              onClick={() => updateSetting('mapProjection', 'globe')}
+            />
+            <OptionButton
+              label="Mercator"
+              selected={settings.mapProjection === 'mercator'}
+              onClick={() => updateSetting('mapProjection', 'mercator')}
+            />
+            <OptionButton
+              label="Equal Earth"
+              selected={settings.mapProjection === 'equalEarth'}
+              onClick={() => updateSetting('mapProjection', 'equalEarth')}
+            />
+            <OptionButton
+              label="Equirectangular"
+              selected={settings.mapProjection === 'equirectangular'}
+              onClick={() => updateSetting('mapProjection', 'equirectangular')}
+            />
+          </div>
+        </div>
+
+        {/* Theme */}
+        <div className="p-4 bg-[var(--t-bg-secondary)] rounded-lg border border-[var(--t-border)] space-y-3">
+          <h3 className="text-sm font-semibold text-[var(--t-text-primary)] tracking-wider">Theme</h3>
+          <p className="text-xs text-[var(--t-text-muted)]">Choose your preferred appearance</p>
           <div className="flex gap-2">
-            <OptionButton label="Dark" selected={true} onClick={() => {}} />
-            <button
-              disabled
-              className="px-3 py-2 rounded-lg text-sm font-medium bg-[#191724] text-neutral-600 border border-neutral-800 cursor-not-allowed"
-            >
-              Light
-            </button>
-            <button
-              disabled
-              className="px-3 py-2 rounded-lg text-sm font-medium bg-[#191724] text-neutral-600 border border-neutral-800 cursor-not-allowed"
-            >
-              System
-            </button>
+            <OptionButton
+              label="Dark"
+              selected={settings.theme === 'dark'}
+              onClick={() => updateSetting('theme', 'dark')}
+            />
+            <OptionButton
+              label="Light"
+              selected={settings.theme === 'light'}
+              onClick={() => updateSetting('theme', 'light')}
+            />
           </div>
         </div>
       </div>
@@ -177,13 +202,13 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
             resetSettings();
             onClose();
           }}
-          className="py-2 px-4 border border-neutral-100 text-slate-400 rounded-lg transition-colors hover:text-white"
+          className="py-2 px-4 border border-[var(--t-border)] text-[var(--t-text-secondary)] rounded-lg transition-colors hover:text-[var(--t-text-primary)]"
         >
           Reset to Defaults
         </button>
         <button
           onClick={onClose}
-          className="py-2 px-4 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700 transition-colors"
+          className="py-2 px-4 bg-[var(--t-accent)] text-white rounded-lg hover:bg-[var(--t-accent-hover)] transition-colors"
         >
           Done
         </button>

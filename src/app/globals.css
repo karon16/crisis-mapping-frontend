@@ -1,71 +1,176 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  /* --font-size: 15px; */
+/* ============================================
+   Theme Tokens — Dark (default)
+   ============================================ */
+:root,
+[data-theme="dark"] {
+  --t-bg-primary:    #0C0A16;
+  --t-bg-secondary:  #191724;
+  --t-bg-elevated:   #1a1728;
+  --t-bg-hover:      #2f2d3b;
+  --t-border:        #2e2c3a;
+  --t-border-subtle: #232136;
+  --t-text-primary:  #f0f0f0;
+  --t-text-secondary:#a0a0b0;
+  --t-text-muted:    #6b6b80;
+  --t-accent:        #c026d3;
+  --t-accent-hover:  #a21caf;
+  --t-accent-subtle: rgba(192,38,211,0.15);
+  --t-accent-text:   #e879f9;
+  --t-overlay:       rgba(0,0,0,0.8);
+  --t-overlay-light: rgba(0,0,0,0.5);
+  --t-status-ok:     #10b981;
+  --t-status-warn:   #f59e0b;
+  --t-kbd-border:    #404040;
+
+  /* Popup-specific (these are always light since they sit on map) */
+  --t-popup-bg:      #1f1f1f;
+  --t-popup-border:  #404040;
+  --t-popup-heading: #f9fafb;
+  --t-popup-text:    #d1d5db;
+  --t-popup-badge-bg:#374151;
+  --t-popup-badge-border: #4b5563;
+  --t-popup-badge-text: #e5e7eb;
+  --t-popup-close:   #9ca3af;
+  --t-popup-close-hover: #e5e7eb;
+  --t-popup-link:    #c084fc;
+  --t-popup-link-hover: #e9d5ff;
+  --t-popup-img-border: #404040;
 }
 
+/* ============================================
+   Theme Tokens — Light
+   ============================================ */
+[data-theme="light"] {
+  --t-bg-primary:    #ffffff;
+  --t-bg-secondary:  #f4f4f5;
+  --t-bg-elevated:   #ffffff;
+  --t-bg-hover:      #e4e4e7;
+  --t-border:        #d4d4d8;
+  --t-border-subtle: #e4e4e7;
+  --t-text-primary:  #18181b;
+  --t-text-secondary:#52525b;
+  --t-text-muted:    #a1a1aa;
+  --t-accent:        #a21caf;
+  --t-accent-hover:  #86198f;
+  --t-accent-subtle: rgba(162,28,175,0.1);
+  --t-accent-text:   #a21caf;
+  --t-overlay:       rgba(0,0,0,0.5);
+  --t-overlay-light: rgba(0,0,0,0.3);
+  --t-status-ok:     #059669;
+  --t-status-warn:   #d97706;
+  --t-kbd-border:    #d4d4d8;
+
+  --t-popup-bg:      #ffffff;
+  --t-popup-border:  #e5e7eb;
+  --t-popup-heading: #111827;
+  --t-popup-text:    #4b5563;
+  --t-popup-badge-bg:#f3f4f6;
+  --t-popup-badge-border: #d1d5db;
+  --t-popup-badge-text: #374151;
+  --t-popup-close:   #6b7280;
+  --t-popup-close-hover: #111827;
+  --t-popup-link:    #9d00b9;
+  --t-popup-link-hover: #7e22ce;
+  --t-popup-img-border: #e5e7eb;
+}
+
+/* ============================================
+   Tailwind Theme Inline — expose vars
+   ============================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--t-bg-primary);
+  --color-foreground: var(--t-text-primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ============================================
+   Base Styles
+   ============================================ */
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--t-bg-primary);
+  color: var(--t-text-primary);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button, button:focus, button:hover, button:active, button {
-  border: none ;
+button, button:focus, button:hover, button:active {
+  border: none;
   outline: none;
   cursor: pointer;
-
 }
 
-.custom-mapbox-popup{
-width: 600px;
-/* background-color: red; */
+/* ============================================
+   Custom Mapbox Popup
+   ============================================ */
+.custom-mapbox-popup {
+  width: 600px;
 }
 
-.filter-container{
+.custom-mapbox-popup .mapboxgl-popup-content {
+  background-color: var(--t-popup-bg);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--t-popup-border);
+  width: 500px;
+  max-width: 500px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.custom-mapbox-popup .mapboxgl-popup-tip {
+  border-top-color: var(--t-popup-bg) !important;
+  border-bottom-color: var(--t-popup-bg) !important;
+}
+
+.custom-mapbox-popup .mapboxgl-popup-close-button {
+  font-size: 1.25rem;
+  color: var(--t-popup-close);
+  padding: 0.25rem 0.5rem;
+  right: 0.5rem;
+  top: 0.5rem;
+  transition: all 0.2s;
+  background: none !important;
+}
+
+.custom-mapbox-popup .mapboxgl-popup-close-button:hover {
+  color: var(--t-popup-close-hover);
+  background: none !important;
+  border-radius: 0.25rem;
+}
+
+
+
+/* ============================================
+   Filter Container — hide scrollbar
+   ============================================ */
+.filter-container {
   ::-webkit-scrollbar {
     width: 0px;
     height: 0px;
   }
 }
 
-
-
+/* ============================================
+   Custom Checkbox
+   ============================================ */
 input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
 }
+
 input[type="checkbox"].rounded-full {
   border-radius: 9999px;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   width: 16px;
   height: 16px;
-
 }
 
-
 input[type="checkbox"]:checked {
-  background-color: var(--fuchsia-600, #c026d3);
-  /* border-color: var(--fuchsia-600, #c026d3); */
+  background-color: var(--t-accent);
   width: 16px;
   height: 16px;
 }
@@ -73,53 +178,45 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked:after {
   content: '';
   display: block;
-  width: 7px; 
+  width: 7px;
   height: 7px;
   border-radius: 50%;
   background-color: white;
   position: relative;
-  left: 8px; 
-  top: 8px;  
+  left: 8px;
+  top: 8px;
   transform: translate(-50%, -50%);
 }
 
-
-/* Main geocoder container */
+/* ============================================
+   Mapbox Geocoder Custom Styles
+   ============================================ */
 #geocoder-container .mapboxgl-ctrl-geocoder {
   width: 100%;
   max-width: none;
   box-shadow: none;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--t-border);
   border-radius: 0.5rem;
   font-size: 0.875rem;
   outline: none;
-  border-radius: 0.5rem;
-  outline: none;
-
-
+  background-color: var(--t-bg-secondary);
 }
 
-#geocoder-container .mapboxgl-ctrl-geocoder *{
+#geocoder-container .mapboxgl-ctrl-geocoder * {
   outline: none !important;
-
 }
 
-/* Input field */
 #geocoder-container .mapboxgl-ctrl-geocoder--input {
   height: 2.5rem;
   padding: 0.75rem;
   font-size: 0.875rem;
-  color: #111827;
+  color: var(--t-text-primary);
   outline: none;
   border-radius: 0.5rem;
   border: none !important;
-
-
+  background-color: var(--t-bg-secondary);
 }
 
-
-
-/* Search icon */
 #geocoder-container .mapboxgl-ctrl-geocoder--icon-search {
   position: absolute;
   top: 10px;
@@ -128,355 +225,56 @@ input[type="checkbox"]:checked:after {
   height: 20px;
 }
 
-/* Loading icon */
 #geocoder-container .mapboxgl-ctrl-geocoder--icon-loading {
   top: 10px;
   right: 10px;
 }
 
-/* Clear button */
 #geocoder-container .mapboxgl-ctrl-geocoder--button {
   top: 5px;
   right: 5px;
   background: none;
 }
-#geocoder-container .mapboxgl-ctrl-geocoder--input{
+
+#geocoder-container .mapboxgl-ctrl-geocoder--input {
   padding-left: 35px !important;
 }
-#geocoder-container .mapboxgl-ctrl-geocoder--input::placeholder{
+
+#geocoder-container .mapboxgl-ctrl-geocoder--input::placeholder {
   position: absolute;
   left: 35px;
   border: none;
-
 }
 
-/* Focus state */
 #geocoder-container .mapboxgl-ctrl-geocoder--input:focus {
   outline: none !important;
   border: none !important;
-
   border-radius: 0.5rem;
-
-  /* border-color: #c026d3; Fuchsia-600 */
-  /* box-shadow: 0 0 0 3px rgba(192, 38, 211, 0.1); */
-
 }
 
-/* Suggestions dropdown wrapper */
+#geocoder-container .mapboxgl-ctrl-geocoder--icon {
+  fill: var(--t-text-muted);
+}
+
 #geocoder-container .suggestions-wrapper {
   border-radius: 0.5rem;
-  /* border: 1px solid #d1d5db; */
   margin-top: 0.25rem;
-  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); */
   border: none !important;
   outline: none !important;
-  
+  background-color: var(--t-bg-secondary);
 }
 
-/* Individual suggestion items */
 #geocoder-container .suggestions li {
   padding: 0.625rem 0.75rem;
   font-size: 0.875rem;
+  color: var(--t-text-primary);
+  border: none;
 }
 
-/* Hover and active states for suggestions */
 #geocoder-container .suggestions li:hover,
 #geocoder-container .suggestions li.active {
-  background-color:red ;
-  color: #7e22ce; /* Purple-700 */
-}
-
-/* ============================================
-   Dark Mode Styles
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  /* Main container dark mode */
-  #geocoder-container .mapboxgl-ctrl-geocoder {
-    background-color: #262626; /* Neutral-800 */
-    border-color: #404040; /* Gray-700 */
-  }
-  
-  /* Input field dark mode */
-  #geocoder-container .mapboxgl-ctrl-geocoder--input {
-    background-color: #262626;
-    color: #ffffff;
-  }
-  
-  /* Icons dark mode */
-  #geocoder-container .mapboxgl-ctrl-geocoder--icon {
-    fill: #9ca3af; /* Gray-400 */
-  }
-  
-  /* Dropdown dark mode */
-  #geocoder-container .suggestions-wrapper {
-    background-color: #262626;
-    border-color: #404040;
-  }
-  
-  /* Suggestion items dark mode */
-  #geocoder-container .suggestions li {
-    color: #e5e5e5;
-    /* border-bottom-color: #404040; */
-    border: none;
-  }
-  
-  /* Hover/active dark mode */
-  #geocoder-container .suggestions li:hover,
-  #geocoder-container .suggestions li.active {
-    background-color: #404040;
-    color: #ffffff;
-  }
-}
-
-
-/* ============================================
-   Mapbox Geocoder Custom Styles
-   ============================================ */
-
-/* Main geocoder container */
-#geocoder-container .mapboxgl-ctrl-geocoder {
-  width: 100%;
-  max-width: none;
-  box-shadow: none;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-
-/* Input field */
-#geocoder-container .mapboxgl-ctrl-geocoder--input {
-  height: 2.5rem;
-  padding: 0.75rem;
-  font-size: 0.875rem;
-  color: #111827;
-}
-
-/* Search icon */
-#geocoder-container .mapboxgl-ctrl-geocoder--icon-search {
-  top: 10px;
-  left: 10px;
-  width: 20px;
-  height: 20px;
-}
-
-/* Loading icon */
-#geocoder-container .mapboxgl-ctrl-geocoder--icon-loading {
-  top: 10px;
-  right: 10px;
-}
-
-/* Clear button */
-#geocoder-container .mapboxgl-ctrl-geocoder--button {
-  top: 5px;
-  right: 5px;
-}
-
-/* Focus state */
-#geocoder-container .mapboxgl-ctrl-geocoder--input:focus {
-  outline: none;
-  border-color: #c026d3; /* Fuchsia-600 */
-  box-shadow: 0 0 0 3px rgba(192, 38, 211, 0.1);
-}
-
-/* Suggestions dropdown wrapper */
-#geocoder-container .suggestions-wrapper {
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  margin-top: 0.25rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* Individual suggestion items */
-#geocoder-container .suggestions li {
-  padding: 0.625rem 0.75rem;
-  font-size: 0.875rem;
-}
-
-/* Hover and active states for suggestions */
-#geocoder-container .suggestions li:hover,
-#geocoder-container .suggestions li.active {
-  background-color: #f3e8ff; /* Purple-50 */
-  color: #7e22ce; /* Purple-700 */
-}
-
-/* ============================================
-   Mapbox Popup Custom Styles
-   ============================================ */
-
-/* Popup container */
-
-.custom-mapbox-popup .mapboxgl-popup-content {
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border: 1px solid #e5e7eb;
-  width: 500px;
-  max-width: 500px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* Popup tip (arrow) */
-.custom-mapbox-popup .mapboxgl-popup-tip {
-  border-top-color: #262626 !important;
-  border-bottom-color: #262626 !important;
-
-}
-
-/* Close button */
-.custom-mapbox-popup .mapboxgl-popup-close-button {
-  font-size: 1.25rem;
-  color: #6b7280;
-  padding: 0.25rem 0.5rem;
-  right: 0.5rem;
-  top: 0.5rem;
-  transition: all 0.2s;
-   background: none !important;
-}
-
-.custom-mapbox-popup .mapboxgl-popup-close-button:hover {
-  color: #111827;
-  background: none !important;
-  border-radius: 0.25rem;
-}
-
-/* Popup heading */
-.custom-mapbox-popup h3 {
-  color: #111827;
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.4;
-}
-
-/* Popup text */
-.custom-mapbox-popup p {
-  color: #4b5563;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin: 0 0 0.75rem 0;
-}
-
-/* Tags/badges */
-.custom-mapbox-popup span {
-  display: inline-block;
-  background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
-  color: #374151;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
-}
-
-/* Images in popup */
-.custom-mapbox-popup img {
-  border-radius: 0.375rem;
-  border: 1px solid #e5e7eb;
-  object-fit: cover;
-  transition: opacity 0.2s;
-}
-
-.custom-mapbox-popup img:hover {
-  opacity: 0.8;
-  cursor: pointer;
-}
-
-/* Links */
-.custom-mapbox-popup a {
-  color: #9d00b9;
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.custom-mapbox-popup a:hover {
-  color: #7e22ce;
-  text-decoration: underline;
-}
-
-/* ============================================
-   Dark Mode Styles
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  /* Geocoder dark mode */
-  #geocoder-container .mapboxgl-ctrl-geocoder {
-    background-color: #262626; /* Neutral-800 */
-    border-color: #404040; /* Gray-700 */
-  }
-  
-  #geocoder-container .mapboxgl-ctrl-geocoder--input {
-    background-color: #262626;
-    color: #ffffff;
-  }
-  
-  #geocoder-container .mapboxgl-ctrl-geocoder--icon {
-    fill: #9ca3af; /* Gray-400 */
-    background: none;
-  }
-  
-  #geocoder-container .suggestions-wrapper {
-    background-color: #262626;
-    border-color: #404040;
-  }
-  
-  #geocoder-container .suggestions li {
-    color: #e5e5e5;
-    border-bottom-color: #404040;
-  }
-  
-  #geocoder-container .suggestions li:hover,
-  #geocoder-container .suggestions li.active {
-    background-color: #404040;
-    color: #ffffff;
-  }
-
-  /* Popup dark mode */
-  .custom-mapbox-popup .mapboxgl-popup-content {
-    background-color: #1f1f1f;
-    border-color: #404040;
-  }
-
-  .custom-mapbox-popup .mapboxgl-popup-tip {
-    border-top-color: #1f1f1f;
-    border-bottom-color: #1f1f1f;
-  }
-
-  .custom-mapbox-popup .mapboxgl-popup-close-button {
-    color: #9ca3af;
-  }
-
-  .custom-mapbox-popup .mapboxgl-popup-close-button:hover {
-    color: #e5e7eb;
-    background-color: #374151;
-  }
-
-  .custom-mapbox-popup h3 {
-    color: #f9fafb;
-  }
-
-  .custom-mapbox-popup p {
-    color: #d1d5db;
-  }
-
-  .custom-mapbox-popup span {
-    background-color: #374151;
-    border-color: #4b5563;
-    color: #e5e7eb;
-  }
-
-  .custom-mapbox-popup img {
-    border-color: #404040;
-  }
-
-  .custom-mapbox-popup a {
-    color: #c084fc;
-  }
-
-  .custom-mapbox-popup a:hover {
-    color: #e9d5ff;
-  }
+  background-color: var(--t-bg-hover);
+  color: var(--t-text-primary);
 }
 
 /* ============================================
@@ -484,4 +282,11 @@ input[type="checkbox"]:checked:after {
    ============================================ */
 .trending-scroll-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* ============================================
+   Smooth theme transition for key elements
+   ============================================ */
+.theme-transition {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

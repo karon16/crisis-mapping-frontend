@@ -61,7 +61,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApplyFilte
       if (newStart > newEnd) {
         return prev; 
       }
-      // Update dateRange with new values
       return { ...prev, dateRange: [newStart, newEnd] };
     });
   }, []);
@@ -73,33 +72,32 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApplyFilte
     onClose();
   };
 
-  const translateClass = isOpen ? 'translate-x-0' : 'translate-x-full'; // Slide in/out based on isOpen
+  const translateClass = isOpen ? 'translate-x-0' : 'translate-x-full';
 
   return (
-    // Filter Panel Container
     <div
-      className={`fixed top-0 right-0 h-full w-[24rem] bg-[#0C0A16] border-l border-gray-800 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20`}
+      className={`fixed top-0 right-0 h-full w-[24rem] bg-[var(--t-bg-primary)] border-l border-[var(--t-border)] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20 theme-transition`}
     >
       <div className="p-5 pb-3 flex justify-between items-center">
-        <h2 className="text-md font-bold text-neutral-200">Filter Settings</h2>
+        <h2 className="text-md font-bold text-[var(--t-text-primary)]">Filter Settings</h2>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors p-2 rounded-full"
+          className="text-[var(--t-text-muted)] hover:text-[var(--t-text-primary)] transition-colors p-2 rounded-full"
         >
           <XMarkIcon className="h-6 w-6" />
         </button>
       </div>
     {/* Filter Sections */}
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
-        <div className="p-4 bg-[#191724] rounded-lg border border-neutral-800 space-y-4">
-          <h3 className="text-sm font-semibold text-white  tracking-wider">Date Range</h3>
+        <div className="p-4 bg-[var(--t-bg-secondary)] rounded-lg border border-[var(--t-border)] space-y-4">
+          <h3 className="text-sm font-semibold text-[var(--t-text-primary)] tracking-wider">Date Range</h3>
 
           <div className="flex items-center justify-between space-x-3">
             {/* Start Year Select */}
             <select
               value={filters.dateRange[0]}
               onChange={e => handleYearChange(parseInt(e.target.value, 10), true)}
-              className="w-full p-2 bg-[#191724] border border-neutral-700 rounded-lg text-white text-sm focus:ring-fuchsia-500 focus:border-fuchsia-500"
+              className="w-full p-2 bg-[var(--t-bg-secondary)] border border-[var(--t-border)] rounded-lg text-[var(--t-text-primary)] text-sm focus:ring-[var(--t-accent)] focus:border-[var(--t-accent)]"
             >
               {AVAILABLE_YEARS.map(year => (
                 <option key={`start-${year}`} value={year} disabled={year > filters.dateRange[1]}>
@@ -109,12 +107,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApplyFilte
             </select>
             {}
 
-            <ArrowRightIcon className="w-4 h-4 text-fuchsia-400 flex-shrink-0" />
+            <ArrowRightIcon className="w-4 h-4 text-[var(--t-accent-text)] flex-shrink-0" />
             {/* End Year Select */}
             <select
               value={filters.dateRange[1]}
               onChange={e => handleYearChange(parseInt(e.target.value, 10), false)}
-              className="w-full p-2 bg-[#191724] border border-neutral-700 rounded-lg text-white text-sm focus:ring-fuchsia-500 focus:border-fuchsia-500"
+              className="w-full p-2 bg-[var(--t-bg-secondary)] border border-[var(--t-border)] rounded-lg text-[var(--t-text-primary)] text-sm focus:ring-[var(--t-accent)] focus:border-[var(--t-accent)]"
             >
               {AVAILABLE_YEARS.map(year => (
                 <option key={`end-${year}`} value={year} disabled={year < filters.dateRange[0]}>
@@ -148,16 +146,16 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApplyFilte
         />
       </div>
     {/* Action Buttons */}
-      <div  className="p-4 flex justify-between gap-4">
+      <div className="p-4 flex justify-between gap-4">
         <button
           onClick={handleReset}
-          className=" py-2 border border-neutral-100 text-slate-400 rounded-lg  transition-colors"
+          className="py-2 px-4 border border-[var(--t-border)] text-[var(--t-text-secondary)] rounded-lg transition-colors hover:text-[var(--t-text-primary)]"
         >
           Reset Filters
         </button>
         <button
           onClick={() => onApplyFilters(filters)}
-          className=" py-2 px-3 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700 transition-colors"
+          className="py-2 px-3 bg-[var(--t-accent)] text-white rounded-lg hover:bg-[var(--t-accent-hover)] transition-colors"
         >
           Apply Filters
         </button>

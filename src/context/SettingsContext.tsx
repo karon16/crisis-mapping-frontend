@@ -7,14 +7,16 @@ export interface AppSettings {
   fontFamily: 'sans' | 'mono';
   fontSize: 'small' | 'medium' | 'large';
   showMapLabels: boolean;
-  theme: 'dark'; // future: 'light' | 'system'
+  mapProjection: 'globe' | 'mercator' | 'equalEarth' | 'equirectangular' | '' ;
+  theme: 'dark' | 'light' | ''  ;
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
   fontFamily: 'sans',
   fontSize: 'medium',
   showMapLabels: true,
-  theme: 'dark',
+  mapProjection: (typeof window !== 'undefined' ? localStorage.getItem('mapProjection') as AppSettings['mapProjection'] : 'globe') || 'globe',
+  theme: (typeof window !== 'undefined' ? localStorage.getItem('theme') as AppSettings['theme'] : 'dark') || 'dark',
 };
 
 const STORAGE_KEY = 'atreides-settings';
@@ -52,6 +54,7 @@ interface SettingsContextType {
   settings: AppSettings;
   updateSetting: <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => void;
   resetSettings: () => void;
+  isHydrated: boolean;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -92,6 +95,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     body.style.setProperty('--app-font-family', FONT_FAMILY_MAP[settings.fontFamily]);
     body.style.setProperty('--app-font-size', FONT_SIZE_MAP[settings.fontSize]);
 
+    // Apply theme via data-theme attribute on <html>
+    document.documentElement.setAttribute('data-theme', settings.theme);
+
     // Fire API stub (non-blocking)
     syncSettingsToAPI(settings);
   }, [settings, isHydrated]);
@@ -105,7 +111,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSetting, resetSettings }}>
+    <SettingsContext.Provider value={{ settings, updateSetting, resetSettings, isHydrated }}>
       {children}
     </SettingsContext.Provider>
   );

@@ -33,10 +33,8 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
   const mapRef = useRef<Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<Marker | null>(null);
-  const geocoderRef = useRef<MapboxGeocoder | null>(null); // Ref for the Geocoder search bar
+  const geocoderRef = useRef<MapboxGeocoder | null>(null);
   const geocoderElementRef = useRef<HTMLElement | null>(null);
-
-  const API_ENDPOINT = 'http://203.252.106.25:8000/events';
 
   // --- HANDLERS ---
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,36 +52,23 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
 
     try {
       const formData = new FormData();
-      // Append fields to match backend 'create_event' arguments
       formData.append('text', reportText);
       formData.append('location_name', locationString);
       formData.append('latitude', pinCoordinates.lat.toString());
       formData.append('longitude', pinCoordinates.lng.toString());
 
-      // Append each image file individually under the 'file' key
       Array.from(imageFiles).forEach((file) => {
-        formData.append('file', file);
+        formData.append('files', file);
       });
 
-      // display all form data for debugging
       for (let pair of formData.entries()) {
         console.log(`${pair[0]}: ${pair[1]}`);
       }
 
-      // Send POST request to your backend
-      const response = await axios.post('http://203.252.106.25:8000/events', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post('/api/events', formData);
 
-      console.log('Submission Successful:', response.data);
       alert('Report submitted successfully!');
-
-      // Close modal and optionally refresh map data here
       onClose();
-      // Ideally, trigger a re-fetch in the parent component here
-      window.location.reload(); // Simple way to refresh map data
     } catch (error) {
       console.error('Error submitting report:', error);
       alert('Failed to submit report. Check console for details.');
@@ -97,7 +82,7 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
 
     if (!mapContainerRef.current) return;
 
-    const initialLngLat: LngLat = new mapboxgl.LngLat(129.3245, 36.0145); // Set to Pohang as a better initial guess
+    const initialLngLat: LngLat = new mapboxgl.LngLat(129.3245, 36.0145);
 
     const map = new Map({
       container: mapContainerRef.current,
@@ -118,48 +103,42 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
 
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl as any, // Cast is sometimes needed for MapboxGLGeocoder
-      marker: false, // We use our own custom marker
+      mapboxgl: mapboxgl as any,
+      marker: false,
       placeholder: 'Search for a location or address...',
-      flyTo: false, // We handle the flyTo/zoom manually
+      flyTo: false,
     });
 
     geocoderRef.current = geocoder;
 
-    // Attach the Geocoder component to the placeholder div
     const geocoderContainer = document.getElementById('geocoder-container');
     if (geocoderContainer) {
-      geocoderContainer.innerHTML = ''; // Clear first
+      geocoderContainer.innerHTML = '';
       geocoderElementRef.current = geocoder.onAdd(map);
       geocoderContainer.appendChild(geocoderElementRef.current);
     }
 
-    // Function to update state and marker position
     const updateLocationState = (lngLat: LngLat, name: string) => {
       marker.setLngLat(lngLat);
       map.flyTo({ center: lngLat.toArray() as [number, number], zoom: 12 });
       setPinCoordinates({ lng: lngLat.lng, lat: lngLat.lat });
-      setLocationString(name); // Set the display name from geocoder/reverse geocoder
+      setLocationString(name);
     };
 
     const onCoordUpdate = async (lngLat: LngLat) => {
-      // First update the marker position immediately for responsive UX
       marker.setLngLat(lngLat);
       map.flyTo({ center: lngLat.toArray() as [number, number], zoom: 12 });
       setPinCoordinates({ lng: lngLat.lng, lat: lngLat.lat });
 
-      // Show loading state
       setLocationString('Getting location name...');
 
       try {
-        // Call Mapbox Geocoding API for reverse geocoding
         const response = await fetch(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${mapboxgl.accessToken}`
         );
         const data = await response.json();
 
         if (data.features && data.features.length > 0) {
-          // Get the most relevant place name
           const placeName = data.features[0].place_name;
           setLocationString(placeName);
         } else {
@@ -173,21 +152,16 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
     const onDragEnd = () => onCoordUpdate(marker.getLngLat());
     const onMapClick = (e: mapboxgl.MapMouseEvent) => onCoordUpdate(e.lngLat);
 
-    // b) Geocoder Result Handler (User selects from dropdown)
     const onGeocodeResult = (e: any) => {
       const selectedLngLat = new mapboxgl.LngLat(e.result.center[0], e.result.center[1]);
       updateLocationState(selectedLngLat, e.result.place_name);
-
-      // Also clear the search bar after selecting
       geocoder.clear();
     };
 
-    // --- 5. Attaching Listeners ---
     marker.on('dragend', onDragEnd);
     map.on('click', onMapClick);
     geocoder.on('result', onGeocodeResult);
 
-    // --- 6. Cleanup ---
     return () => {
       marker.off('dragend', onDragEnd);
       map.off('click', onMapClick);
@@ -197,12 +171,11 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
       }
       map.remove();
     };
-  }, []); // Empty dependency array means it runs once on mount
+  }, []);
 
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-3">
-        {/* <div className="flex-grow space-y-6 pr-2 overflow-y-auto"> */}
         {/* Submission Error Alert */}
         {submissionError && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-sm font-medium">
@@ -213,23 +186,20 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
         <div className="">
           <div id="geocoder-container" className="w-full h-10 mb-2" />
         </div>
-        {/* Location Input Section (UPDATED) */}
+        {/* Location Input Section */}
         <div className="flex gap-4">
           <div className="flex-1 relative">
             <label
               htmlFor="location"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-[var(--t-text-secondary)] mb-1"
             >
               Location Name (Search or Manual):
             </label>
 
-            {/* Geocoder Search Bar Container */}
-
-            {/* Display Coordinates/Location Name set by Geocoder or Pin */}
             <input
               id="location"
               type="text"
-              readOnly // Make this read-only as the Geocoder controls the value
+              readOnly
               placeholder={
                 pinCoordinates
                   ? `Pin set at: Lat ${pinCoordinates.lat.toFixed(4)}, Lng ${pinCoordinates.lng.toFixed(4)}`
@@ -237,14 +207,13 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
               }
               value={locationString}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500"
+              className="w-full p-3 border border-[var(--t-border)] rounded-lg bg-[var(--t-bg-secondary)] text-[var(--t-text-primary)] placeholder-[var(--t-text-muted)]"
             />
           </div>
           <div className="w-1/3">
-            {/* Date Input */}
             <label
               htmlFor="date"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-[var(--t-text-secondary)] mb-1"
             >
               Date of Event:
             </label>
@@ -254,19 +223,18 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
               value={reportDate}
               onChange={e => setReportDate(e.target.value)}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white"
+              className="w-full p-3 border border-[var(--t-border)] rounded-lg bg-[var(--t-bg-secondary)] text-[var(--t-text-primary)]"
             />
           </div>
         </div>
 
         {/* Map Section */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-[var(--t-text-secondary)] mb-1">
             Confirm Location on Map:
           </label>
           <div className="h-28 sm:h-40 rounded-lg relative">
             <div ref={mapContainerRef} className="w-full h-full rounded-lg" />
-            {/* Display live coordinates */}
             {pinCoordinates && (
               <div className="absolute top-2 left-2 px-3 py-1 bg-black/70 text-white text-xs rounded-full font-mono">
                 LAT: {pinCoordinates.lat.toFixed(4)}, LNG: {pinCoordinates.lng.toFixed(4)}
@@ -275,11 +243,11 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
           </div>
         </div>
 
-        {/* Report Text and Image Upload (Remain the same) */}
+        {/* Report Text */}
         <div>
           <label
             htmlFor="reportText"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            className="block text-sm font-medium text-[var(--t-text-secondary)] mb-1"
           >
             Description / Report Text:
           </label>
@@ -290,13 +258,14 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
             value={reportText}
             onChange={e => setReportText(e.target.value)}
             required
-            className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 resize-none"
+            className="w-full p-3 border border-[var(--t-border)] rounded-lg bg-[var(--t-bg-secondary)] text-[var(--t-text-primary)] placeholder-[var(--t-text-muted)] resize-none"
           />
         </div>
+        {/* Image Upload */}
         <div>
           <label
             htmlFor="imageFiles"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            className="block text-sm font-medium text-[var(--t-text-secondary)] mb-1"
           >
             Image Upload (Visual Evidence - Multiple Allowed):
           </label>
@@ -307,14 +276,14 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
             multiple
             onChange={e => setImageFiles(e.target.files)}
             required
-            className="w-full p-3 border border-gray-300 rounded-lg bg-white dark:bg-neutral-800 dark:border-gray-700 text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            className="w-full p-3 border border-[var(--t-border)] rounded-lg bg-[var(--t-bg-secondary)] text-[var(--t-text-primary)] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[var(--t-accent-subtle)] file:text-[var(--t-accent-text)]"
           />
         </div>
-        <div className="sticky bottom-0 pt-3 pb-1 bg-white dark:bg-neutral-900">
+        <div className="sticky bottom-0 pt-3 pb-1 bg-[var(--t-bg-primary)]">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full px-4 py-3 bg-fuchsia-600 text-white rounded-lg font-bold hover:bg-fuchsia-700 transition-colors shadow-md disabled:bg-gray-500"
+            className="w-full px-4 py-3 bg-[var(--t-accent)] text-white rounded-lg font-bold hover:bg-[var(--t-accent-hover)] transition-colors shadow-md disabled:opacity-50"
           >
             {isSubmitting ? 'Processing...' : 'Submit Report for AI Classification'}
           </button>

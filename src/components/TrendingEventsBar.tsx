@@ -51,7 +51,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
     return [...events]
       .filter((e) => e.properties.informativeness === 'Informative')
       .sort((a, b) => new Date(b.properties.timestamp).getTime() - new Date(a.properties.timestamp).getTime())
-      .slice(0, 10);
+      .slice(2, 10);
   }, [events]);
 
   // ── Scroll state detection ────────────────────────────────────
@@ -121,13 +121,13 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
             alignItems: 'center',
             gap: '6px',
             padding: '6px 20px',
-            background: 'linear-gradient(135deg, rgba(12,10,22,0.95), rgba(30,25,50,0.95))',
+            background: 'var(--t-bg-primary)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(139,92,246,0.25)',
+            border: '1px solid var(--t-border)',
             borderBottom: 'none',
             borderRadius: '12px 12px 0 0',
-            color: '#c4b5fd',
+            color: 'var(--t-accent-text)',
             fontSize: '11px',
             fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
             fontWeight: 600,
@@ -136,19 +136,11 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
             cursor: 'pointer',
             transition: 'all 0.2s',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e9d5ff';
-            e.currentTarget.style.borderColor = 'rgba(139,92,246,0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#c4b5fd';
-            e.currentTarget.style.borderColor = 'rgba(139,92,246,0.25)';
-          }}
         >
           <Flame size={12} style={{ color: '#f97316' }} />
           Trending
-          <span style={{ color: '#8b5cf6', margin: '0 2px' }}>·</span>
-          <span style={{ color: '#a78bfa', fontWeight: 400 }}>{trendingEvents.length}</span>
+          <span style={{ color: 'var(--t-accent)', margin: '0 2px' }}>·</span>
+          <span style={{ color: 'var(--t-accent-text)', fontWeight: 400 }}>{trendingEvents.length}</span>
           {isExpanded ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
         </button>
       </div>
@@ -159,12 +151,13 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
           height: '25vh',
           minHeight: '180px',
           maxHeight: '280px',
-          background: 'linear-gradient(180deg, rgba(12,10,22,0.97) 0%, rgba(8,6,16,0.99) 100%)',
+          background: 'var(--t-bg-primary)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(139,92,246,0.15)',
+          borderTop: '1px solid var(--t-border)',
           position: 'relative',
           overflow: 'hidden',
+          transition: 'background-color 0.3s ease',
         }}
       >
         {/* Subtle gradient glow at the top */}
@@ -175,7 +168,8 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
             left: '20%',
             right: '20%',
             height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.4), transparent)',
+            background: 'linear-gradient(90deg, transparent, var(--t-accent), transparent)',
+            opacity: 0.3,
           }}
         />
 
@@ -192,23 +186,15 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
               width: '32px',
               height: '32px',
               borderRadius: '50%',
-              background: 'rgba(30,25,50,0.9)',
-              border: '1px solid rgba(139,92,246,0.3)',
-              color: '#c4b5fd',
+              background: 'var(--t-bg-secondary)',
+              border: '1px solid var(--t-border)',
+              color: 'var(--t-text-secondary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
               backdropFilter: 'blur(8px)',
               transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(139,92,246,0.25)';
-              e.currentTarget.style.borderColor = 'rgba(139,92,246,0.6)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(30,25,50,0.9)';
-              e.currentTarget.style.borderColor = 'rgba(139,92,246,0.3)';
             }}
           >
             <ChevronLeft size={16} />
@@ -226,23 +212,15 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
               width: '32px',
               height: '32px',
               borderRadius: '50%',
-              background: 'rgba(30,25,50,0.9)',
-              border: '1px solid rgba(139,92,246,0.3)',
-              color: '#c4b5fd',
+              background: 'var(--t-bg-secondary)',
+              border: '1px solid var(--t-border)',
+              color: 'var(--t-text-secondary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
               backdropFilter: 'blur(8px)',
               transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(139,92,246,0.25)';
-              e.currentTarget.style.borderColor = 'rgba(139,92,246,0.6)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(30,25,50,0.9)';
-              e.currentTarget.style.borderColor = 'rgba(139,92,246,0.3)';
             }}
           >
             <ChevronRight size={16} />
@@ -258,7 +236,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
               top: 0,
               bottom: 0,
               width: '48px',
-              background: 'linear-gradient(90deg, rgba(8,6,16,0.95), transparent)',
+              background: 'linear-gradient(90deg, var(--t-bg-primary), transparent)',
               zIndex: 3,
               pointerEvents: 'none',
             }}
@@ -273,7 +251,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
               top: 0,
               bottom: 0,
               width: '48px',
-              background: 'linear-gradient(270deg, rgba(8,6,16,0.95), transparent)',
+              background: 'linear-gradient(270deg, var(--t-bg-primary), transparent)',
               zIndex: 3,
               pointerEvents: 'none',
             }}
@@ -311,8 +289,8 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                   flex: '0 0 260px',
                   height: '100%',
                   borderRadius: '12px',
-                  background: 'linear-gradient(145deg, rgba(30,25,50,0.6), rgba(20,18,35,0.8))',
-                  border: '1px solid rgba(139,92,246,0.12)',
+                  background: 'var(--t-bg-secondary)',
+                  border: '1px solid var(--t-border)',
                   overflow: 'hidden',
                   cursor: 'pointer',
                   transition: 'all 0.25s ease',
@@ -320,18 +298,18 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                   flexDirection: 'column',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(139,92,246,0.35)';
+                  e.currentTarget.style.borderColor = 'var(--t-accent)';
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(139,92,246,0.1)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(139,92,246,0.12)';
+                  e.currentTarget.style.borderColor = 'var(--t-border)';
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
                 {/* Card Image */}
-                {event.properties.image_url && (
+                {event.properties.image_urls && (
                   <div
                     style={{
                       height: '45%',
@@ -341,7 +319,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                     }}
                   >
                     <img
-                      src={event.properties.image_url}
+                      src={event.properties.image_urls.split(',')[0].trim()}
                       alt=""
                       style={{
                         width: '100%',
@@ -359,7 +337,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                         left: 0,
                         right: 0,
                         height: '40%',
-                        background: 'linear-gradient(transparent, rgba(20,18,35,0.9))',
+                        background: 'linear-gradient(transparent, var(--t-bg-secondary))',
                       }}
                     />
                     {/* Severity badge on image */}
@@ -411,7 +389,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                       style={{
                         fontSize: '10px',
                         fontWeight: 600,
-                        color: '#a1a1aa',
+                        color: 'var(--t-text-muted)',
                         textTransform: 'uppercase' as const,
                         letterSpacing: '0.06em',
                         overflow: 'hidden',
@@ -429,7 +407,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                       margin: 0,
                       fontSize: '12px',
                       lineHeight: '1.4',
-                      color: '#e4e4e7',
+                      color: 'var(--t-text-primary)',
                       flex: 1,
                       overflow: 'hidden',
                       display: '-webkit-box',
@@ -449,11 +427,11 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                       marginTop: 'auto',
                     }}
                   >
-                    <Clock size={10} style={{ color: '#71717a' }} />
+                    <Clock size={10} style={{ color: 'var(--t-text-muted)' }} />
                     <span
                       style={{
                         fontSize: '10px',
-                        color: '#71717a',
+                        color: 'var(--t-text-muted)',
                         fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
                       }}
                     >

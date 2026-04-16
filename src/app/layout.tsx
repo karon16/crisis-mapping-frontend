@@ -23,7 +23,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var settings = localStorage.getItem('atreides-settings');
+                if (settings) {
+                  var parsed = JSON.parse(settings);
+                  if (parsed.theme === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                  }
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
     </html>
   );
