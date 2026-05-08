@@ -107,7 +107,7 @@ button, button:focus, button:hover, button:active {
    Custom Mapbox Popup
    ============================================ */
 .custom-mapbox-popup {
-  width: 600px;
+  width: 500px;
 }
 
 .custom-mapbox-popup .mapboxgl-popup-content {

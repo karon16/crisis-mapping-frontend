@@ -18,7 +18,7 @@ import TrendingEventsBar from '@/components/TrendingEventsBar';
 import { SettingsProvider, useSettings } from '@/context/SettingsContext';
 import { useCommandPalette } from '@/hooks/useCommandPalette';
 
-interface ActiveFilters {
+export interface ActiveFilters {
   types: string[];
   severities: string[];
   humanitarian: string[];
@@ -75,45 +75,82 @@ function HomeContent() {
   const applyFilters = (filters: ActiveFilters) => {
     setActiveFilters(filters);
     setIsFilterOpen(false);
+
+
     console.log('Filters Applied:', filters);
   };
 
+  // Twitter simulation WebSocket
   useEffect(() => {
-    const loadEvents = async () => {
+    const params = new URLSearchParams();
+    if (activeFilters.dateRange && activeFilters.dateRange.length === 2) {
+      const startDate = new Date(activeFilters.dateRange[0], 0, 1).toISOString();
+      const endDate = new Date(activeFilters.dateRange[1], 11, 31, 23, 59, 59).toISOString();
+      // params.append('start_date', startDate);
+      // params.append('end_date', endDate);
+    }
+
+    const toSnakeCase = (str: string) => {
+      if (str === 'Severe Damage') return 'severe_damage';
+      return str.toLowerCase().replace(/ /g, '_');
+    };
+
+    activeFilters.types.forEach(t => params.append('type', toSnakeCase(t)));
+    activeFilters.severities.forEach(s => params.append('severity', toSnakeCase(s)));
+    activeFilters.humanitarian.forEach(h => params.append('category', toSnakeCase(h)));
+
+    const wsUrl = `ws://203.252.106.25:8000/ws/events${params.toString() ? '?' + params.toString() : ''}`;
+    const socket = new WebSocket(wsUrl);
+
+    socket.onmessage = (event) => {
       try {
-        setLoading(true);
-        const params = new URLSearchParams();
-        if (activeFilters.dateRange && activeFilters.dateRange.length === 2) {
-          const startDate = new Date(activeFilters.dateRange[0], 0, 1).toISOString();
-          const endDate = new Date(activeFilters.dateRange[1], 11, 31, 23, 59, 59).toISOString();
-          params.append('start_date', startDate);
-          params.append('end_date', endDate);
-        }
+        const message = JSON.parse(event.data);
 
-        const response = await axios.get<CrisisEventCollection>(`/api/events?${params.toString()}`);
-        let fetchedFeatures = response.data.features || [];
+        if (message.type === 'BATCH_EVENTS') {
+          const newBatchRaw = message.data;
+          
+          // Format raw backend events to GeoJSON
+          const formattedBatch: CrisisEvent[] = newBatchRaw.map((event: any) => ({
+            type: 'Feature',
+            id: event.id,
+            geometry: {
+              type: 'Point',
+              coordinates: [event.longitude, event.latitude],
+            },
+            properties: {
+              tweet_text: event.text,
+              image_urls: event.image_url
+                ? event.image_url.split(',').map((p: string) => `http://203.252.106.25:8000${p.trim()}`).join(',')
+                : '',
+              timestamp: event.created_at,
+              informativeness: event.is_informative ? 'Informative' : 'Not Informative',
+              humanitarian_category: event.category,
+              damage_severity: event.severity,
+              location_name: event.location_name,
+              type: event.type,
+            },
+          }));
 
-        // Apply multiple categorical filtering client-side
-        if (activeFilters.types.length > 0) {
-          fetchedFeatures = fetchedFeatures.filter(f => activeFilters.types.includes((f.properties as any).type));
-        }
-        if (activeFilters.severities.length > 0) {
-          fetchedFeatures = fetchedFeatures.filter(f => activeFilters.severities.includes(f.properties.damage_severity as string));
-        }
-        if (activeFilters.humanitarian.length > 0) {
-          fetchedFeatures = fetchedFeatures.filter(f => activeFilters.humanitarian.includes(f.properties.humanitarian_category as string));
-        }
+          // 1. Add pins to the map state
+          setEvents((prev) => {
+            const existingIds = new Set(prev.map(e => e.id));
+            const filteredNew = formattedBatch.filter(e => !existingIds.has(e.id));
+            return [...prev, ...filteredNew];
+          });
 
-        setEvents(fetchedFeatures);
-        console.log('Fetched Events:', fetchedFeatures);
+          // 2. Set individual "Death Timers" for each pin
+          newBatchRaw.forEach((point: any) => {
+            setTimeout(() => {
+              setEvents((current) => current.filter((e) => e.id !== point.id));
+            }, (point.duration || 180) * 1000); // e.g., 180s * 1000ms
+          });
+        }
       } catch (err) {
-        console.error('Failed to fetch events', err);
-      } finally {
-        setLoading(false);
+        console.error('WebSocket message parsing error', err);
       }
     };
 
-    loadEvents();
+    return () => socket.close();
   }, [activeFilters]);
 
   const openModal = () => setIsModalOpen(true);
@@ -175,7 +212,7 @@ function HomeContent() {
       </div>
 
       {/* Search Overlay */}
-      {isSearchOpen && <SearchOverlay onClose={closeSearch} onSelectEvent={flyToCoordinates} />}
+      {isSearchOpen && <SearchOverlay onClose={closeSearch} onSelectEvent={flyToCoordinates} activeFilters={activeFilters} />}
 
       {/* Command Palette */}
       <CommandPalette

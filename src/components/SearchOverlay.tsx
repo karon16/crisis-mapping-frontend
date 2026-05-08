@@ -3,10 +3,12 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { CrisisEvent } from '@/types';
 import axios from 'axios';
+import { ActiveFilters } from '../app/page';
 
 interface SearchOverlayProps {
   onClose: () => void;
   onSelectEvent: (coordinates: [number, number]) => void;
+  activeFilters: ActiveFilters;
 }
 
 interface SearchResult {
@@ -16,7 +18,7 @@ interface SearchResult {
   coordinates: [number, number];
 }
 
-export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayProps) {
+export default function SearchOverlay({ onClose, onSelectEvent, activeFilters }: SearchOverlayProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,19 @@ export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayP
     setLoading(true);
 
     try {
-      const apiResponse = await axios.get(`/api/events?search=${encodeURIComponent(query)}`);
+      const params = new URLSearchParams();
+      params.append('search', query);
+
+      const toSnakeCase = (str: string) => {
+        if (str === 'Severe Damage') return 'severe_damage';
+        return str.toLowerCase().replace(/ /g, '_');
+      };
+
+      activeFilters.types.forEach(t => params.append('type', toSnakeCase(t)));
+      activeFilters.severities.forEach(s => params.append('severity', toSnakeCase(s)));
+      activeFilters.humanitarian.forEach(h => params.append('category', toSnakeCase(h)));
+
+      const apiResponse = await axios.get(`/api/events?${params.toString()}`);
       const allEvents = apiResponse.data.features as CrisisEvent[];
 
       const filteredResults = allEvents.map((event: any) => ({
@@ -48,7 +62,7 @@ export default function SearchOverlay({ onClose, onSelectEvent }: SearchOverlayP
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [activeFilters]);
 
   // Debounce search input
   useEffect(() => {

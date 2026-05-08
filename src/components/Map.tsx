@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { CrisisEvent } from '@/types';
 import { useSettings } from '@/context/SettingsContext';
 import { createRoot } from 'react-dom/client';
+import { flushSync } from 'react-dom';
 import { PopupContent } from './PopupContent';
 // @ts-ignore: CSS module without type declarations
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -31,22 +32,23 @@ const Map: React.FC<MapProps> = ({
 
 
 
+  const DARK_STYLE = 'mapbox://styles/karon16/cmmlpp59k00ik01sj5jp0cvgv';
+  const LIGHT_STYLE = 'mapbox://styles/mapbox/standard';
+
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || '';
+    const isDark = settings.theme === 'dark';
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
-      // make the style dynamic as well
-      style: 'mapbox://styles/karon16/cmmlpp59k00ik01sj5jp0cvgv',
-      // style: 'mapbox://styles/mapbox/standard',
+      style: isDark ? DARK_STYLE : LIGHT_STYLE,
       center: [30, 0],
-      
       zoom: 2,
       projection: settings.mapProjection as any, // Set initial projection dynamically
       config: {
         basemap: {
           theme: 'monochrome',
-          lightPreset: 'night',
+          lightPreset: isDark ? 'night' : 'dawn',
         },
       },
     });
@@ -76,9 +78,6 @@ const Map: React.FC<MapProps> = ({
   }, []);
 
   const prevThemeRef = useRef(settings.theme);
-
-  const DARK_STYLE = 'mapbox://styles/karon16/cmmlpp59k00ik01sj5jp0cvgv';
-  const LIGHT_STYLE = 'mapbox://styles/mapbox/standard';
 
   // Apply projection changes
   useEffect(() => {
@@ -118,22 +117,6 @@ const Map: React.FC<MapProps> = ({
       setIsMapLoaded(true);
     });
   }, [settings.theme, isMapLoaded]);
-
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    // Wait for the sidebar's CSS transition (300ms) to finish
-    const handler = setTimeout(() => {
-      map.resize();
-      // After resizing, map.resize() often resets the center. You might need
-      // to call map.getCenter() before resize and map.setCenter() after resize
-      // if the map jumps unexpectedly, but resize() alone is the fix.
-    }, 200);
-
-    return () => clearTimeout(handler);
-  }, [isSideBarCollapsed]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -248,31 +231,27 @@ const Map: React.FC<MapProps> = ({
       if (!props) return;
 
       const popupNode = document.createElement('div');
-      popupNode.style.width = '200px';
       
       const root = createRoot(popupNode);
-      root.render(
-        <PopupContent 
-          props={props} 
-          coordinates={coordinates as [number, number]} 
-        />
-      );
+      flushSync(() => {
+        root.render(
+          <PopupContent 
+            props={props} 
+            coordinates={coordinates as [number, number]} 
+          />
+        );
+      });
 
       new mapboxgl.Popup({
         offset: 25,
         closeButton: true,
         closeOnClick: true,
         className: 'custom-mapbox-popup',
+        maxWidth: '320px',
       })
         .setLngLat(coordinates as [number, number])
         .setDOMContent(popupNode)
         .addTo(map);
-
-      // Center map on the selected marker to keep the popup visible
-      map.easeTo({
-        center: coordinates as [number, number],
-        offset: [0, 100], // Slight offset to account for popup height visually
-      });
     });
 
     mapRef.current?.addInteraction('mouseenter-unclustered', {

@@ -34,7 +34,7 @@ export const PopupContent: React.FC<PopupContentProps> = ({ props, coordinates }
       {/* Header */}
       <div className="flex flex-col gap-1">
         <h3 className="text-base font-semibold text-[var(--t-text-primary)] leading-tight m-0">
-          {props.title || 'Crisis Event'}
+          {props.title || 'Crisis Event'} - {props.type}
         </h3>
         
         <div className="flex items-center gap-1.5 text-xs text-[var(--t-text-muted)] mt-1">

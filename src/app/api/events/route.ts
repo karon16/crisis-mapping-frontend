@@ -39,11 +39,19 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
+
+    // Fix backend default limit validation bug:
+    // The backend limits to <= 100 but defaults to 500 if omitted.
+    if (!searchParams.has('limit')) {
+      searchParams.set('limit', '500');
+    }
+
     const queryString = searchParams.toString();
     const backendUrl = `http://203.252.106.25:8000/events${queryString ? `?${queryString}` : ''}`;
 
+    console.log('backendUrl:', backendUrl)
+
     // 1. Fetch data from your running Python backend
-    // Ensure your backend is running on port 8000
     const res = await fetch(backendUrl, {
       cache: 'no-store',
     });
