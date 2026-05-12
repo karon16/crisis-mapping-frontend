@@ -77,7 +77,7 @@ export async function GET(request: Request) {
           tweet_text: event.text,
           // Handle multiple comma-separated image paths from backend.
           // Split, prepend base URL to each, and rejoin.
-          image_urls: event.image_url
+          image_url: event.image_url
             ? event.image_url
                 .split(',')
                 .map((path: string) => `http://203.252.106.25:8000${path.trim()}`)

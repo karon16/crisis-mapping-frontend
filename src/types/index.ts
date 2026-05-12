@@ -10,8 +10,8 @@ export interface CrisisEvent {
   properties: {
     // Core Data
     tweet_text: string;
-    image_urls: string; // Comma-separated list of full image URLs
-    llava_text: string;
+    image_url: string;
+    llava_text?: string; // Made optional if backend doesn't always provide it
     timestamp: string;
 
     // AI Model Classifications
@@ -19,6 +19,11 @@ export interface CrisisEvent {
     humanitarian_category: string; // e.g., "Infrastructure Damage", "Rescue"
     damage_severity: 'Severe Damage' | 'Mild Damage' | 'Little or No Damage';
 
+    // --- NEW SIMULATION PROPERTIES ---
+    duration?: number;   // How long it lasts (from backend)
+    spawnTime?: number;  // The exact epoch time it was fetched (added by frontend)
+    isStatic?: boolean;  // Flag to prevent despawning (added by frontend)
+    
     // Optional properties Mapbox might add during clustering
     cluster?: boolean;
     cluster_id?: number;

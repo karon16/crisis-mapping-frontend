@@ -7,7 +7,7 @@ interface PopupContentProps {
 }
 
 export const PopupContent: React.FC<PopupContentProps> = ({ props, coordinates }) => {
-  const imageUrlsStr = props.image_urls || '';
+  const imageUrlsStr = props.image_url || '';
   const images = imageUrlsStr ? imageUrlsStr.split(',').map((u: string) => u.trim()).filter(Boolean) : [];
 
   const formattedDate = props.timestamp 

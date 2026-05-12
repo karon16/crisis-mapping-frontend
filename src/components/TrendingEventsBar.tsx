@@ -309,7 +309,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                 }}
               >
                 {/* Card Image */}
-                {event.properties.image_urls && (
+                {event.properties.image_url && (
                   <div
                     style={{
                       height: '45%',
@@ -319,7 +319,7 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
                     }}
                   >
                     <img
-                      src={event.properties.image_urls.split(',')[0].trim()}
+                      src={event.properties.image_url.split(',')[0].trim()}
                       alt=""
                       style={{
                         width: '100%',

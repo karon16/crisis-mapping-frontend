@@ -80,78 +80,106 @@ function HomeContent() {
     console.log('Filters Applied:', filters);
   };
 
-  // Twitter simulation WebSocket
+  // 0. Fetch original hard data on mount
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (activeFilters.dateRange && activeFilters.dateRange.length === 2) {
-      const startDate = new Date(activeFilters.dateRange[0], 0, 1).toISOString();
-      const endDate = new Date(activeFilters.dateRange[1], 11, 31, 23, 59, 59).toISOString();
-      // params.append('start_date', startDate);
-      // params.append('end_date', endDate);
-    }
-
-    const toSnakeCase = (str: string) => {
-      if (str === 'Severe Damage') return 'severe_damage';
-      return str.toLowerCase().replace(/ /g, '_');
-    };
-
-    activeFilters.types.forEach(t => params.append('type', toSnakeCase(t)));
-    activeFilters.severities.forEach(s => params.append('severity', toSnakeCase(s)));
-    activeFilters.humanitarian.forEach(h => params.append('category', toSnakeCase(h)));
-
-    const wsUrl = `ws://203.252.106.25:8000/ws/events${params.toString() ? '?' + params.toString() : ''}`;
-    const socket = new WebSocket(wsUrl);
-
-    socket.onmessage = (event) => {
+    const loadEvents = async () => {
       try {
-        const message = JSON.parse(event.data);
+        setLoading(true);
+        const response = await axios.get<CrisisEventCollection>('/api/events');
+        
+        const originalFeatures = response.data.features.map((f: any) => ({
+          ...f,
+          properties: {
+            ...f.properties,
+            isStatic: true
+          }
+        }));
 
-        if (message.type === 'BATCH_EVENTS') {
-          const newBatchRaw = message.data;
-          
-          // Format raw backend events to GeoJSON
-          const formattedBatch: CrisisEvent[] = newBatchRaw.map((event: any) => ({
-            type: 'Feature',
-            id: event.id,
-            geometry: {
-              type: 'Point',
-              coordinates: [event.longitude, event.latitude],
-            },
-            properties: {
-              tweet_text: event.text,
-              image_urls: event.image_url
-                ? event.image_url.split(',').map((p: string) => `http://203.252.106.25:8000${p.trim()}`).join(',')
-                : '',
-              timestamp: event.created_at,
-              informativeness: event.is_informative ? 'Informative' : 'Not Informative',
-              humanitarian_category: event.category,
-              damage_severity: event.severity,
-              location_name: event.location_name,
-              type: event.type,
-            },
-          }));
-
-          // 1. Add pins to the map state
-          setEvents((prev) => {
-            const existingIds = new Set(prev.map(e => e.id));
-            const filteredNew = formattedBatch.filter(e => !existingIds.has(e.id));
-            return [...prev, ...filteredNew];
-          });
-
-          // 2. Set individual "Death Timers" for each pin
-          newBatchRaw.forEach((point: any) => {
-            setTimeout(() => {
-              setEvents((current) => current.filter((e) => e.id !== point.id));
-            }, (point.duration || 180) * 1000); // e.g., 180s * 1000ms
-          });
-        }
+        setEvents(prev => {
+          const existingIds = new Set(prev.map(e => e.id));
+          const filteredNew = originalFeatures.filter((e: any) => !existingIds.has(e.id));
+          return [...prev, ...filteredNew];
+        });
+        console.log('Fetched Events:', originalFeatures);
       } catch (err) {
-        console.error('WebSocket message parsing error', err);
+        console.error('Failed to fetch events', err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    return () => socket.close();
-  }, [activeFilters]);
+    loadEvents();
+  }, []);
+
+  // 1. Fetch 75 random points every 30 seconds
+  useEffect(() => {
+    const fetchSimulationData = async () => {
+      try {
+        const response = await fetch('/api/simulation/stream');
+        const data = await response.json();
+        
+        const now = Date.now();
+
+        // Convert backend flat JSON to GeoJSON and stamp the spawnTime
+        const newFeatures: CrisisEvent[] = data.map((item: any) => ({
+          type: 'Feature',
+          id: item.id,
+          geometry: {
+            type: 'Point',
+            // Ensure Mapbox gets [longitude, latitude]
+            coordinates: [item.longitude, item.latitude] 
+          },
+          properties: {
+            tweet_text: item.text,
+            image_url: item.image_url
+              ? item.image_url.split(',').map((p: string) => `http://203.252.106.25:8000${p.trim()}`).join(',')
+              : '',
+            timestamp: item.created_at,
+            informativeness: item.is_informative ? 'Informative' : 'Not Informative',
+            humanitarian_category: item.humanitarian || item.category, // handle both cases
+            damage_severity: item.severity,
+            duration: item.duration || 60, // Default to 60s if missing
+            spawnTime: now
+          }
+        }));
+
+        // Append new points to existing ones
+        setEvents(prev => {
+          const existingIds = new Set(prev.map(e => e.id));
+          const filteredNew = newFeatures.filter(e => !existingIds.has(e.id));
+          return [...prev, ...filteredNew];
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error("Simulation fetch failed:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchSimulationData(); // Fetch immediately
+    const fetchInterval = setInterval(fetchSimulationData, 30000); 
+
+    return () => clearInterval(fetchInterval);
+  }, []);
+
+  // 2. Garbage Collector: Remove points that expire
+  useEffect(() => {
+    const cleanupInterval = setInterval(() => {
+      const now = Date.now();
+      
+      setEvents(prevEvents => 
+        prevEvents.filter(event => {
+          if (event.properties.isStatic) return true;
+          const durationMs = (event.properties.duration || 60) * 1000;
+          const spawnTime = event.properties.spawnTime || now;
+          
+          return now < spawnTime + durationMs;
+        })
+      );
+    }, 1000); // Check every second
+
+    return () => clearInterval(cleanupInterval);
+  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
