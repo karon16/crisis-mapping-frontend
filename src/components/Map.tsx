@@ -163,7 +163,7 @@ const Map: React.FC<MapProps> = ({
           context.fill();
           context.stroke();
 
-          this.data = new Uint8Array(context.getImageData(0, 0, this.width, this.height).data.buffer);
+          this.data = context.getImageData(0, 0, this.width, this.height).data;
 
           map.triggerRepaint();
 
@@ -196,13 +196,14 @@ const Map: React.FC<MapProps> = ({
     //Add layers and event handlers for clusters and markers here
     map.addLayer({
       id: 'clusters',
-      type: 'symbol',
+      type: 'circle',
       source: sourceId,
       filter: ['has', 'point_count'],
-      layout: {
-        'icon-image': 'pulsing-dot',
-        'icon-allow-overlap': true,
-        'icon-size': ['step', ['get', 'point_count'], 3, 10, 4, 30, 5],
+      paint: {
+        'circle-color': '#9D00B9',
+        'circle-radius': ['step', ['get', 'point_count'], 15, 10, 20, 30, 25],
+        'circle-opacity': 1,
+        'circle-emissive-strength': 1,
       },
     });
 
