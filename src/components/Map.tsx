@@ -124,6 +124,56 @@ const Map: React.FC<MapProps> = ({
 
     const sourceId = 'crisis-events';
 
+    if (!map.hasImage('pulsing-dot')) {
+      const size = 100;
+      const pulsingDot = {
+        width: size,
+        height: size,
+        data: new Uint8Array(size * size * 4),
+        context: null as CanvasRenderingContext2D | null,
+
+        onAdd: function () {
+          const canvas = document.createElement('canvas');
+          canvas.width = this.width;
+          canvas.height = this.height;
+          this.context = canvas.getContext('2d', { willReadFrequently: true });
+        },
+
+        render: function () {
+          const duration = 1500;
+          const t = (performance.now() % duration) / duration;
+
+          const radius = (size / 2) * 0.2;
+          const outerRadius = (size / 2) * 0.6 * t + radius;
+          const context = this.context;
+
+          if (!context) return false;
+
+          context.clearRect(0, 0, this.width, this.height);
+          context.beginPath();
+          context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2);
+          context.fillStyle = `rgba(157, 0, 185, ${0.8 - t * 0.8})`;
+          context.fill();
+
+          context.beginPath();
+          context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2);
+          context.fillStyle = 'rgba(157, 0, 185, 1)';
+          context.strokeStyle = 'white';
+          context.lineWidth = 1 + 2 * (1 - t);
+          context.fill();
+          context.stroke();
+
+          this.data = context.getImageData(0, 0, this.width, this.height).data;
+
+          map.triggerRepaint();
+
+          return true;
+        }
+      };
+      
+      map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
+    }
+
     if (map.getSource(sourceId)) {
       (map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
         type: 'FeatureCollection',
@@ -176,15 +226,12 @@ const Map: React.FC<MapProps> = ({
     // Unclustered points
     map.addLayer({
       id: 'unclustered-point',
-      type: 'circle',
+      type: 'symbol',
       source: sourceId,
       filter: ['!', ['has', 'point_count']],
-      paint: {
-        'circle-color': '#9D00B9',
-        'circle-radius': 8,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff',
-        'circle-emissive-strength': 1,
+      layout: {
+        'icon-image': 'pulsing-dot',
+        'icon-allow-overlap': true,
       },
     });
 
