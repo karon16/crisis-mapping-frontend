@@ -196,14 +196,13 @@ const Map: React.FC<MapProps> = ({
     //Add layers and event handlers for clusters and markers here
     map.addLayer({
       id: 'clusters',
-      type: 'circle',
+      type: 'symbol',
       source: sourceId,
       filter: ['has', 'point_count'],
-      paint: {
-        'circle-color': '#9D00B9',
-        'circle-radius': ['step', ['get', 'point_count'], 15, 10, 20, 30, 25],
-        'circle-opacity': 1,
-        'circle-emissive-strength': 1,
+      layout: {
+        'icon-image': 'pulsing-dot',
+        'icon-allow-overlap': true,
+        'icon-size': ['step', ['get', 'point_count'], 3, 10, 4, 30, 5],
       },
     });
 
