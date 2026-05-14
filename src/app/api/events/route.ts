@@ -19,7 +19,8 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
 
-    const res = await fetch('http://203.252.106.25:8000/events', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+    const res = await fetch(`${apiUrl}/events`, {
       method: 'POST',
       body: formData,
     });
@@ -47,7 +48,8 @@ export async function GET(request: Request) {
     }
 
     const queryString = searchParams.toString();
-    const backendUrl = `http://203.252.106.25:8000/events${queryString ? `?${queryString}` : ''}`;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+    const backendUrl = `${apiUrl}/events${queryString ? `?${queryString}` : ''}`;
 
     console.log('backendUrl:', backendUrl)
 
@@ -80,7 +82,7 @@ export async function GET(request: Request) {
           image_url: event.image_url
             ? event.image_url
                 .split(',')
-                .map((path: string) => `http://203.252.106.25:8000${path.trim()}`)
+                .map((path: string) => `${apiUrl}${path.trim()}`)
                 .join(',')
             : '',
           // llava_text: `AI Classification: `,

@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const res = await fetch('http://203.252.106.25:8000/simulation/stream', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+    const res = await fetch(`${apiUrl}/simulation/stream`, {
       cache: 'no-store',
     });
 

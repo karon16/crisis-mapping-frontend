@@ -142,7 +142,7 @@ function HomeContent() {
           properties: {
             tweet_text: item.text,
             image_url: item.image_url
-              ? item.image_url.split(',').map((p: string) => `http://203.252.106.25:8000${p.trim()}`).join(',')
+              ? item.image_url.split(',').map((p: string) => `${process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000'}${p.trim()}`).join(',')
               : '',
             timestamp: item.created_at,
             informativeness: item.is_informative ? 'Informative' : 'Not Informative',
