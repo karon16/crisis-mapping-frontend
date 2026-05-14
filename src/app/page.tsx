@@ -87,6 +87,11 @@ function HomeContent() {
         setLoading(true);
         const response = await axios.get<CrisisEventCollection>('/api/events');
         
+        if (!response.data || !Array.isArray(response.data.features)) {
+          console.error("Backend error or invalid data format:", response.data);
+          return;
+        }
+
         const originalFeatures = response.data.features.map((f: any) => ({
           ...f,
           properties: {
@@ -118,6 +123,11 @@ function HomeContent() {
         const response = await fetch('/api/simulation/stream');
         const data = await response.json();
         
+        if (!response.ok || !Array.isArray(data)) {
+          console.error("Backend error or invalid data format:", data);
+          return;
+        }
+
         const now = Date.now();
 
         // Convert backend flat JSON to GeoJSON and stamp the spawnTime
