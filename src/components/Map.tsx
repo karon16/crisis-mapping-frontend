@@ -163,7 +163,7 @@ const Map: React.FC<MapProps> = ({
           context.fill();
           context.stroke();
 
-          this.data = context.getImageData(0, 0, this.width, this.height).data;
+          this.data = new Uint8Array(context.getImageData(0, 0, this.width, this.height).data.buffer);
 
           map.triggerRepaint();
 

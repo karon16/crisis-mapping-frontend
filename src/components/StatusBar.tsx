@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 import ContinentSelector from '@/components/ContinentSelector';
 import { useSettings } from '@/context/SettingsContext';
 import { SunIcon, MoonIcon, GlobeAltIcon, MapIcon } from '@heroicons/react/24/outline';
+import { Menu } from 'lucide-react';
 
 interface StatusBarProps {
   eventCount: number;
   isLoading: boolean;
   onContinentSelect: (center: [number, number], zoom: number) => void;
+  onToggleSidebar?: () => void;
 }
 
 // ─── API Stub ─────────────────────────────────────────────────────
@@ -54,7 +56,7 @@ function useUTCClock() {
 }
 
 // ─── Status Bar Component ─────────────────────────────────────────
-const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinentSelect }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinentSelect, onToggleSidebar }) => {
   const utcTime = useUTCClock();
   const { settings, updateSetting } = useSettings();
   const isDark = settings.theme === 'dark';
@@ -68,6 +70,12 @@ const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinen
     <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-1.5 bg-[var(--t-bg-primary)]/80 backdrop-blur-sm border-b border-[var(--t-border-subtle)] text-xs select-none theme-transition">
       {/* Left — Event Count */}
       <div className="flex items-center gap-2">
+        <button
+          onClick={onToggleSidebar}
+          className="md:hidden text-[var(--t-text-primary)] p-1 hover:bg-[var(--t-bg-hover)] rounded transition-colors mr-1"
+        >
+          <Menu size={20} />
+        </button>
         <span className="relative flex h-2 w-2">
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
@@ -79,8 +87,9 @@ const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinen
               isLoading ? 'bg-amber-500' : 'bg-emerald-500'
             }`}
           />
+          {/* /> */}
         </span>
-        <span className="text-[var(--t-text-secondary)] font-mono tracking-wide">
+        <span className="text-[var(--t-text-secondary)] font-mono tracking-wide hidden sm:inline-block">
           {isLoading ? (
             'SYNCING...'
           ) : (
@@ -95,7 +104,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinen
       {/* Center — Continent Selector + UTC Clock */}
       <div className="flex items-center gap-4">
         <ContinentSelector onSelect={onContinentSelect} />
-        <div className="text-[var(--t-text-secondary)] font-mono tracking-wider">
+        <div className="text-[var(--t-text-secondary)] font-mono tracking-wider hidden md:block">
           {utcTime}
         </div>
       </div>
@@ -145,7 +154,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ eventCount, isLoading, onContinen
             </span>
           </button>
         </div>
-        <div className="text-[var(--t-text-muted)] font-mono tracking-widest text-[10px] uppercase">
+        <div className="text-[var(--t-text-muted)] font-mono tracking-widest text-[10px] uppercase hidden lg:block">
           Atreides Crisis Map <span className="opacity-50">v0.1.0</span>
         </div>
       </div>

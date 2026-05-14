@@ -147,10 +147,8 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
 
       {/* ── Panel Content ─────────────────────────────────────── */}
       <div
+        className="h-[20vh] min-h-[140px] max-h-[220px] md:h-[25vh] md:min-h-[180px] md:max-h-[280px]"
         style={{
-          height: '25vh',
-          minHeight: '180px',
-          maxHeight: '280px',
           background: 'var(--t-bg-primary)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
@@ -285,8 +283,8 @@ const TrendingEventsBar: React.FC<TrendingEventsBarProps> = ({ events, onEventCl
               <div
                 key={event.id}
                 onClick={() => onEventClick?.(event)}
+                className="flex-[0_0_220px] md:flex-[0_0_260px]"
                 style={{
-                  flex: '0 0 260px',
                   height: '100%',
                   borderRadius: '12px',
                   background: 'var(--t-bg-secondary)',

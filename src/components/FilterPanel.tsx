@@ -76,7 +76,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApplyFilte
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-[24rem] bg-[var(--t-bg-primary)] border-l border-[var(--t-border)] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20 theme-transition`}
+      className={`fixed top-0 right-0 h-full w-full sm:w-[24rem] bg-[var(--t-bg-primary)] border-l border-[var(--t-border)] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20 theme-transition`}
     >
       <div className="p-5 pb-3 flex justify-between items-center">
         <h2 className="text-md font-bold text-[var(--t-text-primary)]">Filter Settings</h2>

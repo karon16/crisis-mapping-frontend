@@ -233,6 +233,7 @@ function HomeContent() {
               mapCenterRef.current.easeTo({ center, zoom, duration: 1500 });
             }
           }}
+          onToggleSidebar={toggleSidebar}
         />
         <Map
           events={events}
@@ -273,7 +274,7 @@ function HomeContent() {
         icon={<PlusCircleIcon />}
         text="Report a disaster"
         variant="primary"
-        className="absolute top-12 right-10 z-10 shadow-lg"
+        className="absolute top-12 right-4 md:top-12 md:bottom-auto md:right-10 z-10 shadow-lg"
         onClick={openModal}
       />
       {isModalOpen && (

@@ -65,7 +65,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-[24rem] bg-[var(--t-bg-primary)] border-l border-[var(--t-border)] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20 theme-transition`}
+      className={`fixed top-0 right-0 h-full w-full sm:w-[24rem] bg-[var(--t-bg-primary)] border-l border-[var(--t-border)] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${translateClass} z-20 theme-transition`}
     >
       {/* Header */}
       <div className="p-5 pb-3 flex justify-between items-center">

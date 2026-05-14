@@ -117,7 +117,7 @@ export default function SearchOverlay({ onClose, onSelectEvent, activeFilters }:
 
   return (
     <div
-      className="fixed inset-0 z-20 flex flex-col items-center pt-24 backdrop-blur-md"
+      className="fixed inset-0 z-20 flex flex-col items-center pt-24 px-4 backdrop-blur-md"
       style={{ backgroundColor: 'var(--t-overlay)' }}
     >
       <button

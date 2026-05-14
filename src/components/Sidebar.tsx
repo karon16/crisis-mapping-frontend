@@ -77,8 +77,8 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div
-      className={`h-dvh bg-[var(--t-bg-primary)] border-r border-[var(--t-border)] flex flex-col transition-all duration-300 ease-in-out theme-transition ${
-        isCollapsed ? 'w-20' : 'w-72'
+      className={`h-dvh bg-[var(--t-bg-primary)] border-r border-[var(--t-border)] flex flex-col transition-all duration-300 ease-in-out theme-transition absolute md:relative z-40 ${
+        isCollapsed ? '-translate-x-full md:translate-x-0 md:w-20' : 'translate-x-0 w-72'
       }`}
     >
       <div className="p-5 flex items-center justify-between mb-6">
