@@ -120,7 +120,7 @@ function HomeContent() {
   useEffect(() => {
     const fetchSimulationData = async () => {
       try {
-        const response = await fetch('/api/simulation/stream');
+        const response = await fetch('/api/simulation/stream', { cache: 'no-store' });
         const data = await response.json();
         
         if (!response.ok || !Array.isArray(data)) {

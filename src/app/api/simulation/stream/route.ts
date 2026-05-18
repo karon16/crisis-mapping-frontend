@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000').trim();
     const res = await fetch(`${apiUrl}/simulation/stream`, {
       cache: 'no-store',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
     });
 
     if (!res.ok) {

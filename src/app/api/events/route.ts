@@ -19,9 +19,12 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000').trim();
     const res = await fetch(`${apiUrl}/events`, {
       method: 'POST',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      },
       body: formData,
     });
 
@@ -48,7 +51,7 @@ export async function GET(request: Request) {
     }
 
     const queryString = searchParams.toString();
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000').trim();
     const backendUrl = `${apiUrl}/events${queryString ? `?${queryString}` : ''}`;
 
     console.log('backendUrl:', backendUrl)
@@ -56,6 +59,9 @@ export async function GET(request: Request) {
     // 1. Fetch data from your running Python backend
     const res = await fetch(backendUrl, {
       cache: 'no-store',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
     });
 
     if (!res.ok) {

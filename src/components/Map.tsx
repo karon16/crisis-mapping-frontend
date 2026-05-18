@@ -6,6 +6,7 @@ import { useSettings } from '@/context/SettingsContext';
 import { createRoot } from 'react-dom/client';
 import { flushSync } from 'react-dom';
 import { PopupContent } from './PopupContent';
+import wc from 'which-country';
 // @ts-ignore: CSS module without type declarations
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -172,6 +173,54 @@ const Map: React.FC<MapProps> = ({
       };
       
       map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
+    }
+
+    if (!map.getSource('countries')) {
+      map.addSource('countries', {
+        type: 'vector',
+        url: 'mapbox://mapbox.country-boundaries-v1'
+      });
+      
+      const WORLDVIEW = 'US';
+      const worldview_filter = [
+        'all',
+        ['==', ['get', 'disputed'], 'false'],
+        [
+          'any',
+          ['==', 'all', ['get', 'worldview']],
+          ['in', WORLDVIEW, ['get', 'worldview']]
+        ]
+      ];
+
+      map.addLayer({
+        id: 'countries-join',
+        type: 'fill',
+        source: 'countries',
+        'source-layer': 'country_boundaries',
+        paint: {
+          'fill-color': 'rgba(0, 0, 0, 0)',
+          'fill-opacity': 1 // Setting opacity here to ensure proper blending
+        },
+        filter: worldview_filter as mapboxgl.FilterSpecification
+      });
+    }
+
+    const activeCountries = new Set<string>();
+    for (const e of events) {
+      const coords = e.geometry.coordinates;
+      const code = wc([coords[0], coords[1]]);
+      if (code) activeCountries.add(code);
+    }
+
+    if (activeCountries.size === 0) {
+      map.setPaintProperty('countries-join', 'fill-color', 'rgba(0, 0, 0, 0)');
+    } else {
+      const matchExpression: any[] = ['match', ['get', 'iso_3166_1_alpha_3']];
+      activeCountries.forEach(code => {
+        matchExpression.push(code, 'rgba(157, 0, 185, 0.3)');
+      });
+      matchExpression.push('rgba(0, 0, 0, 0)'); // Default transparent fallback
+      map.setPaintProperty('countries-join', 'fill-color', matchExpression as any);
     }
 
     if (map.getSource(sourceId)) {
