@@ -10,6 +10,7 @@ export const PopupContent: React.FC<PopupContentProps> = ({ props, coordinates }
   const imageUrlsStr = props.image_url || '';
   const images = imageUrlsStr ? imageUrlsStr.split(',').map((u: string) => u.trim()).filter(Boolean) : [];
 
+
   const formattedDate = props.timestamp 
     ? new Date(props.timestamp).toLocaleDateString('en-US', { 
         month: 'short', 
@@ -34,7 +35,7 @@ export const PopupContent: React.FC<PopupContentProps> = ({ props, coordinates }
       {/* Header */}
       <div className="flex flex-col gap-1">
         <h3 className="text-base font-semibold text-[var(--t-text-primary)] leading-tight m-0">
-          {props.title || 'Crisis Event'} - {props.type}
+          {props.title || 'Crisis Event'} - {props.type || ''}
         </h3>
         
         <div className="flex items-center gap-1.5 text-xs text-[var(--t-text-muted)] mt-1">
@@ -54,24 +55,24 @@ export const PopupContent: React.FC<PopupContentProps> = ({ props, coordinates }
       <div className="flex flex-wrap gap-1.5">
         {props.informativeness && props.informativeness.toLowerCase() !== 'unknown' && (
           <span className="px-2 py-0.5 text-[10px] font-medium rounded bg-[var(--t-accent-subtle)] text-[var(--t-accent-text)] border border-[var(--t-accent-subtle)]">
-            {props.informativeness}
+            {props.informativeness.replace(/_/g, ' ')}
           </span>
         )}
         {props.humanitarian_category && props.humanitarian_category.toLowerCase() !== 'unknown' && (
           <span className="px-2 py-0.5 text-[10px] font-medium rounded bg-[var(--t-bg-hover)] text-[var(--t-text-secondary)] border border-[var(--t-border)]">
-            {props.humanitarian_category}
+            {props.humanitarian_category.replace(/_/g, ' ')}
           </span>
         )}
         {props.damage_severity && props.damage_severity.toLowerCase() !== 'unknown' && (
           <span className={`px-2 py-0.5 text-[10px] font-medium rounded border ${severityColor()}`}>
-            {props.damage_severity}
+            {props.damage_severity.replace(/_/g, ' ')}
           </span>
         )}
       </div>
 
       {/* Description */}
       <div className="text-sm text-[var(--t-text-secondary)] leading-relaxed bg-[var(--t-bg-secondary)] p-2.5 rounded-lg border border-[var(--t-border-subtle)]">
-        {props.tweet_text || 'No description available for this event.'}
+        {props.llava_text || props.tweet_text}
       </div>
 
       {/* Images */}

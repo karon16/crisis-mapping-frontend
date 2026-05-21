@@ -15,6 +15,8 @@ interface MapProps {
   onMarkerClick: (event: CrisisEvent) => void;
   mapRef: RefObject<mapboxgl.Map | null>;
   isSideBarCollapsed: boolean;
+  onCountryClick?: (isoCode: string) => void;
+  selectedCountryCode?: string | null;
 }
 
 const Map: React.FC<MapProps> = ({
@@ -22,11 +24,24 @@ const Map: React.FC<MapProps> = ({
   onMarkerClick,
   mapRef,
   isSideBarCollapsed,
+  onCountryClick,
+  selectedCountryCode,
 }: MapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const { settings } = useSettings();
+  const onCountryClickRef = useRef(onCountryClick);
+
+  useEffect(() => {
+    onCountryClickRef.current = onCountryClick;
+  }, [onCountryClick]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoaded || !map.getLayer('countries-highlight')) return;
+    map.setFilter('countries-highlight', ['==', ['get', 'iso_3166_1_alpha_3'], selectedCountryCode || '']);
+  }, [selectedCountryCode, isMapLoaded, mapRef]);
 
   // multiple images
 
@@ -202,6 +217,49 @@ const Map: React.FC<MapProps> = ({
           'fill-opacity': 1 // Setting opacity here to ensure proper blending
         },
         filter: worldview_filter as mapboxgl.FilterSpecification
+      });
+
+      map.addLayer({
+        id: 'countries-highlight',
+        type: 'line',
+        source: 'countries',
+        'source-layer': 'country_boundaries',
+        paint: {
+          'line-color': '#ea83ff',
+          'line-width': 1,
+          'line-opacity': 0.8
+        },
+        filter: ['==', ['get', 'iso_3166_1_alpha_3'], selectedCountryCode || '']
+      });
+
+      map.on('click', 'countries-join', (e) => {
+        let clickedMarkers: mapboxgl.MapboxGeoJSONFeature[] = [];
+        try {
+          clickedMarkers = map.queryRenderedFeatures(e.point, {
+            layers: ['unclustered-point', 'clusters']
+          });
+        } catch (err) {
+          // Layers might not exist yet, which is fine
+        }
+        
+        if (clickedMarkers.length > 0) {
+          return; // Ignore click, user clicked on a marker
+        }
+
+        if (e.features && e.features.length > 0) {
+          const iso = e.features[0].properties?.iso_3166_1_alpha_3;
+          if (iso && onCountryClickRef.current) {
+            onCountryClickRef.current(iso);
+          }
+        }
+      });
+
+      map.on('mouseenter', 'countries-join', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'countries-join', () => {
+        map.getCanvas().style.cursor = '';
       });
     }
 

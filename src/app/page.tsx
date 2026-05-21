@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import Button from '@/components/Button';
 import Map from '@/components/Map';
@@ -10,6 +10,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { CrisisEvent, CrisisEventCollection } from '@/types';
 import SearchOverlay from '@/components/SearchOverlay';
 import FilterPanel from '@/components/FilterPanel';
+import CountryPanel from '@/components/CountryPanel';
 import SubmitForm from '@/components/SubmitForm';
 import SettingsPanel from '@/components/SettingsPanel';
 import StatusBar from '@/components/StatusBar';
@@ -34,6 +35,7 @@ function HomeContent() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(null);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
@@ -45,6 +47,38 @@ function HomeContent() {
 
   // Command Palette
   const commandPalette = useCommandPalette();
+
+  const filteredEvents = useMemo(() => {
+    return events.filter(e => {
+      // Humanitarian Category
+      if (activeFilters.humanitarian.length > 0) {
+        if (!e.properties.humanitarian_category) return false;
+        const eventCat = e.properties.humanitarian_category.toLowerCase();
+        if (!activeFilters.humanitarian.some(f => f.toLowerCase() === eventCat)) return false;
+      }
+      
+      // Damage Severity
+      if (activeFilters.severities.length > 0) {
+        if (!e.properties.damage_severity) return false;
+        const eventSev = e.properties.damage_severity.toLowerCase().replace(/_/g, ' ');
+        if (!activeFilters.severities.some(f => f.toLowerCase().replace(/_/g, ' ') === eventSev)) return false;
+      }
+      
+      // Disaster Type
+      if (activeFilters.types.length > 0) {
+        const type = (e.properties as any).type || 'Unknown';
+        if (!activeFilters.types.some(f => f.toLowerCase() === type.toLowerCase())) return false;
+      }
+      
+      // Date Range
+      if (activeFilters.dateRange && activeFilters.dateRange.length === 2) {
+        const year = new Date(e.properties.timestamp).getFullYear();
+        if (year < activeFilters.dateRange[0] || year > activeFilters.dateRange[1]) return false;
+      }
+      
+      return true;
+    });
+  }, [events, activeFilters]);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -222,11 +256,16 @@ function HomeContent() {
         onApplyFilters={applyFilters}
       />
       <SettingsPanel isOpen={isSettingsOpen} onClose={closeSettings} />
+      <CountryPanel 
+        isoCode={selectedCountryCode} 
+        onClose={() => setSelectedCountryCode(null)} 
+        events={filteredEvents}
+      />
 
       {/* Map Area with Status Bar */}
       <div className="relative flex-1">
         <StatusBar
-          eventCount={events.length}
+          eventCount={filteredEvents.length}
           isLoading={loading}
           onContinentSelect={(center, zoom) => {
             if (mapCenterRef.current) {
@@ -236,13 +275,15 @@ function HomeContent() {
           onToggleSidebar={toggleSidebar}
         />
         <Map
-          events={events}
+          events={filteredEvents}
           onMarkerClick={setSelectedEvent}
           mapRef={mapCenterRef}
           isSideBarCollapsed={isCollapsed}
+          onCountryClick={(iso) => setSelectedCountryCode(iso)}
+          selectedCountryCode={selectedCountryCode}
         />
         <TrendingEventsBar
-          events={events}
+          events={filteredEvents}
           onEventClick={(event) => {
             setSelectedEvent(event);
             flyToCoordinates(event.geometry.coordinates);
@@ -257,7 +298,7 @@ function HomeContent() {
       <CommandPalette
         isOpen={commandPalette.isOpen}
         onClose={commandPalette.close}
-        events={events}
+        events={filteredEvents}
         onFlyTo={flyToCoordinates}
         onOpenFilter={openFilter}
         onOpenSettings={openSettings}
@@ -279,7 +320,10 @@ function HomeContent() {
       />
       {isModalOpen && (
         <AddModal onClose={closeModal}>
-          <SubmitForm onClose={closeModal} />
+          <SubmitForm 
+            onClose={closeModal} 
+            onSuccess={(newEvent) => setEvents(prev => [...prev, newEvent])} 
+          />
         </AddModal>
       )}
     </div>

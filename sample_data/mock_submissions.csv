@@ -1,0 +1,91 @@
+id,disaster_type,location,tweet_text,humanitarian_category,damage_severity
+11,Earthquake,"Miami, FL","Earthquake aftermath in Miami, FL. Emergency services needed.",Rescue/Volunteering,Little or No Damage
+84,Drought,"Rio de Janeiro, Brazil","Severe drought affecting local agriculture in Rio de Janeiro, Brazil.",Affected Individuals,Little or No Damage
+81,Drought,"Santiago, Chile","Severe drought affecting local agriculture in Santiago, Chile.",Affected Individuals,Mild Damage
+24,Flood,"Manila, Philippines","Heavy rains caused massive river overflows affecting Manila, Philippines.",Vehicle Damage,Severe Damage
+45,Wildfire,"Cape Town, South Africa","Evacuations ordered in Cape Town, South Africa as wildfire spreads rapidly.",Infrastructure Damage,Mild Damage
+56,Hurricane,"Athens, Greece","Post-hurricane cleanup underway in Athens, Greece. Widespread destruction.",Infrastructure Damage,Severe Damage
+21,Flood,"Mumbai, India","People stranded on rooftops in Mumbai, India due to sudden flash floods.",Infrastructure Damage,Mild Damage
+49,Hurricane,"Manila, Philippines","Post-hurricane cleanup underway in Manila, Philippines. Widespread destruction.",Vehicle Damage,Mild Damage
+51,Hurricane,"Cape Town, South Africa","Post-hurricane cleanup underway in Cape Town, South Africa. Widespread destruction.",Vehicle Damage,Mild Damage
+16,Flood,"Mexico City, Mexico","Heavy rains caused massive river overflows affecting Mexico City, Mexico.",Infrastructure Damage,Mild Damage
+59,Hurricane,"Istanbul, Turkey","Hurricane winds tore roofs off houses and flipped cars in Istanbul, Turkey.",Infrastructure Damage,Severe Damage
+60,Hurricane,"Naples, Italy","Storm surge has devastated the coastal town of Naples, Italy.",Infrastructure Damage,Severe Damage
+40,Wildfire,"Istanbul, Turkey","Firefighters battling huge blazes in Istanbul, Turkey, multiple homes lost.",Affected Individuals,Mild Damage
+35,Wildfire,"Manila, Philippines","Uncontrollable wildfire approaching residential areas in Manila, Philippines.",Infrastructure Damage,Mild Damage
+50,Hurricane,"Rio de Janeiro, Brazil","Post-hurricane cleanup underway in Rio de Janeiro, Brazil. Widespread destruction.",Rescue/Volunteering,Little or No Damage
+44,Wildfire,"Mexico City, Mexico","Uncontrollable wildfire approaching residential areas in Mexico City, Mexico.",Infrastructure Damage,Severe Damage
+88,Drought,"Mexico City, Mexico","Rivers have dried up entirely around Mexico City, Mexico.",Affected Individuals,Little or No Damage
+74,Landslide,"Los Angeles, CA","Evacuations ordered after a large chunk of hillside collapsed in Los Angeles, CA.",Infrastructure Damage,Little or No Damage
+72,Landslide,"Los Angeles, CA","Roads completely blocked by a severe landslide in Los Angeles, CA.",Infrastructure Damage,Mild Damage
+38,Wildfire,"Mumbai, India","Evacuations ordered in Mumbai, India as wildfire spreads rapidly.",Infrastructure Damage,Little or No Damage
+15,Earthquake,"Cape Town, South Africa","Roads destroyed and power lines down due to the earthquake in Cape Town, South Africa.",Rescue/Volunteering,Little or No Damage
+71,Landslide,"Jakarta, Indonesia","Roads completely blocked by a severe landslide in Jakarta, Indonesia.",Rescue/Volunteering,Little or No Damage
+2,Earthquake,"Mexico City, Mexico","Earthquake aftermath in Mexico City, Mexico. Emergency services needed.",Infrastructure Damage,Mild Damage
+43,Wildfire,"Naples, Italy","Thick smoke and massive flames destroying forests near Naples, Italy.",Affected Individuals,Severe Damage
+86,Drought,"Jakarta, Indonesia","Crops failing and livestock endangered by extreme drought in Jakarta, Indonesia.",Affected Individuals,Mild Damage
+8,Earthquake,"Tokyo, Japan","Massive earthquake struck Tokyo, Japan. Buildings have collapsed.",Rescue/Volunteering,Little or No Damage
+90,Drought,"Naples, Italy","Rivers have dried up entirely around Naples, Italy.",Affected Individuals,Severe Damage
+63,Landslide,"Jakarta, Indonesia","Evacuations ordered after a large chunk of hillside collapsed in Jakarta, Indonesia.",Rescue/Volunteering,Mild Damage
+48,Hurricane,"Naples, Italy","Severe hurricane damage in Naples, Italy. Trees blocking all major roads.",Infrastructure Damage,Mild Damage
+31,Wildfire,"Athens, Greece","Uncontrollable wildfire approaching residential areas in Athens, Greece.",Infrastructure Damage,Little or No Damage
+33,Wildfire,"Rio de Janeiro, Brazil","Firefighters battling huge blazes in Rio de Janeiro, Brazil, multiple homes lost.",Infrastructure Damage,Severe Damage
+53,Hurricane,"Cape Town, South Africa","Hurricane winds tore roofs off houses and flipped cars in Cape Town, South Africa.",Rescue/Volunteering,Mild Damage
+46,Hurricane,"Cape Town, South Africa","Post-hurricane cleanup underway in Cape Town, South Africa. Widespread destruction.",Rescue/Volunteering,Little or No Damage
+7,Earthquake,"Rio de Janeiro, Brazil","Massive earthquake struck Rio de Janeiro, Brazil. Buildings have collapsed.",Rescue/Volunteering,Mild Damage
+89,Drought,"Jakarta, Indonesia","Crops failing and livestock endangered by extreme drought in Jakarta, Indonesia.",Affected Individuals,Little or No Damage
+6,Earthquake,"Mexico City, Mexico","Earthquake aftermath in Mexico City, Mexico. Emergency services needed.",Affected Individuals,Little or No Damage
+58,Hurricane,"Mexico City, Mexico","Storm surge has devastated the coastal town of Mexico City, Mexico.",Vehicle Damage,Severe Damage
+85,Drought,"Mumbai, India","Rivers have dried up entirely around Mumbai, India.",Affected Individuals,Mild Damage
+29,Flood,"Mumbai, India","Heavy rains caused massive river overflows affecting Mumbai, India.",Rescue/Volunteering,Mild Damage
+64,Landslide,"Athens, Greece","Roads completely blocked by a severe landslide in Athens, Greece.",Infrastructure Damage,Little or No Damage
+26,Flood,"Naples, Italy","People stranded on rooftops in Naples, Italy due to sudden flash floods.",Infrastructure Damage,Mild Damage
+82,Drought,"Los Angeles, CA","Rivers have dried up entirely around Los Angeles, CA.",Affected Individuals,Mild Damage
+34,Wildfire,"Istanbul, Turkey","Evacuations ordered in Istanbul, Turkey as wildfire spreads rapidly.",Affected Individuals,Severe Damage
+4,Earthquake,"Mumbai, India","Roads destroyed and power lines down due to the earthquake in Mumbai, India.",Infrastructure Damage,Mild Damage
+5,Earthquake,"Los Angeles, CA","Earthquake aftermath in Los Angeles, CA. Emergency services needed.",Affected Individuals,Little or No Damage
+10,Earthquake,"Los Angeles, CA","Earthquake aftermath in Los Angeles, CA. Emergency services needed.",Rescue/Volunteering,Little or No Damage
+67,Landslide,"Cape Town, South Africa","Roads completely blocked by a severe landslide in Cape Town, South Africa.",Infrastructure Damage,Mild Damage
+14,Earthquake,"Sydney, Australia","Severe structural damage after a 7.2 magnitude quake in Sydney, Australia.",Infrastructure Damage,Little or No Damage
+25,Flood,"Rio de Janeiro, Brazil","People stranded on rooftops in Rio de Janeiro, Brazil due to sudden flash floods.",Infrastructure Damage,Little or No Damage
+76,Drought,"Mexico City, Mexico","Rivers have dried up entirely around Mexico City, Mexico.",Affected Individuals,Mild Damage
+77,Drought,"Rio de Janeiro, Brazil","Severe drought affecting local agriculture in Rio de Janeiro, Brazil.",Affected Individuals,Mild Damage
+75,Landslide,"Santiago, Chile","Heavy rains triggered dangerous landslides near Santiago, Chile. Rescue ops ongoing.",Rescue/Volunteering,Little or No Damage
+62,Landslide,"Santiago, Chile","Heavy rains triggered dangerous landslides near Santiago, Chile. Rescue ops ongoing.",Rescue/Volunteering,Mild Damage
+18,Flood,"Sydney, Australia","People stranded on rooftops in Sydney, Australia due to sudden flash floods.",Infrastructure Damage,Severe Damage
+41,Wildfire,"Manila, Philippines","Firefighters battling huge blazes in Manila, Philippines, multiple homes lost.",Infrastructure Damage,Mild Damage
+47,Hurricane,"Jakarta, Indonesia","Severe hurricane damage in Jakarta, Indonesia. Trees blocking all major roads.",Infrastructure Damage,Mild Damage
+27,Flood,"Cape Town, South Africa","People stranded on rooftops in Cape Town, South Africa due to sudden flash floods.",Infrastructure Damage,Little or No Damage
+80,Drought,"Jakarta, Indonesia","Water rationing implemented in Jakarta, Indonesia due to prolonged dry spells.",Affected Individuals,Mild Damage
+39,Wildfire,"Cape Town, South Africa","Firefighters battling huge blazes in Cape Town, South Africa, multiple homes lost.",Infrastructure Damage,Severe Damage
+13,Earthquake,"Mumbai, India","Massive earthquake struck Mumbai, India. Buildings have collapsed.",Rescue/Volunteering,Severe Damage
+79,Drought,"Lisbon, Portugal","Severe drought affecting local agriculture in Lisbon, Portugal.",Affected Individuals,Severe Damage
+68,Landslide,"Mexico City, Mexico","Heavy rains triggered dangerous landslides near Mexico City, Mexico. Rescue ops ongoing.",Infrastructure Damage,Little or No Damage
+69,Landslide,"Manila, Philippines","Evacuations ordered after a large chunk of hillside collapsed in Manila, Philippines.",Infrastructure Damage,Mild Damage
+83,Drought,"Tokyo, Japan","Crops failing and livestock endangered by extreme drought in Tokyo, Japan.",Affected Individuals,Severe Damage
+55,Hurricane,"Athens, Greece","Storm surge has devastated the coastal town of Athens, Greece.",Rescue/Volunteering,Little or No Damage
+42,Wildfire,"Rio de Janeiro, Brazil","Evacuations ordered in Rio de Janeiro, Brazil as wildfire spreads rapidly.",Infrastructure Damage,Mild Damage
+87,Drought,"Tokyo, Japan","Severe drought affecting local agriculture in Tokyo, Japan.",Affected Individuals,Severe Damage
+36,Wildfire,"Naples, Italy","Firefighters battling huge blazes in Naples, Italy, multiple homes lost.",Infrastructure Damage,Mild Damage
+54,Hurricane,"Lisbon, Portugal","Post-hurricane cleanup underway in Lisbon, Portugal. Widespread destruction.",Rescue/Volunteering,Little or No Damage
+20,Flood,"Sydney, Australia","Floodwaters continue to rise in Sydney, Australia. Immediate rescue needed.",Infrastructure Damage,Mild Damage
+9,Earthquake,"Athens, Greece","Earthquake aftermath in Athens, Greece. Emergency services needed.",Affected Individuals,Mild Damage
+70,Landslide,"Mexico City, Mexico","Heavy rains triggered dangerous landslides near Mexico City, Mexico. Rescue ops ongoing.",Infrastructure Damage,Little or No Damage
+22,Flood,"Naples, Italy","Extensive flooding reported in Naples, Italy, streets are completely underwater.",Infrastructure Damage,Severe Damage
+32,Wildfire,"Miami, FL","Thick smoke and massive flames destroying forests near Miami, FL.",Affected Individuals,Little or No Damage
+12,Earthquake,"Sydney, Australia","Roads destroyed and power lines down due to the earthquake in Sydney, Australia.",Affected Individuals,Severe Damage
+3,Earthquake,"Mumbai, India","Roads destroyed and power lines down due to the earthquake in Mumbai, India.",Rescue/Volunteering,Little or No Damage
+57,Hurricane,"Jakarta, Indonesia","Severe hurricane damage in Jakarta, Indonesia. Trees blocking all major roads.",Vehicle Damage,Mild Damage
+52,Hurricane,"Rio de Janeiro, Brazil","Severe hurricane damage in Rio de Janeiro, Brazil. Trees blocking all major roads.",Vehicle Damage,Little or No Damage
+73,Landslide,"Naples, Italy","Heavy rains triggered dangerous landslides near Naples, Italy. Rescue ops ongoing.",Infrastructure Damage,Severe Damage
+1,Earthquake,"Jakarta, Indonesia","Earthquake aftermath in Jakarta, Indonesia. Emergency services needed.",Affected Individuals,Mild Damage
+17,Flood,"Miami, FL","Floodwaters continue to rise in Miami, FL. Immediate rescue needed.",Rescue/Volunteering,Severe Damage
+23,Flood,"Jakarta, Indonesia","People stranded on rooftops in Jakarta, Indonesia due to sudden flash floods.",Infrastructure Damage,Little or No Damage
+78,Drought,"Jakarta, Indonesia","Water rationing implemented in Jakarta, Indonesia due to prolonged dry spells.",Affected Individuals,Little or No Damage
+37,Wildfire,"Santiago, Chile","Evacuations ordered in Santiago, Chile as wildfire spreads rapidly.",Infrastructure Damage,Severe Damage
+65,Landslide,"Sydney, Australia","Evacuations ordered after a large chunk of hillside collapsed in Sydney, Australia.",Rescue/Volunteering,Little or No Damage
+19,Flood,"Athens, Greece","Extensive flooding reported in Athens, Greece, streets are completely underwater.",Rescue/Volunteering,Mild Damage
+61,Landslide,"Athens, Greece","Massive mudslide buried several homes in Athens, Greece.",Infrastructure Damage,Mild Damage
+30,Flood,"Istanbul, Turkey","Floodwaters continue to rise in Istanbul, Turkey. Immediate rescue needed.",Rescue/Volunteering,Little or No Damage
+66,Landslide,"Mumbai, India","Heavy rains triggered dangerous landslides near Mumbai, India. Rescue ops ongoing.",Infrastructure Damage,Mild Damage
+28,Flood,"Istanbul, Turkey","People stranded on rooftops in Istanbul, Turkey due to sudden flash floods.",Infrastructure Damage,Mild Damage

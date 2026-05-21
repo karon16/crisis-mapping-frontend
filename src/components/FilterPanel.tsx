@@ -11,7 +11,7 @@ interface FilterPanelProps {
 }
 
 // Constants for filter options
-const DISASTER_TYPES = ['Earthquake', 'Flood', 'Wildfire', 'Hurricane'];
+const DISASTER_TYPES = ['Earthquake', 'Flood', 'Wildfire', 'Hurricane', 'Landslide', 'Drought'];
 const SEVERITIES = ['Severe Damage', 'Mild Damage', 'Little or No Damage'];
 const HUMANITARIAN_CATEGORIES = [
   'Affected Individuals',
@@ -149,13 +149,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ isOpen, onClose, onApplyFilte
       <div className="p-4 flex justify-between gap-4">
         <button
           onClick={handleReset}
-          className="py-2 px-4 border border-[var(--t-border)] text-[var(--t-text-secondary)] rounded-lg transition-colors hover:text-[var(--t-text-primary)]"
+          className="py-3 px-4 border border-[var(--t-border)] text-[var(--t-text-secondary)] rounded-lg transition-colors hover:text-[var(--t-text-primary)]"
         >
           Reset Filters
         </button>
         <button
           onClick={() => onApplyFilters(filters)}
-          className="py-2 px-3 bg-[var(--t-accent)] text-white rounded-lg hover:bg-[var(--t-accent-hover)] transition-colors"
+          className="py-3 px-3 bg-[var(--t-accent)] text-white rounded-lg hover:bg-[var(--t-accent-hover)] transition-colors"
         >
           Apply Filters
         </button>

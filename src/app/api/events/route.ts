@@ -9,15 +9,23 @@ interface BackendEvent {
   longitude: number;
   image_url: string;
   severity: string;
-  category: string;
+  humanitarian: string;
   type?: string;
   is_informative: boolean;
   created_at: string;
+  llava_text: string;
 }
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`File received: ${value.name}, type: ${value.type}, size: ${value.size}`);
+      } else {
+        console.log(`Field ${key}: ${value}`);
+      }
+    }
 
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000').trim();
     const res = await fetch(`${apiUrl}/events`, {
@@ -29,14 +37,16 @@ export async function POST(request: Request) {
     });
 
     if (!res.ok) {
-      throw new Error(`Backend responded with status ${res.status}`);
+      const errText = await res.text();
+      console.error(`Backend responded with status ${res.status}: ${errText}`);
+      throw new Error(`Backend responded with status ${res.status}: ${errText}`);
     }
 
     const data = await res.json();
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: any) {
     console.error('API Route POST Error:', error);
-    return NextResponse.json({ error: 'Failed to submit event.' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to submit event.', details: error.message }, { status: 500 });
   }
 }
 
@@ -83,6 +93,7 @@ export async function GET(request: Request) {
         properties: {
           // Map backend fields to frontend expected properties
           tweet_text: event.text,
+          llava_text: event.llava_text,
           // Handle multiple comma-separated image paths from backend.
           // Split, prepend base URL to each, and rejoin.
           image_url: event.image_url
@@ -94,7 +105,7 @@ export async function GET(request: Request) {
           // llava_text: `AI Classification: `,
           timestamp: event.created_at,
           informativeness: event.is_informative ? 'Informative' : 'Not Informative',
-          humanitarian_category: event.category,
+          humanitarian_category: event.humanitarian,
           damage_severity: event.severity,
           location_name: event.location_name,
           type: event.type,

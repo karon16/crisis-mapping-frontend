@@ -17,9 +17,10 @@ interface Coordinates {
 
 interface SubmitFormProps {
   onClose: () => void;
+  onSuccess?: (event: any) => void;
 }
 
-const SubmitForm = ({ onClose }: SubmitFormProps) => {
+const SubmitForm = ({ onClose, onSuccess }: SubmitFormProps) => {
   // --- STATE ---
   const [reportText, setReportText] = useState('');
   const [locationString, setLocationString] = useState('');
@@ -66,12 +67,38 @@ const SubmitForm = ({ onClose }: SubmitFormProps) => {
       }
 
       const response = await axios.post('/api/events', formData);
+      const data = response.data;
+      
+      if (onSuccess) {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://203.252.106.25:8000';
+        const newEvent = {
+          type: 'Feature',
+          id: data.id || Date.now(),
+          geometry: {
+            type: 'Point',
+            coordinates: [data.longitude || pinCoordinates.lng, data.latitude || pinCoordinates.lat],
+          },
+          properties: {
+            tweet_text: data.text || reportText,
+            image_url: data.image_url ? data.image_url.split(',').map((p: string) => `${apiUrl}${p.trim()}`).join(',') : '',
+            timestamp: data.created_at || new Date().toISOString(),
+            informativeness: data.is_informative ? 'Informative' : 'Not Informative',
+            humanitarian_category: data.category || 'Unknown',
+            damage_severity: data.severity || 'Unknown',
+            location_name: data.location_name || locationString,
+            type: data.type || 'other',
+            isStatic: true
+          }
+        };
+        onSuccess(newEvent);
+      }
 
       alert('Report submitted successfully!');
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting report:', error);
-      alert('Failed to submit report. Check console for details.');
+      const detailedError = error.response?.data?.details || error.response?.data?.error || error.message;
+      alert(`Failed to submit report. Reason: ${detailedError}\nCheck console for details.`);
     } finally {
       setIsSubmitting(false);
     }

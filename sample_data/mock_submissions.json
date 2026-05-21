@@ -1,0 +1,722 @@
+[
+  {
+    "id": 11,
+    "disaster_type": "Earthquake",
+    "location": "Miami, FL",
+    "tweet_text": "Earthquake aftermath in Miami, FL. Emergency services needed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 84,
+    "disaster_type": "Drought",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Severe drought affecting local agriculture in Rio de Janeiro, Brazil.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 81,
+    "disaster_type": "Drought",
+    "location": "Santiago, Chile",
+    "tweet_text": "Severe drought affecting local agriculture in Santiago, Chile.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 24,
+    "disaster_type": "Flood",
+    "location": "Manila, Philippines",
+    "tweet_text": "Heavy rains caused massive river overflows affecting Manila, Philippines.",
+    "humanitarian_category": "Vehicle Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 45,
+    "disaster_type": "Wildfire",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Evacuations ordered in Cape Town, South Africa as wildfire spreads rapidly.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 56,
+    "disaster_type": "Hurricane",
+    "location": "Athens, Greece",
+    "tweet_text": "Post-hurricane cleanup underway in Athens, Greece. Widespread destruction.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 21,
+    "disaster_type": "Flood",
+    "location": "Mumbai, India",
+    "tweet_text": "People stranded on rooftops in Mumbai, India due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 49,
+    "disaster_type": "Hurricane",
+    "location": "Manila, Philippines",
+    "tweet_text": "Post-hurricane cleanup underway in Manila, Philippines. Widespread destruction.",
+    "humanitarian_category": "Vehicle Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 51,
+    "disaster_type": "Hurricane",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Post-hurricane cleanup underway in Cape Town, South Africa. Widespread destruction.",
+    "humanitarian_category": "Vehicle Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 16,
+    "disaster_type": "Flood",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Heavy rains caused massive river overflows affecting Mexico City, Mexico.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 59,
+    "disaster_type": "Hurricane",
+    "location": "Istanbul, Turkey",
+    "tweet_text": "Hurricane winds tore roofs off houses and flipped cars in Istanbul, Turkey.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 60,
+    "disaster_type": "Hurricane",
+    "location": "Naples, Italy",
+    "tweet_text": "Storm surge has devastated the coastal town of Naples, Italy.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 40,
+    "disaster_type": "Wildfire",
+    "location": "Istanbul, Turkey",
+    "tweet_text": "Firefighters battling huge blazes in Istanbul, Turkey, multiple homes lost.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 35,
+    "disaster_type": "Wildfire",
+    "location": "Manila, Philippines",
+    "tweet_text": "Uncontrollable wildfire approaching residential areas in Manila, Philippines.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 50,
+    "disaster_type": "Hurricane",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Post-hurricane cleanup underway in Rio de Janeiro, Brazil. Widespread destruction.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 44,
+    "disaster_type": "Wildfire",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Uncontrollable wildfire approaching residential areas in Mexico City, Mexico.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 88,
+    "disaster_type": "Drought",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Rivers have dried up entirely around Mexico City, Mexico.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 74,
+    "disaster_type": "Landslide",
+    "location": "Los Angeles, CA",
+    "tweet_text": "Evacuations ordered after a large chunk of hillside collapsed in Los Angeles, CA.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 72,
+    "disaster_type": "Landslide",
+    "location": "Los Angeles, CA",
+    "tweet_text": "Roads completely blocked by a severe landslide in Los Angeles, CA.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 38,
+    "disaster_type": "Wildfire",
+    "location": "Mumbai, India",
+    "tweet_text": "Evacuations ordered in Mumbai, India as wildfire spreads rapidly.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 15,
+    "disaster_type": "Earthquake",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Roads destroyed and power lines down due to the earthquake in Cape Town, South Africa.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 71,
+    "disaster_type": "Landslide",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Roads completely blocked by a severe landslide in Jakarta, Indonesia.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 2,
+    "disaster_type": "Earthquake",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Earthquake aftermath in Mexico City, Mexico. Emergency services needed.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 43,
+    "disaster_type": "Wildfire",
+    "location": "Naples, Italy",
+    "tweet_text": "Thick smoke and massive flames destroying forests near Naples, Italy.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 86,
+    "disaster_type": "Drought",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Crops failing and livestock endangered by extreme drought in Jakarta, Indonesia.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 8,
+    "disaster_type": "Earthquake",
+    "location": "Tokyo, Japan",
+    "tweet_text": "Massive earthquake struck Tokyo, Japan. Buildings have collapsed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 90,
+    "disaster_type": "Drought",
+    "location": "Naples, Italy",
+    "tweet_text": "Rivers have dried up entirely around Naples, Italy.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 63,
+    "disaster_type": "Landslide",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Evacuations ordered after a large chunk of hillside collapsed in Jakarta, Indonesia.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 48,
+    "disaster_type": "Hurricane",
+    "location": "Naples, Italy",
+    "tweet_text": "Severe hurricane damage in Naples, Italy. Trees blocking all major roads.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 31,
+    "disaster_type": "Wildfire",
+    "location": "Athens, Greece",
+    "tweet_text": "Uncontrollable wildfire approaching residential areas in Athens, Greece.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 33,
+    "disaster_type": "Wildfire",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Firefighters battling huge blazes in Rio de Janeiro, Brazil, multiple homes lost.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 53,
+    "disaster_type": "Hurricane",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Hurricane winds tore roofs off houses and flipped cars in Cape Town, South Africa.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 46,
+    "disaster_type": "Hurricane",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Post-hurricane cleanup underway in Cape Town, South Africa. Widespread destruction.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 7,
+    "disaster_type": "Earthquake",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Massive earthquake struck Rio de Janeiro, Brazil. Buildings have collapsed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 89,
+    "disaster_type": "Drought",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Crops failing and livestock endangered by extreme drought in Jakarta, Indonesia.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 6,
+    "disaster_type": "Earthquake",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Earthquake aftermath in Mexico City, Mexico. Emergency services needed.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 58,
+    "disaster_type": "Hurricane",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Storm surge has devastated the coastal town of Mexico City, Mexico.",
+    "humanitarian_category": "Vehicle Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 85,
+    "disaster_type": "Drought",
+    "location": "Mumbai, India",
+    "tweet_text": "Rivers have dried up entirely around Mumbai, India.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 29,
+    "disaster_type": "Flood",
+    "location": "Mumbai, India",
+    "tweet_text": "Heavy rains caused massive river overflows affecting Mumbai, India.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 64,
+    "disaster_type": "Landslide",
+    "location": "Athens, Greece",
+    "tweet_text": "Roads completely blocked by a severe landslide in Athens, Greece.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 26,
+    "disaster_type": "Flood",
+    "location": "Naples, Italy",
+    "tweet_text": "People stranded on rooftops in Naples, Italy due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 82,
+    "disaster_type": "Drought",
+    "location": "Los Angeles, CA",
+    "tweet_text": "Rivers have dried up entirely around Los Angeles, CA.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 34,
+    "disaster_type": "Wildfire",
+    "location": "Istanbul, Turkey",
+    "tweet_text": "Evacuations ordered in Istanbul, Turkey as wildfire spreads rapidly.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 4,
+    "disaster_type": "Earthquake",
+    "location": "Mumbai, India",
+    "tweet_text": "Roads destroyed and power lines down due to the earthquake in Mumbai, India.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 5,
+    "disaster_type": "Earthquake",
+    "location": "Los Angeles, CA",
+    "tweet_text": "Earthquake aftermath in Los Angeles, CA. Emergency services needed.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 10,
+    "disaster_type": "Earthquake",
+    "location": "Los Angeles, CA",
+    "tweet_text": "Earthquake aftermath in Los Angeles, CA. Emergency services needed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 67,
+    "disaster_type": "Landslide",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Roads completely blocked by a severe landslide in Cape Town, South Africa.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 14,
+    "disaster_type": "Earthquake",
+    "location": "Sydney, Australia",
+    "tweet_text": "Severe structural damage after a 7.2 magnitude quake in Sydney, Australia.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 25,
+    "disaster_type": "Flood",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "People stranded on rooftops in Rio de Janeiro, Brazil due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 76,
+    "disaster_type": "Drought",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Rivers have dried up entirely around Mexico City, Mexico.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 77,
+    "disaster_type": "Drought",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Severe drought affecting local agriculture in Rio de Janeiro, Brazil.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 75,
+    "disaster_type": "Landslide",
+    "location": "Santiago, Chile",
+    "tweet_text": "Heavy rains triggered dangerous landslides near Santiago, Chile. Rescue ops ongoing.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 62,
+    "disaster_type": "Landslide",
+    "location": "Santiago, Chile",
+    "tweet_text": "Heavy rains triggered dangerous landslides near Santiago, Chile. Rescue ops ongoing.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 18,
+    "disaster_type": "Flood",
+    "location": "Sydney, Australia",
+    "tweet_text": "People stranded on rooftops in Sydney, Australia due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 41,
+    "disaster_type": "Wildfire",
+    "location": "Manila, Philippines",
+    "tweet_text": "Firefighters battling huge blazes in Manila, Philippines, multiple homes lost.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 47,
+    "disaster_type": "Hurricane",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Severe hurricane damage in Jakarta, Indonesia. Trees blocking all major roads.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 27,
+    "disaster_type": "Flood",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "People stranded on rooftops in Cape Town, South Africa due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 80,
+    "disaster_type": "Drought",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Water rationing implemented in Jakarta, Indonesia due to prolonged dry spells.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 39,
+    "disaster_type": "Wildfire",
+    "location": "Cape Town, South Africa",
+    "tweet_text": "Firefighters battling huge blazes in Cape Town, South Africa, multiple homes lost.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 13,
+    "disaster_type": "Earthquake",
+    "location": "Mumbai, India",
+    "tweet_text": "Massive earthquake struck Mumbai, India. Buildings have collapsed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 79,
+    "disaster_type": "Drought",
+    "location": "Lisbon, Portugal",
+    "tweet_text": "Severe drought affecting local agriculture in Lisbon, Portugal.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 68,
+    "disaster_type": "Landslide",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Heavy rains triggered dangerous landslides near Mexico City, Mexico. Rescue ops ongoing.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 69,
+    "disaster_type": "Landslide",
+    "location": "Manila, Philippines",
+    "tweet_text": "Evacuations ordered after a large chunk of hillside collapsed in Manila, Philippines.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 83,
+    "disaster_type": "Drought",
+    "location": "Tokyo, Japan",
+    "tweet_text": "Crops failing and livestock endangered by extreme drought in Tokyo, Japan.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 55,
+    "disaster_type": "Hurricane",
+    "location": "Athens, Greece",
+    "tweet_text": "Storm surge has devastated the coastal town of Athens, Greece.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 42,
+    "disaster_type": "Wildfire",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Evacuations ordered in Rio de Janeiro, Brazil as wildfire spreads rapidly.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 87,
+    "disaster_type": "Drought",
+    "location": "Tokyo, Japan",
+    "tweet_text": "Severe drought affecting local agriculture in Tokyo, Japan.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 36,
+    "disaster_type": "Wildfire",
+    "location": "Naples, Italy",
+    "tweet_text": "Firefighters battling huge blazes in Naples, Italy, multiple homes lost.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 54,
+    "disaster_type": "Hurricane",
+    "location": "Lisbon, Portugal",
+    "tweet_text": "Post-hurricane cleanup underway in Lisbon, Portugal. Widespread destruction.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 20,
+    "disaster_type": "Flood",
+    "location": "Sydney, Australia",
+    "tweet_text": "Floodwaters continue to rise in Sydney, Australia. Immediate rescue needed.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 9,
+    "disaster_type": "Earthquake",
+    "location": "Athens, Greece",
+    "tweet_text": "Earthquake aftermath in Athens, Greece. Emergency services needed.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 70,
+    "disaster_type": "Landslide",
+    "location": "Mexico City, Mexico",
+    "tweet_text": "Heavy rains triggered dangerous landslides near Mexico City, Mexico. Rescue ops ongoing.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 22,
+    "disaster_type": "Flood",
+    "location": "Naples, Italy",
+    "tweet_text": "Extensive flooding reported in Naples, Italy, streets are completely underwater.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 32,
+    "disaster_type": "Wildfire",
+    "location": "Miami, FL",
+    "tweet_text": "Thick smoke and massive flames destroying forests near Miami, FL.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 12,
+    "disaster_type": "Earthquake",
+    "location": "Sydney, Australia",
+    "tweet_text": "Roads destroyed and power lines down due to the earthquake in Sydney, Australia.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 3,
+    "disaster_type": "Earthquake",
+    "location": "Mumbai, India",
+    "tweet_text": "Roads destroyed and power lines down due to the earthquake in Mumbai, India.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 57,
+    "disaster_type": "Hurricane",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Severe hurricane damage in Jakarta, Indonesia. Trees blocking all major roads.",
+    "humanitarian_category": "Vehicle Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 52,
+    "disaster_type": "Hurricane",
+    "location": "Rio de Janeiro, Brazil",
+    "tweet_text": "Severe hurricane damage in Rio de Janeiro, Brazil. Trees blocking all major roads.",
+    "humanitarian_category": "Vehicle Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 73,
+    "disaster_type": "Landslide",
+    "location": "Naples, Italy",
+    "tweet_text": "Heavy rains triggered dangerous landslides near Naples, Italy. Rescue ops ongoing.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 1,
+    "disaster_type": "Earthquake",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Earthquake aftermath in Jakarta, Indonesia. Emergency services needed.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 17,
+    "disaster_type": "Flood",
+    "location": "Miami, FL",
+    "tweet_text": "Floodwaters continue to rise in Miami, FL. Immediate rescue needed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 23,
+    "disaster_type": "Flood",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "People stranded on rooftops in Jakarta, Indonesia due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 78,
+    "disaster_type": "Drought",
+    "location": "Jakarta, Indonesia",
+    "tweet_text": "Water rationing implemented in Jakarta, Indonesia due to prolonged dry spells.",
+    "humanitarian_category": "Affected Individuals",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 37,
+    "disaster_type": "Wildfire",
+    "location": "Santiago, Chile",
+    "tweet_text": "Evacuations ordered in Santiago, Chile as wildfire spreads rapidly.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Severe Damage"
+  },
+  {
+    "id": 65,
+    "disaster_type": "Landslide",
+    "location": "Sydney, Australia",
+    "tweet_text": "Evacuations ordered after a large chunk of hillside collapsed in Sydney, Australia.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 19,
+    "disaster_type": "Flood",
+    "location": "Athens, Greece",
+    "tweet_text": "Extensive flooding reported in Athens, Greece, streets are completely underwater.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 61,
+    "disaster_type": "Landslide",
+    "location": "Athens, Greece",
+    "tweet_text": "Massive mudslide buried several homes in Athens, Greece.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 30,
+    "disaster_type": "Flood",
+    "location": "Istanbul, Turkey",
+    "tweet_text": "Floodwaters continue to rise in Istanbul, Turkey. Immediate rescue needed.",
+    "humanitarian_category": "Rescue/Volunteering",
+    "damage_severity": "Little or No Damage"
+  },
+  {
+    "id": 66,
+    "disaster_type": "Landslide",
+    "location": "Mumbai, India",
+    "tweet_text": "Heavy rains triggered dangerous landslides near Mumbai, India. Rescue ops ongoing.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  },
+  {
+    "id": 28,
+    "disaster_type": "Flood",
+    "location": "Istanbul, Turkey",
+    "tweet_text": "People stranded on rooftops in Istanbul, Turkey due to sudden flash floods.",
+    "humanitarian_category": "Infrastructure Damage",
+    "damage_severity": "Mild Damage"
+  }
+]
